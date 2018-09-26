@@ -1,20 +1,11 @@
-# A full stack boilerplate with descriptive names.
-
-## Setup
-* $ git init
-* Go to GitHub and make repo
-* $ git remote add origin git@github.com:username/new_repo
-* $ git push -u origin master
-* $ yarn
-
-### adjust database
-* $ yarn knex init
-* $ yarn knex migrate:rollback
-* $ yarn knex migrate:latest
-* $ yarn knex seed:run
+# guitar-hero-ku
 
 
-## Data Flow
+A visual guide to playing guitar. 
+
+
+
+## Descriptive boilerplate data flow
 
 ### Server side
 ------------ db/dbFunctions.js --------
