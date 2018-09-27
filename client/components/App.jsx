@@ -1,6 +1,9 @@
-import React from 'react'
+import React from "react"
 // import {connect} from 'react-redux'
-import {fetchThing} from '../actions'
+import Fretboard from "./Fretboard"
+import KeyChordButtons from "./KeyChordButtons"
+
+
 class App extends React.Component {
     constructor(props) {
       super(props)
@@ -16,9 +19,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="AppDiv">
-        <p>Hi React!</p>
-        <Fretboard/>
+      <div>
+        <p>Guitar HeroKu</p>
+        <Fretboard />
         <KeyChordButtons displayChord={this.displayChord}/>
       </div>
     )
