@@ -1,6 +1,7 @@
 import React from 'react'
 // import {connect} from 'react-redux'
 import {fetchThing} from '../actions'
+import Fretboard from './Fretboard'
 
 class App extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends React.Component {
     return (
       <div className="AppDiv">
         <p>Hi React!</p>
+        <Fretboard/>
       </div>
     )
   }
