@@ -16,7 +16,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="AppDiv">
         <p>Hi React!</p>
         <ul>
         {this.props.reducerName.length > 0 && this.props.reducerName.map(something => {
@@ -37,3 +37,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(App)
+
+module.exports = {App: App}

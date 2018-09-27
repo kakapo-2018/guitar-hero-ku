@@ -185,7 +185,7 @@ var App = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'AppDiv' },
         _react2.default.createElement(
           'p',
           null,
@@ -218,6 +218,9 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
+
+
+module.exports = { App: App };
 
 /***/ }),
 
