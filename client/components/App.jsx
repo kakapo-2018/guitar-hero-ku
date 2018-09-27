@@ -18,8 +18,8 @@ class App extends React.Component {
     this.props.dispatch(fetchThing())
   }
 
-  displayChord(chord) {
-    console.log('display chord!')        
+  displayChord(e) {
+    console.log('display chord!', e)        
   }
 
   render() {

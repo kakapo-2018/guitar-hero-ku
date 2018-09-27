@@ -190,8 +190,8 @@ var App = function (_React$Component) {
     }
   }, {
     key: 'displayChord',
-    value: function displayChord(chord) {
-      console.log('display chord!');
+    value: function displayChord(e) {
+      console.log('display chord!', e);
     }
   }, {
     key: 'render',
@@ -279,13 +279,26 @@ var KeyChordButtons = function (_Component) {
             "div",
             { className: "keyRow" },
             _react2.default.createElement("input", { className: "topRowKeys", id: "c-key", type: "button", value: "C", onClick: function onClick() {
-                return _this2.props.displayChord();
+                return _this2.props.displayChord('C');
               } }),
             _react2.default.createElement("input", { className: "topRowKeys", id: "d-key", type: "button", value: "D", onClick: function onClick() {
-                return _this2.props.displayChord();
-              } })
+                return _this2.props.displayChord('D');
+              } }),
+            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "E" }),
+            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "F" }),
+            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "G" }),
+            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "A" }),
+            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "B" })
           ),
-          _react2.default.createElement("div", { className: "keyRow" })
+          _react2.default.createElement(
+            "div",
+            { className: "keyRow" },
+            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "C#" }),
+            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "D#" }),
+            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "F#" }),
+            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "G#" }),
+            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "A#" })
+          )
         ),
         _react2.default.createElement(
           "div",
@@ -298,7 +311,10 @@ var KeyChordButtons = function (_Component) {
               } }),
             _react2.default.createElement("input", { className: "topRowChords", id: "min", type: "button", value: "m", onClick: function onClick() {
                 return _this2.props.displayChord();
-              } })
+              } }),
+            _react2.default.createElement("input", { className: "topRowChords", type: "button", value: "Dom" }),
+            _react2.default.createElement("input", { className: "topRowChords", type: "button", value: "Dim" }),
+            _react2.default.createElement("input", { className: "topRowChords", type: "button", value: "Half-Dim" })
           )
         )
       );
