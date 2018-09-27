@@ -1,15 +1,17 @@
 import React from 'react'
 // import {connect} from 'react-redux'
 import {fetchThing} from '../actions'
-import Fretboard from './Fretboard'
-
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+    constructor(props) {
+      super(props)
+    }
 
   componentDidMount(){
     // this.props.dispatch(fetchThing())
+  }
+
+  displayChord(e) {
+    console.log('display chord!', e)        
   }
 
   render() {
@@ -17,6 +19,7 @@ class App extends React.Component {
       <div className="AppDiv">
         <p>Hi React!</p>
         <Fretboard/>
+        <KeyChordButtons displayChord={this.displayChord}/>
       </div>
     )
   }

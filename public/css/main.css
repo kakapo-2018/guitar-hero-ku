@@ -1,3 +1,6 @@
+
+/* ---------------------- Fretboard ----------------------  */
+
 .string {
     display: flex;
     align-content: space-around;
@@ -8,3 +11,24 @@
     width: 50px;
     height: 50px;
 }
+
+/* ---------------------- Chord buttons ----------------------  */
+
+.keyChordContainer {
+  width: 50%;
+}
+
+.topRowKeys,
+.bottomRowKeys,
+.topRowChords {
+  width: 100%;
+} 
+
+.keyRow,
+.chordRow {
+  display: flex;
+  align-content: space-between;
+}
+
+
+
