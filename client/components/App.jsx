@@ -8,23 +8,20 @@ class App extends React.Component {
     constructor(props) {
       super(props)
 
-    this.displayChord = this.displayChord.bind(this)
+  
     }
 
   componentDidMount(){
     // this.props.dispatch(fetchThing())
   }
 
-  displayChord(e) {
-    console.log('display chord!', e)     
-  }
 
   render() {
     return (
       <div>
         <p>Guitar HeroKu</p>
         <Fretboard />
-        <KeyChordButtons displayChord={this.displayChord}/>
+        <KeyChordButtons />
       </div>
     )
   }

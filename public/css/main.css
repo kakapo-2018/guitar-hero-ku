@@ -21,9 +21,8 @@
   width: 50%;
 }
 
-.topRowKeys,
-.bottomRowKeys,
-.topRowChords {
+.key,
+.chord-type {
   width: 100%;
 } 
 

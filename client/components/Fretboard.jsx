@@ -21,7 +21,7 @@ class Fretboard extends React.Component {
 
 
 lightUpNote(noteID) {
-  console.log("lighting up", noteID)
+  // console.log("lighting up", noteID)
   let selectedNote = document.getElementById(noteID)
   selectedNote.classList.add("lit")
 }

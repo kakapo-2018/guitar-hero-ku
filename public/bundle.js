@@ -130,21 +130,13 @@ var App = function (_React$Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this.displayChord = _this.displayChord.bind(_this);
-    return _this;
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
   }
 
   _createClass(App, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       // this.props.dispatch(fetchThing())
-    }
-  }, {
-    key: "displayChord",
-    value: function displayChord(e) {
-      console.log('display chord!', e);
     }
   }, {
     key: "render",
@@ -158,7 +150,7 @@ var App = function (_React$Component) {
           "Guitar HeroKu"
         ),
         _react2.default.createElement(_Fretboard2.default, null),
-        _react2.default.createElement(_KeyChordButtons2.default, { displayChord: this.displayChord })
+        _react2.default.createElement(_KeyChordButtons2.default, null)
       );
     }
   }]);
@@ -229,7 +221,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "lightUpNote",
     value: function lightUpNote(noteID) {
-      console.log("lighting up", noteID);
+      // console.log("lighting up", noteID)
       var selectedNote = document.getElementById(noteID);
       selectedNote.classList.add("lit");
     }
@@ -488,16 +480,43 @@ var KeyChordButtons = function (_Component) {
   function KeyChordButtons(props) {
     _classCallCheck(this, KeyChordButtons);
 
+    // this.state = {
+    // }
+
     var _this = _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
 
-    _this.state = {};
+    _this.displayChord = _this.displayChord.bind(_this);
     return _this;
   }
 
   _createClass(KeyChordButtons, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      // Add event listener to all key letters and chord types to trigger displayChord on click
+      var keyClass = document.getElementsByClassName("keys");
+      for (var i = 0; i < keyClass.length; i++) {
+        keyClass[i].addEventListener("click", function (x) {
+          _this2.displayChord(x.target.value);
+        });
+      }
+
+      var chordTypeClass = document.getElementsByClassName("chord-type");
+      for (var _i = 0; _i < chordTypeClass.length; _i++) {
+        chordTypeClass[_i].addEventListener("click", function (x) {
+          _this2.displayChord(x.target.value);
+        });
+      }
+    }
+  }, {
+    key: "displayChord",
+    value: function displayChord(e) {
+      console.log('display chord!', e);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
 
       return _react2.default.createElement(
         "div",
@@ -508,26 +527,22 @@ var KeyChordButtons = function (_Component) {
           _react2.default.createElement(
             "div",
             { className: "keyRow" },
-            _react2.default.createElement("input", { className: "topRowKeys", id: "c-key", type: "button", value: "C", onClick: function onClick() {
-                return _this2.props.displayChord("C");
-              } }),
-            _react2.default.createElement("input", { className: "topRowKeys", id: "d-key", type: "button", value: "D", onClick: function onClick() {
-                return _this2.props.displayChord("D");
-              } }),
-            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "E" }),
-            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "F" }),
-            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "G" }),
-            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "A" }),
-            _react2.default.createElement("input", { className: "topRowKeys", type: "button", value: "B" })
+            _react2.default.createElement("input", { className: "key", type: "button", value: "C" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "D" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "E" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "F" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "G" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "A" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "B" })
           ),
           _react2.default.createElement(
             "div",
             { className: "keyRow" },
-            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "C#" }),
-            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "D#" }),
-            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "F#" }),
-            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "G#" }),
-            _react2.default.createElement("input", { className: "bottomRowKeys", type: "button", value: "A#" })
+            _react2.default.createElement("input", { className: "key", type: "button", value: "C#" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "D#" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "F#" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "G#" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "A#" })
           )
         ),
         _react2.default.createElement(
@@ -536,15 +551,11 @@ var KeyChordButtons = function (_Component) {
           _react2.default.createElement(
             "div",
             { className: "chordRow" },
-            _react2.default.createElement("input", { className: "topRowChords", id: "maj", type: "button", value: "M", onClick: function onClick() {
-                return _this2.props.displayChord();
-              } }),
-            _react2.default.createElement("input", { className: "topRowChords", id: "min", type: "button", value: "m", onClick: function onClick() {
-                return _this2.props.displayChord();
-              } }),
-            _react2.default.createElement("input", { className: "topRowChords", type: "button", value: "Dom" }),
-            _react2.default.createElement("input", { className: "topRowChords", type: "button", value: "Dim" }),
-            _react2.default.createElement("input", { className: "topRowChords", type: "button", value: "Half-Dim" })
+            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "M" }),
+            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "m" }),
+            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "Dom" }),
+            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "Dim" }),
+            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "Half-Dim" })
           )
         )
       );
