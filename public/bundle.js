@@ -144,6 +144,7 @@ function receiveThing(dataFetchedFromRoute) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.App = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -178,7 +179,7 @@ var App = function (_React$Component) {
     value: function componentDidMount() {
       // console.log("------------ App ComponentDidMount --------")
       // console.log(this.props)
-      this.props.dispatch((0, _actions.fetchThing)());
+      // this.props.dispatch(fetchThing())
     }
   }, {
     key: 'render',
@@ -190,17 +191,6 @@ var App = function (_React$Component) {
           'p',
           null,
           'Hi React!'
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          this.props.reducerName.length > 0 && this.props.reducerName.map(function (something) {
-            return _react2.default.createElement(
-              'li',
-              { key: something.id },
-              something.name
-            );
-          })
         )
       );
     }
@@ -216,11 +206,8 @@ function mapStateToProps(state) {
     reducerName: state.reducerName
   };
 }
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
-
-
-module.exports = { App: App };
+exports.App = App;
+// export default connect(mapStateToProps)(App)
 
 /***/ }),
 

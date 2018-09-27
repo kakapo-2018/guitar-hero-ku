@@ -11,18 +11,18 @@ class App extends React.Component {
   componentDidMount(){
 // console.log("------------ App ComponentDidMount --------")
 // console.log(this.props)
-    this.props.dispatch(fetchThing())
+    // this.props.dispatch(fetchThing())
   }
 
   render() {
     return (
       <div className="AppDiv">
         <p>Hi React!</p>
-        <ul>
+        {/* <ul>
         {this.props.reducerName.length > 0 && this.props.reducerName.map(something => {
           return <li key={something.id}>{something.name}</li>
         })}
-        </ul>
+        </ul> */}
       </div>
     )
   }
@@ -35,7 +35,5 @@ function mapStateToProps(state) {
     reducerName: state.reducerName
   }
 }
-
-export default connect(mapStateToProps)(App)
-
-module.exports = {App: App}
+export {App}
+// export default connect(mapStateToProps)(App)
