@@ -13,6 +13,7 @@ lightUpNote(noteID) {
   selectedNote.classList.add("lit")
 }
 
+
 render() {
   return(
     <div className="fretboard">
