@@ -155,6 +155,10 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 var _actions = __webpack_require__(/*! ../actions */ "./client/actions/index.js");
 
+var _KeyChordButtons = __webpack_require__(/*! ./KeyChordButtons */ "./client/components/KeyChordButtons.jsx");
+
+var _KeyChordButtons2 = _interopRequireDefault(_KeyChordButtons);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -170,7 +174,11 @@ var App = function (_React$Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.displayChord = _this.displayChord.bind(_this);
+
+    return _this;
   }
 
   _createClass(App, [{
@@ -179,6 +187,11 @@ var App = function (_React$Component) {
       // console.log("------------ App ComponentDidMount --------")
       // console.log(this.props)
       this.props.dispatch((0, _actions.fetchThing)());
+    }
+  }, {
+    key: 'displayChord',
+    value: function displayChord(chord) {
+      console.log('display chord!');
     }
   }, {
     key: 'render',
@@ -191,17 +204,7 @@ var App = function (_React$Component) {
           null,
           'Hi React!'
         ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          this.props.reducerName.length > 0 && this.props.reducerName.map(function (something) {
-            return _react2.default.createElement(
-              'li',
-              { key: something.id },
-              something.name
-            );
-          })
-        )
+        _react2.default.createElement(_KeyChordButtons2.default, { displayChord: this.displayChord })
       );
     }
   }]);
@@ -218,6 +221,94 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
+
+/***/ }),
+
+/***/ "./client/components/KeyChordButtons.jsx":
+/*!***********************************************!*\
+  !*** ./client/components/KeyChordButtons.jsx ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var KeyChordButtons = function (_Component) {
+  _inherits(KeyChordButtons, _Component);
+
+  function KeyChordButtons(props) {
+    _classCallCheck(this, KeyChordButtons);
+
+    var _this = _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
+
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(KeyChordButtons, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        "div",
+        { className: "keyChordContainer" },
+        _react2.default.createElement(
+          "div",
+          { className: "keys" },
+          _react2.default.createElement(
+            "div",
+            { className: "keyRow" },
+            _react2.default.createElement("input", { className: "topRowKeys", id: "c-key", type: "button", value: "C", onClick: function onClick() {
+                return _this2.props.displayChord();
+              } }),
+            _react2.default.createElement("input", { className: "topRowKeys", id: "d-key", type: "button", value: "D", onClick: function onClick() {
+                return _this2.props.displayChord();
+              } })
+          ),
+          _react2.default.createElement("div", { className: "keyRow" })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "chords" },
+          _react2.default.createElement(
+            "div",
+            { className: "chordRow" },
+            _react2.default.createElement("input", { className: "topRowChords", id: "maj", type: "button", value: "M", onClick: function onClick() {
+                return _this2.props.displayChord();
+              } }),
+            _react2.default.createElement("input", { className: "topRowChords", id: "min", type: "button", value: "m", onClick: function onClick() {
+                return _this2.props.displayChord();
+              } })
+          )
+        )
+      );
+    }
+  }]);
+
+  return KeyChordButtons;
+}(_react.Component);
+
+exports.default = KeyChordButtons;
 
 /***/ }),
 

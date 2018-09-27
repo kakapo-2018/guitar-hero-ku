@@ -1,0 +1,19 @@
+
+.keyChordContainer {
+  width: 50%;
+}
+
+.topRowKeys,
+.bottomRowKeys,
+.topRowChords {
+  width: 100%;
+} 
+
+.keyRow,
+.chordRow {
+  display: flex;
+  align-content: space-between;
+}
+
+
+
