@@ -31,6 +31,7 @@ class KeyChordButtons extends Component {
     }
   }
 
+
   displayChord(e) {
     console.log('display chord!', e)     
   }
