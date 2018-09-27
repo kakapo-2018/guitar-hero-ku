@@ -6,70 +6,68 @@ import * as chordTonal from "tonal-chord"
 class KeyChordButtons extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    // }
 
-    this.displayChord = this.displayChord.bind(this)
-    this.changeSelectedChordLetter = this.changeSelectedChordLetter.bind(this)
-    this.changeSelectedChordType = this.changeSelectedChordType.bind(this)
-    // this.toggleFunc = this.toggleFunc.bind(this)
+  this.state = {
+    inputChord: {}
+  }
+
+    // this.displayChord = this.displayChord.bind(this)
+    this.updateState = this.updateState.bind(this)
   }
 
   componentDidMount(){
-    console.log(chordTonal.notes("D#m"))    
 
 // Add event listener to all key letters and chord types to trigger displayChord on click
     let keyClass = document.getElementsByClassName("keys")
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
-        this.displayChord(x.target.value)
-        this.changeSelectedChordLetter(x.target.value)
+        // this.displayChord(x.target.value)
+        document.getElementById("selected-chord-letter").innerHTML = x.target.value
       })
     }
 
     let chordTypeClass = document.getElementsByClassName("chord-type")
     for (let i = 0; i < chordTypeClass.length; i++) {
       chordTypeClass[i].addEventListener("click", (x) => {
-        this.displayChord(x.target.value)
-        this.changeSelectedChordType(x.target.value)
+        // this.displayChord(x.target.value)
+        document.getElementById("selected-chord-type").innerHTML = x.target.value
       })
     }
   }
 
 
-  displayChord(e) {
-    console.log('display chord!', e)     
-  }
-
-  changeSelectedChordLetter(letter) {
-    console.log("in change selected chord letter")
-    document.getElementById("selected-chord-letter").innerHTML = letter;
-  }
-
-  changeSelectedChordType(type) {
-    console.log("in change selected chord type")
-    document.getElementById("selected-chord-type").innerHTML = type;
-  }
-
-  // toggleFunc() {
-  //     const sandboxElement = document.getElementsByClassName("sandbox");
-  //     console.log(sandboxElement)
-  //     // sandboxElement.classList.toggle("togglestyle");
+  // displayChord(e) {
+  //   console.log('display chord!', e)     
   // }
 
+
+
+  updateState(){
+    console.log("click handled")
+
+// change state
+    let inputKey = document.getElementById("selected-chord-letter").innerHTML
+    console.log(inputKey)
+    let inputChordType = document.getElementById("selected-chord-type").innerHTML
+
+    let inputChord = {
+      selectedKey: inputKey,
+      selectedChordType: inputChordType
+    }
+
+  this.setState({inputChord})
+    console.log("STATE IS")
+    console.log(this.state.inputChord)
+  }
 
   render() { 
     
     return (
       <div className="keyChordContainer">
 
-{/* <div className="sandbox">
-  Sandbox test
-</div>
-<button onClick={this.toggleFunc()}>Toggle</button> */}
-
         <div id="chord-display">
           <p>Current Chord: <span id="selected-chord-letter"></span><span id="selected-chord-type"></span></p>
+          <button onClick={this.updateState}>Find Chord</button><br /><br />
         </div>
 
         <div className="keys">

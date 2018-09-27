@@ -130,7 +130,16 @@ var App = function (_React$Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = {
+      selectedKey: "C",
+      selectedChordType: "M"
+    };
+    console.log("----------state in App -------");
+    console.log(_this.state);
+    console.log("------------");
+    return _this;
   }
 
   _createClass(App, [{
@@ -488,67 +497,62 @@ var KeyChordButtons = function (_Component) {
   function KeyChordButtons(props) {
     _classCallCheck(this, KeyChordButtons);
 
-    // this.state = {
-    // }
-
     var _this = _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
 
-    _this.displayChord = _this.displayChord.bind(_this);
-    _this.changeSelectedChordLetter = _this.changeSelectedChordLetter.bind(_this);
-    _this.changeSelectedChordType = _this.changeSelectedChordType.bind(_this);
-    // this.toggleFunc = this.toggleFunc.bind(this)
+    _this.state = {
+      inputChord: {}
+
+      // this.displayChord = this.displayChord.bind(this)
+    };_this.updateState = _this.updateState.bind(_this);
     return _this;
   }
 
   _createClass(KeyChordButtons, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
-      console.log(chordTonal.notes("D#m"));
 
       // Add event listener to all key letters and chord types to trigger displayChord on click
       var keyClass = document.getElementsByClassName("keys");
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
-          _this2.displayChord(x.target.value);
-          _this2.changeSelectedChordLetter(x.target.value);
+          // this.displayChord(x.target.value)
+          document.getElementById("selected-chord-letter").innerHTML = x.target.value;
         });
       }
 
       var chordTypeClass = document.getElementsByClassName("chord-type");
       for (var _i = 0; _i < chordTypeClass.length; _i++) {
         chordTypeClass[_i].addEventListener("click", function (x) {
-          _this2.displayChord(x.target.value);
-          _this2.changeSelectedChordType(x.target.value);
+          // this.displayChord(x.target.value)
+          document.getElementById("selected-chord-type").innerHTML = x.target.value;
         });
       }
     }
-  }, {
-    key: "displayChord",
-    value: function displayChord(e) {
-      console.log('display chord!', e);
-    }
-  }, {
-    key: "changeSelectedChordLetter",
-    value: function changeSelectedChordLetter(letter) {
-      console.log("in change selected chord letter");
-      document.getElementById("selected-chord-letter").innerHTML = letter;
-    }
-  }, {
-    key: "changeSelectedChordType",
-    value: function changeSelectedChordType(type) {
-      console.log("in change selected chord type");
-      document.getElementById("selected-chord-type").innerHTML = type;
-    }
 
-    // toggleFunc() {
-    //     const sandboxElement = document.getElementsByClassName("sandbox");
-    //     console.log(sandboxElement)
-    //     // sandboxElement.classList.toggle("togglestyle");
+    // displayChord(e) {
+    //   console.log('display chord!', e)     
     // }
 
 
+  }, {
+    key: "updateState",
+    value: function updateState() {
+      console.log("click handled");
+
+      // change state
+      var inputKey = document.getElementById("selected-chord-letter").innerHTML;
+      console.log(inputKey);
+      var inputChordType = document.getElementById("selected-chord-type").innerHTML;
+
+      var inputChord = {
+        selectedKey: inputKey,
+        selectedChordType: inputChordType
+      };
+
+      this.setState({ inputChord: inputChord });
+      console.log("STATE IS");
+      console.log(this.state.inputChord);
+    }
   }, {
     key: "render",
     value: function render() {
@@ -565,7 +569,14 @@ var KeyChordButtons = function (_Component) {
             "Current Chord: ",
             _react2.default.createElement("span", { id: "selected-chord-letter" }),
             _react2.default.createElement("span", { id: "selected-chord-type" })
-          )
+          ),
+          _react2.default.createElement(
+            "button",
+            { onClick: this.updateState },
+            "Find Chord"
+          ),
+          _react2.default.createElement("br", null),
+          _react2.default.createElement("br", null)
         ),
         _react2.default.createElement(
           "div",
