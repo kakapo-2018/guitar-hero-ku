@@ -4,9 +4,8 @@ class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
-this.lightUpNote = this.lightUpNote.bind(this)
+    this.lightUpNote = this.lightUpNote.bind(this)
   }
-
 
 lightUpNote(noteID) {
   console.log("lighting up", noteID)
