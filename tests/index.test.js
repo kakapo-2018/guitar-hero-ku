@@ -46,5 +46,9 @@ test("Fretboard has IDs for each string", () => {
   expect(wrapper.text("Estring6"))
 })
 
+test("lightUpNote adds class lit to selected notes", () => {
+  const wrapper = shallow(<Fretboard />)
+  const litFunct = Fretboard.lightUpNote(note)
+})
 
 // Component: KeyChordButtons

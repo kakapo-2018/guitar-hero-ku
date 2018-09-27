@@ -7,9 +7,12 @@
 }
 
 .fret {
-
     width: 50px;
     height: 50px;
+}
+
+.lit {
+  background-color: aquamarine
 }
 
 /* ---------------------- Chord buttons ----------------------  */

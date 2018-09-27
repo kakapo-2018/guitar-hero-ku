@@ -7,6 +7,8 @@ import KeyChordButtons from "./KeyChordButtons"
 class App extends React.Component {
     constructor(props) {
       super(props)
+
+    this.displayChord = this.displayChord.bind(this)
     }
 
   componentDidMount(){
@@ -14,7 +16,7 @@ class App extends React.Component {
   }
 
   displayChord(e) {
-    console.log('display chord!', e)        
+    console.log('display chord!', e)     
   }
 
   render() {

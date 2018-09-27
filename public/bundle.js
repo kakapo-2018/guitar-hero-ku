@@ -130,7 +130,10 @@ var App = function (_React$Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.displayChord = _this.displayChord.bind(_this);
+    return _this;
   }
 
   _createClass(App, [{
@@ -204,15 +207,34 @@ var Fretboard = function (_React$Component) {
   function Fretboard(props) {
     _classCallCheck(this, Fretboard);
 
-    return _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
+
+    _this.lightUpNote = _this.lightUpNote.bind(_this);
+    return _this;
   }
 
   _createClass(Fretboard, [{
+    key: "lightUpNote",
+    value: function lightUpNote(noteID) {
+      console.log("lighting up", noteID);
+      var selectedNote = document.getElementById(noteID);
+      selectedNote.classList.add("lit");
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         "div",
         { className: "fretboard" },
+        _react2.default.createElement(
+          "button",
+          { id: "testing", onClick: function onClick() {
+              return _this2.lightUpNote("fret-G5-Estring1");
+            } },
+          "Test lightUpNote on G5"
+        ),
         _react2.default.createElement(
           "div",
           { className: "string", id: "Estring1" },
@@ -228,7 +250,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-F#5-Estring1" },
+            { className: "fret", id: "fret-F5sharp-Estring1" },
             "F#"
           ),
           _react2.default.createElement(
@@ -238,7 +260,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-G#5-Estring1" },
+            { className: "fret", id: "fret-G5sharp-Estring1" },
             "G#"
           ),
           _react2.default.createElement(
@@ -262,7 +284,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-C#5-Bstring2" },
+            { className: "fret", id: "fret-C5sharp-Bstring2" },
             "C#"
           ),
           _react2.default.createElement(
@@ -272,7 +294,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-D#5-Bstring2" },
+            { className: "fret", id: "fret-D5sharp-Bstring2" },
             "D#"
           ),
           _react2.default.createElement(
@@ -291,7 +313,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-G#4-Gstring3" },
+            { className: "fret", id: "fret-G4sharp-Gstring3" },
             "G#"
           ),
           _react2.default.createElement(
@@ -301,7 +323,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-A#5-Gstring3" },
+            { className: "fret", id: "fret-A5sharp-Gstring3" },
             "A#"
           ),
           _react2.default.createElement(
@@ -325,7 +347,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-D#4-Dstring4" },
+            { className: "fret", id: "fret-D4sharp-Dstring4" },
             "D#"
           ),
           _react2.default.createElement(
@@ -340,7 +362,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-F#4-Dstring4" },
+            { className: "fret", id: "fret-F4sharp-Dstring4" },
             "F#"
           ),
           _react2.default.createElement(
@@ -359,7 +381,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-A#4-Astring5" },
+            { className: "fret", id: "fret-A4sharp-Astring5" },
             "A#"
           ),
           _react2.default.createElement(
@@ -374,7 +396,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-C#4-Astring5" },
+            { className: "fret", id: "fret-C4sharp-Astring5" },
             "C#"
           ),
           _react2.default.createElement(
@@ -398,7 +420,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-F#3-Estring6" },
+            { className: "fret", id: "fret-F3sharp-Estring6" },
             "F#"
           ),
           _react2.default.createElement(
@@ -408,7 +430,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret", id: "fret-G#3-Estring6" },
+            { className: "fret", id: "fret-G3sharp-Estring6" },
             "G#"
           ),
           _react2.default.createElement(
