@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import {Chord} from "tonal"
+import * as chordTonal from "tonal-chord"
+
 
 class KeyChordButtons extends Component {
   constructor(props) {
@@ -9,9 +12,11 @@ class KeyChordButtons extends Component {
     this.displayChord = this.displayChord.bind(this)
     this.changeSelectedChordLetter = this.changeSelectedChordLetter.bind(this)
     this.changeSelectedChordType = this.changeSelectedChordType.bind(this)
+    // this.toggleFunc = this.toggleFunc.bind(this)
   }
 
   componentDidMount(){
+    console.log(chordTonal.notes("D#m"))    
 
 // Add event listener to all key letters and chord types to trigger displayChord on click
     let keyClass = document.getElementsByClassName("keys")
@@ -46,11 +51,24 @@ class KeyChordButtons extends Component {
     document.getElementById("selected-chord-type").innerHTML = type;
   }
 
+  // toggleFunc() {
+  //     const sandboxElement = document.getElementsByClassName("sandbox");
+  //     console.log(sandboxElement)
+  //     // sandboxElement.classList.toggle("togglestyle");
+  // }
+
+
   render() { 
     
     return (
       <div className="keyChordContainer">
-        <div className="chord-display">
+
+{/* <div className="sandbox">
+  Sandbox test
+</div>
+<button onClick={this.toggleFunc()}>Toggle</button> */}
+
+        <div id="chord-display">
           <p>Current Chord: <span id="selected-chord-letter"></span><span id="selected-chord-type"></span></p>
         </div>
 
@@ -80,9 +98,9 @@ class KeyChordButtons extends Component {
             <input className="chord-type" type="button" value="M"></input>
             <input className="chord-type" type="button" value="m"></input>
 
-            <input className="chord-type" type="button" value="Dom"></input>
+            {/* <input className="chord-type" type="button" value="Dom"></input>
             <input className="chord-type" type="button" value="Dim"></input>
-            <input className="chord-type" type="button" value="Half-Dim"></input>
+            <input className="chord-type" type="button" value="Half-Dim"></input> */}
 
           </div>
         </div>
