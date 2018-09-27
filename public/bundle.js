@@ -214,6 +214,19 @@ var Fretboard = function (_React$Component) {
   }
 
   _createClass(Fretboard, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      // Add event listener to all frets to trigger lightUpNote on click
+      var frets = document.getElementsByClassName("fret");
+      for (var i = 0; i < frets.length; i++) {
+        frets[i].addEventListener("click", function (x) {
+          _this2.lightUpNote(x.target.id);
+        });
+      }
+    }
+  }, {
     key: "lightUpNote",
     value: function lightUpNote(noteID) {
       console.log("lighting up", noteID);
@@ -223,18 +236,9 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       return _react2.default.createElement(
         "div",
         { className: "fretboard" },
-        _react2.default.createElement(
-          "button",
-          { id: "testing", onClick: function onClick() {
-              return _this2.lightUpNote("fret-G5-Estring1");
-            } },
-          "Test lightUpNote on G5"
-        ),
         _react2.default.createElement(
           "div",
           { className: "string", id: "Estring1" },

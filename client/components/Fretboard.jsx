@@ -7,6 +7,19 @@ class Fretboard extends React.Component {
     this.lightUpNote = this.lightUpNote.bind(this)
   }
 
+  componentDidMount(){
+
+// Add event listener to all frets to trigger lightUpNote on click
+    let frets = document.getElementsByClassName("fret")
+    for (let i = 0; i < frets.length; i++) {
+      frets[i].addEventListener("click", (x) => {
+        this.lightUpNote(x.target.id)
+      })
+    }
+
+  }
+
+
 lightUpNote(noteID) {
   console.log("lighting up", noteID)
   let selectedNote = document.getElementById(noteID)
@@ -14,11 +27,12 @@ lightUpNote(noteID) {
 }
 
 
+
 render() {
   return(
     <div className="fretboard">
 
-    <button id="testing" onClick={() => this.lightUpNote("fret-G5-Estring1")}>Test lightUpNote on G5</button>
+    {/* onClick={() => this.lightUpNote()} */}
 
       <div className="string" id="Estring1">
         <div className="fret" id="fret-E5-Estring1">E</div>
