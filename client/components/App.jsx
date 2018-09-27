@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchThing} from '../actions'
+import Fretboard from './Fretboard'
 
 class App extends React.Component {
 // The constructor with just super(props) is done by default and can be left off if there is nothing else inside constructor
@@ -18,11 +19,12 @@ class App extends React.Component {
     return (
       <div>
         <p>Hi React!</p>
-        <ul>
+        <Fretboard/>
+        {/* <ul>
         {this.props.reducerName.length > 0 && this.props.reducerName.map(something => {
           return <li key={something.id}>{something.name}</li>
         })}
-        </ul>
+        </ul> */}
       </div>
     )
   }
