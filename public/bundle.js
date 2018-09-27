@@ -486,6 +486,8 @@ var KeyChordButtons = function (_Component) {
     var _this = _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
 
     _this.displayChord = _this.displayChord.bind(_this);
+    _this.changeSelectedChordLetter = _this.changeSelectedChordLetter.bind(_this);
+    _this.changeSelectedChordType = _this.changeSelectedChordType.bind(_this);
     return _this;
   }
 
@@ -499,6 +501,7 @@ var KeyChordButtons = function (_Component) {
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
           _this2.displayChord(x.target.value);
+          _this2.changeSelectedChordLetter(x.target.value);
         });
       }
 
@@ -506,6 +509,7 @@ var KeyChordButtons = function (_Component) {
       for (var _i = 0; _i < chordTypeClass.length; _i++) {
         chordTypeClass[_i].addEventListener("click", function (x) {
           _this2.displayChord(x.target.value);
+          _this2.changeSelectedChordType(x.target.value);
         });
       }
     }
@@ -515,12 +519,35 @@ var KeyChordButtons = function (_Component) {
       console.log('display chord!', e);
     }
   }, {
+    key: "changeSelectedChordLetter",
+    value: function changeSelectedChordLetter(letter) {
+      console.log("in change selected chord letter");
+      document.getElementById("selected-chord-letter").innerHTML = letter;
+    }
+  }, {
+    key: "changeSelectedChordType",
+    value: function changeSelectedChordType(type) {
+      console.log("in change selected chord type");
+      document.getElementById("selected-chord-type").innerHTML = type;
+    }
+  }, {
     key: "render",
     value: function render() {
 
       return _react2.default.createElement(
         "div",
         { className: "keyChordContainer" },
+        _react2.default.createElement(
+          "div",
+          { className: "chord-display" },
+          _react2.default.createElement(
+            "p",
+            null,
+            "Current Chord: ",
+            _react2.default.createElement("span", { id: "selected-chord-letter" }),
+            _react2.default.createElement("span", { id: "selected-chord-type" })
+          )
+        ),
         _react2.default.createElement(
           "div",
           { className: "keys" },

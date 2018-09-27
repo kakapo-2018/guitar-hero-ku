@@ -7,6 +7,8 @@ class KeyChordButtons extends Component {
     // }
 
     this.displayChord = this.displayChord.bind(this)
+    this.changeSelectedChordLetter = this.changeSelectedChordLetter.bind(this)
+    this.changeSelectedChordType = this.changeSelectedChordType.bind(this)
   }
 
   componentDidMount(){
@@ -16,6 +18,7 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
         this.displayChord(x.target.value)
+        this.changeSelectedChordLetter(x.target.value)
       })
     }
 
@@ -23,18 +26,34 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < chordTypeClass.length; i++) {
       chordTypeClass[i].addEventListener("click", (x) => {
         this.displayChord(x.target.value)
+        this.changeSelectedChordType(x.target.value)
       })
     }
   }
 
+
   displayChord(e) {
     console.log('display chord!', e)     
+  }
+
+  changeSelectedChordLetter(letter) {
+    console.log("in change selected chord letter")
+    document.getElementById("selected-chord-letter").innerHTML = letter;
+  }
+
+  changeSelectedChordType(type) {
+    console.log("in change selected chord type")
+    document.getElementById("selected-chord-type").innerHTML = type;
   }
 
   render() { 
     
     return (
       <div className="keyChordContainer">
+        <div className="chord-display">
+          <p>Current Chord: <span id="selected-chord-letter"></span><span id="selected-chord-type"></span></p>
+        </div>
+
         <div className="keys">
           <div className="keyRow">
             <input className="key" type="button" value="C"></input>
