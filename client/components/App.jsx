@@ -1,39 +1,36 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {fetchThing} from '../actions'
+import React from "react"
+// import {connect} from 'react-redux'
+import Fretboard from "./Fretboard"
+import KeyChordButtons from "./KeyChordButtons"
+
 
 class App extends React.Component {
-// The constructor with just super(props) is done by default and can be left off if there is nothing else inside constructor
-  constructor(props) {
-    super(props)
-  }
+    constructor(props) {
+      super(props)
+
+    this.displayChord = this.displayChord.bind(this)
+    }
 
   componentDidMount(){
-// console.log("------------ App ComponentDidMount --------")
-// console.log(this.props)
-    this.props.dispatch(fetchThing())
+    // this.props.dispatch(fetchThing())
+  }
+
+  displayChord(e) {
+    console.log('display chord!', e)     
   }
 
   render() {
     return (
       <div>
-        <p>Hi React!</p>
-        <ul>
-        {this.props.reducerName.length > 0 && this.props.reducerName.map(something => {
-          return <li key={something.id}>{something.name}</li>
-        })}
-        </ul>
+        <p>Guitar HeroKu</p>
+        <Fretboard />
+        <KeyChordButtons displayChord={this.displayChord}/>
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  // console.log("------------ App state --------")
-  // console.log(state)
-  return {
-    reducerName: state.reducerName
-  }
-}
+export default App
 
-export default connect(mapStateToProps)(App)
+// Keep for testing when removing container
+// // export {App}

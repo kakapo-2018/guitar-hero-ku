@@ -1,0 +1,37 @@
+
+/* ---------------------- Fretboard ----------------------  */
+
+.string {
+    display: flex;
+    align-content: space-around;
+}
+
+.fret {
+    width: 50px;
+    height: 50px;
+}
+
+.lit {
+  background-color: aquamarine
+}
+
+/* ---------------------- Chord buttons ----------------------  */
+
+.keyChordContainer {
+  width: 50%;
+}
+
+.topRowKeys,
+.bottomRowKeys,
+.topRowChords {
+  width: 100%;
+} 
+
+.keyRow,
+.chordRow {
+  display: flex;
+  align-content: space-between;
+}
+
+
+
