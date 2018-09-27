@@ -3,6 +3,7 @@ import {shallow} from "enzyme"
 
 import App from "../client/components/App"
 import Fretboard from "../client/components/Fretboard"
+import {lightUpNote} from "../client/components/Fretboard"
 import KeyChordButtons from "../client/components/KeyChordButtons"
 
 test("Tests running", () => {
@@ -46,9 +47,11 @@ test("Fretboard has IDs for each string", () => {
   expect(wrapper.text("Estring6"))
 })
 
-test("lightUpNote adds class lit to selected notes", () => {
-  const wrapper = shallow(<Fretboard />)
-  const litFunct = Fretboard.lightUpNote(note)
-})
+// test("lightUpNote adds class lit to selected notes", () => {
+//   const wrapper = shallow(<Fretboard />)
+//   let noteID = "fret-G3-Estring6"
+//   const functionBeingTested = lightUpNote(noteID)
+//   // expect(wrapper(functionBeingTested)).toBe("fret-G3-Estring6")
+// })
 
 // Component: KeyChordButtons
