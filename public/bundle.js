@@ -278,7 +278,10 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.state);
+
+      // --------- Here's how to access information that's in redux state from here: 
+      console.log(this.props.selectedChord);
+
       return _react2.default.createElement(
         "div",
         { className: "fretboard" },

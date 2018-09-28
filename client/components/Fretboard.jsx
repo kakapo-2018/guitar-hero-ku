@@ -30,7 +30,10 @@ lightUpNote(noteID) {
 
 
 render() {
-console.log(this.state)
+
+// --------- Here's how to access information that's in redux state from here: 
+console.log(this.props.selectedChord)
+
   return(
     <div className="fretboard">
 
