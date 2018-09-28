@@ -29,6 +29,7 @@ lightUpNote(noteID) {
 
 
 render() {
+
   return(
     <div className="fretboard">
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 class KeyChordButtons extends Component {
   constructor(props) {
     super(props);
@@ -41,6 +40,7 @@ class KeyChordButtons extends Component {
 
   this.setState({inputChord})
   }
+
 
   render() { 
 console.log(this.state.inputChord)
