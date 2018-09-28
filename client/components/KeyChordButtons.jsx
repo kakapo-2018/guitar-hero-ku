@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
 import {getChord} from "../actions"
+import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 class KeyChordButtons extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      inputChord: {}
+      inputKey: "",
+      inputChordType: ""
     }
 
-    this.updateState = this.updateState.bind(this)
+    this.fetchChord = this.fetchChord.bind(this)
   }
 
   componentDidMount(){
@@ -18,46 +20,33 @@ class KeyChordButtons extends Component {
     let keyClass = document.getElementsByClassName("keys")
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
-        document.getElementById("selected-chord-letter").innerHTML = x.target.value
+        this.setState({inputKey: x.target.value})
       })
     }
 
     let chordTypeClass = document.getElementsByClassName("chord-type")
     for (let i = 0; i < chordTypeClass.length; i++) {
       chordTypeClass[i].addEventListener("click", (x) => {
-        document.getElementById("selected-chord-type").innerHTML = x.target.value
+        this.setState({inputChordType: x.target.value})
       })
     }
   }
 
 
-  updateState(){
-    let inputKey = document.getElementById("selected-chord-letter").innerHTML
-    let inputChordType = document.getElementById("selected-chord-type").innerHTML
 
-    // let inputChord = {
-    //   selectedKey: inputKey,
-    //   selectedChordType: inputChordType
-    // }
-    console.log("getChord is", getChord)
-    this.props.dispatch(getChord(inputKey, inputChordType))
 
-  // this.setState({inputChord})
+fetchChord(){
+    this.props.dispatch(getChord(this.state.inputKey, this.state.inputChordType))
   }
-
-
   render() { 
-//     this.props.dispatch(getChord())
-console.log("KeyChordButton render")
-console.log(this.state)
-console.log(this.state.inputChord)
 
     return (
       <div className="keyChordContainer">
 
         <div id="chord-display">
-          <p>Current Chord: <span id="selected-chord-letter"></span><span id="selected-chord-type"></span></p>
-          <button onClick={this.updateState}>Find Chord</button><br /><br />
+        {<p>Selected Chord: {this.state.inputKey}{this.state.inputChordType}</p>}
+       
+          <button onClick={this.fetchChord}>Find Chord</button><br /><br />
         </div>
 
         <div className="keys">
@@ -98,8 +87,6 @@ console.log(this.state.inputChord)
 }
 
 function mapStateToProps(state) {
-    console.log("mapping state to props in KeyChordButtons")
-    console.log(state.selectedChord)
   return {
     selectedChord: state.selectedChord
   }

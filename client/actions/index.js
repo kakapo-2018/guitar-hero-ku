@@ -1,9 +1,5 @@
-// import request from "superagent"
 
 export const getChord = (key, chordType) => {
-  console.log("in getChord")
-  console.log(key, chordType)
-
   return {
     type: "SELECT_CHORD",
     chord: {
@@ -12,3 +8,21 @@ export const getChord = (key, chordType) => {
     }
   }
 }
+
+// export const keyToState = (key) => {
+//   return {
+//     type: "SELECT_KEY",
+//     chord: {
+//       selectedKey: key,
+//     }
+//   }
+// }
+
+// export const chordTypeToState = (chordType) => {
+//   return {
+//     type: "SELECT_CHORDTYPE",
+//     chord: {
+//       selectedChordType: chordType
+//     }
+//   }
+// }
