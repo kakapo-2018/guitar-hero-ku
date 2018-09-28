@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import {selectChord} from "../actions"
+import {connect} from 'react-redux'
+import {getChord} from "../actions"
 
 class KeyChordButtons extends Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class KeyChordButtons extends Component {
     this.state = {
       inputChord: {}
     }
-    
+
     this.updateState = this.updateState.bind(this)
   }
 
@@ -34,16 +35,21 @@ class KeyChordButtons extends Component {
     let inputKey = document.getElementById("selected-chord-letter").innerHTML
     let inputChordType = document.getElementById("selected-chord-type").innerHTML
 
-    let inputChord = {
-      selectedKey: inputKey,
-      selectedChordType: inputChordType
-    }
+    // let inputChord = {
+    //   selectedKey: inputKey,
+    //   selectedChordType: inputChordType
+    // }
+    console.log("getChord is", getChord)
+    this.props.dispatch(getChord(inputKey, inputChordType))
 
-  this.setState({inputChord})
+  // this.setState({inputChord})
   }
 
 
   render() { 
+//     this.props.dispatch(getChord())
+console.log("KeyChordButton render")
+console.log(this.state)
 console.log(this.state.inputChord)
 
     return (
@@ -90,5 +96,15 @@ console.log(this.state.inputChord)
       );
   }
 }
- 
-export default KeyChordButtons;
+
+function mapStateToProps(state) {
+    console.log("mapping state to props in KeyChordButtons")
+    console.log(state.selectedChord)
+  return {
+    selectedChord: state.selectedChord
+  }
+}
+
+export default connect(mapStateToProps)(KeyChordButtons)
+
+// export default KeyChordButtons;
