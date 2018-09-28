@@ -1,27 +1,22 @@
 import React, { Component } from "react";
-import {Chord} from "tonal"
-import * as chordTonal from "tonal-chord"
 
 
 class KeyChordButtons extends Component {
   constructor(props) {
     super(props);
 
-  this.state = {
-    inputChord: {}
-  }
+    this.state = {
+      inputChord: {}
+    }
 
-    // this.displayChord = this.displayChord.bind(this)
     this.updateState = this.updateState.bind(this)
   }
 
   componentDidMount(){
-
-// Add event listener to all key letters and chord types to trigger displayChord on click
+// Event listeners for all key letters and chord types to trigger display on click
     let keyClass = document.getElementsByClassName("keys")
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
-        // this.displayChord(x.target.value)
         document.getElementById("selected-chord-letter").innerHTML = x.target.value
       })
     }
@@ -29,25 +24,14 @@ class KeyChordButtons extends Component {
     let chordTypeClass = document.getElementsByClassName("chord-type")
     for (let i = 0; i < chordTypeClass.length; i++) {
       chordTypeClass[i].addEventListener("click", (x) => {
-        // this.displayChord(x.target.value)
         document.getElementById("selected-chord-type").innerHTML = x.target.value
       })
     }
   }
 
 
-  // displayChord(e) {
-  //   console.log('display chord!', e)     
-  // }
-
-
-
   updateState(){
-    console.log("click handled")
-
-// change state
     let inputKey = document.getElementById("selected-chord-letter").innerHTML
-    console.log(inputKey)
     let inputChordType = document.getElementById("selected-chord-type").innerHTML
 
     let inputChord = {
@@ -56,12 +40,11 @@ class KeyChordButtons extends Component {
     }
 
   this.setState({inputChord})
-    console.log("STATE IS")
-    console.log(this.state.inputChord)
   }
 
   render() { 
-    
+console.log(this.state.inputChord)
+
     return (
       <div className="keyChordContainer">
 

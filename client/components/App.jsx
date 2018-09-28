@@ -8,17 +8,9 @@ class App extends React.Component {
     constructor(props) {
       super(props)
 
-    this.state = {
-      selectedKey: "C",
-      selectedChordType: "M"
-    }
-    console.log("----------state in App -------")
-    console.log(this.state)
-    console.log("------------")
     }
 
   componentDidMount(){
-    // this.props.dispatch(fetchThing())
   }
 
 
