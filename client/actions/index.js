@@ -9,16 +9,19 @@ export function fetchThing() {
 // console.log(res.body)
       return res.body //array of objects from the route
     }).then(dataFromRoute => {
-      dispatch(receiveThing(dataFromRoute))
+      dispatch(selectChord(dataFromRoute))
     })
   }
 }
 
-export function receiveThing(dataFetchedFromRoute){
-// console.log("------------ actions/index.js recieveThing() --------")
-// console.log(dataFetchedFromRoute)
+export function selectChord(key, chordType){
+  let placeholderKey = "F"
+  let placeholderChordType = "m"
   return {
-    type: "RECEIVE_THING",
-    actionObjectData: dataFetchedFromRoute //array of objects
+    type: "SELECT_CHORD",
+    chord: {
+      selectedKey: placeholderKey,
+      selectedChordType: placeholderChordType
+    }
   }
 }

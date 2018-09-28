@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {selectChord} from "../actions"
 
 class KeyChordButtons extends Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class KeyChordButtons extends Component {
     this.state = {
       inputChord: {}
     }
-
+    
     this.updateState = this.updateState.bind(this)
   }
 

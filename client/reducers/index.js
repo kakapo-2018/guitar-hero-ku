@@ -1,8 +1,8 @@
 import { combineReducers } from "redux"
-import reducerName from "./reducerName"
+import selectedChord from "./selectedChord"
 
 const reducers = combineReducers({
-  reducerName: reducerName
+  selectedChord: selectedChord
 })
 
 export default reducers
