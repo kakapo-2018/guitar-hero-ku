@@ -19,6 +19,4 @@ function selectedChord(state = initialState, action) {
   }
 }
 
-
-
 export default selectedChord

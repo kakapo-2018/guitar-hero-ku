@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
 import {getChord} from "../actions"
-import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 class KeyChordButtons extends Component {
   constructor(props) {
@@ -45,7 +44,6 @@ fetchChord(){
 
         <div id="chord-display">
         {<p>Selected Chord: {this.state.inputKey}{this.state.inputChordType}</p>}
-       
           <button onClick={this.fetchChord}>Find Chord</button><br /><br />
         </div>
 
@@ -61,7 +59,6 @@ fetchChord(){
 
           </div>
           <div className="keyRow">
-
             <input className="key" type="button" value="C#"></input>
             <input className="key" type="button" value="D#"></input>
             <input className="key" type="button" value="F#"></input>

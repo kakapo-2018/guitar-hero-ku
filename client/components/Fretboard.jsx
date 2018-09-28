@@ -1,4 +1,5 @@
 import React from "react"
+import {connect} from 'react-redux'
 
 class Fretboard extends React.Component {
   constructor(props){
@@ -29,11 +30,9 @@ lightUpNote(noteID) {
 
 
 render() {
-
+console.log(this.state)
   return(
     <div className="fretboard">
-
-    {/* onClick={() => this.lightUpNote()} */}
 
       <div className="string" id="Estring1">
         <div className="fret" id="fret-E5-Estring1">E</div>
@@ -94,4 +93,10 @@ render() {
 }
 }
 
-export default Fretboard
+function mapStateToProps(state) {
+  return {
+    selectedChord: state.selectedChord
+  }
+}
+
+export default connect(mapStateToProps)(Fretboard)
