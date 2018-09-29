@@ -8,6 +8,7 @@ class Fretboard extends React.Component {
     super(props)
 
     this.lightUpNote = this.lightUpNote.bind(this)
+    this.lightUpChord = this.lightUpChord.bind(this)
     this.getChordNotes = this.getChordNotes.bind(this)
   }
 
@@ -25,23 +26,36 @@ class Fretboard extends React.Component {
 
 
 lightUpNote(incomingNote) {
-  if (incomingNote.includes("-")) {
-    console.log("is an id")
     let selectedNote = document.getElementById(incomingNote)
     selectedNote.classList.add("lit")
-  }
-  else {
-
-
-//fine for whole notes, but need to deal with sharps and flats
-    let notesByClass = document.getElementsByClassName(incomingNote)
-    console.log(notesByClass)
-    for (let i = 0; i < notesByClass.length; i++) {
-      console.log(notesByClass[i])
-      notesByClass[i].classList.add("lit")
-    }
-  }
 }
+
+lightUpChord(incomingNote) {
+    console.log("incomingNote is", incomingNote)
+
+//for sharps
+// DOESN'T WORK FOR DOUBLE SHARPS. SIGH
+    if (incomingNote.includes("#")) {
+      // change "#" to "sharp" to match class name
+      let arr = incomingNote.split("#")
+      arr.push("sharp")
+      let noteInWords = arr.join("")
+
+      // get all divs with that class and add lit class
+      let notesByClass = document.getElementsByClassName(noteInWords)
+      for (let i = 0; i < notesByClass.length; i++) {
+        notesByClass[i].classList.add("lit")
+      }
+    }
+    else {
+      let notesByClass = document.getElementsByClassName(incomingNote)
+      for (let i = 0; i < notesByClass.length; i++) {
+        notesByClass[i].classList.add("lit")
+      }
+    }
+// do the same for flats
+}
+
 
 getChordNotes() {
   let notes = Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType)
@@ -54,7 +68,7 @@ getChordNotes() {
 // use this as a way to immediately get only the particular notes wanted
 
 
-    this.lightUpNote(thisNote)
+    this.lightUpChord(thisNote)
   }
 }
 
