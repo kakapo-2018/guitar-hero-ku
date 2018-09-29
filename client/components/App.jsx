@@ -16,7 +16,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <p>Guitar HeroKu</p>
+        <h1>Guitar HeroKu</h1>
         <Fretboard />
         <KeyChordButtons />
       </div>
