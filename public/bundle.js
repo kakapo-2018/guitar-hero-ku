@@ -99,35 +99,32 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchThing = fetchThing;
-exports.receiveThing = receiveThing;
-
-var _superagent = __webpack_require__(/*! superagent */ "./node_modules/superagent/lib/client.js");
-
-var _superagent2 = _interopRequireDefault(_superagent);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function fetchThing() {
-  return function (dispatch) {
-    _superagent2.default.get("/api/v1/route").then(function (res) {
-      // console.log("------------ actions/index.js fetchThing() --------")
-      // console.log(res.body)
-      return res.body; //array of objects from the route
-    }).then(function (dataFromRoute) {
-      dispatch(receiveThing(dataFromRoute));
-    });
-  };
-}
-
-function receiveThing(dataFetchedFromRoute) {
-  // console.log("------------ actions/index.js recieveThing() --------")
-  // console.log(dataFetchedFromRoute)
+var keyToState = exports.keyToState = function keyToState(key) {
   return {
-    type: "RECEIVE_THING",
-    actionObjectData: dataFetchedFromRoute //array of objects
+    type: "SELECT_KEY",
+    chord: {
+      selectedKey: key
+    }
   };
-}
+};
+
+var toneToState = exports.toneToState = function toneToState(tone) {
+  return {
+    type: "SELECT_TONE",
+    chord: {
+      selectedTone: tone
+    }
+  };
+};
+
+var chordTypeToState = exports.chordTypeToState = function chordTypeToState(chordType) {
+  return {
+    type: "SELECT_CHORDTYPE",
+    chord: {
+      selectedChordType: chordType
+    }
+  };
+};
 
 /***/ }),
 
@@ -153,11 +150,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var _actions = __webpack_require__(/*! ../actions */ "./client/actions/index.js");
-
 var _Fretboard = __webpack_require__(/*! ./Fretboard */ "./client/components/Fretboard.jsx");
 
 var _Fretboard2 = _interopRequireDefault(_Fretboard);
+
+var _KeyChordButtons = __webpack_require__(/*! ./KeyChordButtons */ "./client/components/KeyChordButtons.jsx");
+
+var _KeyChordButtons2 = _interopRequireDefault(_KeyChordButtons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -170,7 +169,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
 
-  // The constructor with just super(props) is done by default and can be left off if there is nothing else inside constructor
   function App(props) {
     _classCallCheck(this, App);
 
@@ -178,24 +176,21 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      // console.log("------------ App ComponentDidMount --------")
-      // console.log(this.props)
-      this.props.dispatch((0, _actions.fetchThing)());
-    }
+    key: "componentDidMount",
+    value: function componentDidMount() {}
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       return _react2.default.createElement(
-        'div',
+        "div",
         null,
         _react2.default.createElement(
-          'p',
+          "h1",
           null,
-          'Hi React!'
+          "Guitar HeroKu"
         ),
-        _react2.default.createElement(_Fretboard2.default, null)
+        _react2.default.createElement(_Fretboard2.default, null),
+        _react2.default.createElement(_KeyChordButtons2.default, null)
       );
     }
   }]);
@@ -204,14 +199,16 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 function mapStateToProps(state) {
-  // console.log("------------ App state --------")
-  // console.log(state)
   return {
     reducerName: state.reducerName
   };
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
+
+// Use for testing when removing container:
+// export default App
+// // export {App}
 
 /***/ }),
 
@@ -225,11 +222,23 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _tonalChord = __webpack_require__(/*! tonal-chord */ "./node_modules/tonal-chord/build/es6.js");
+
+var Chord = _interopRequireWildcard(_tonalChord);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -240,31 +249,658 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Fretboard = function (_React$Component) {
-    _inherits(Fretboard, _React$Component);
+  _inherits(Fretboard, _React$Component);
 
-    function Fretboard(props) {
-        _classCallCheck(this, Fretboard);
+  function Fretboard(props) {
+    _classCallCheck(this, Fretboard);
 
-        return _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
+
+    _this.lightUpNote = _this.lightUpNote.bind(_this);
+    _this.lightUpChord = _this.lightUpChord.bind(_this);
+    _this.getChordNotes = _this.getChordNotes.bind(_this);
+    return _this;
+  }
+
+  _createClass(Fretboard, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      // Add event listener to all frets to trigger lightUpNote on click
+      var frets = document.getElementsByClassName("fret");
+      for (var i = 0; i < frets.length; i++) {
+        frets[i].addEventListener("click", function (x) {
+          _this2.lightUpNote(x.target.id);
+        });
+      }
     }
+  }, {
+    key: "lightUpNote",
+    value: function lightUpNote(incomingNote) {
+      var selectedNote = document.getElementById(incomingNote);
+      selectedNote.classList.add("lit");
+    }
+  }, {
+    key: "lightUpChord",
+    value: function lightUpChord(incomingNote) {
+      console.log("incomingNote is", incomingNote);
 
-    _createClass(Fretboard, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'p',
-                    null,
-                    'hello fretboard'
-                )
-            );
-        }
-    }]);
+      // ---------------------------- IN PROGRESS --------------------
 
-    return Fretboard;
+      // if (incomingNote.includes("#") )
+
+
+      // //for sharps
+      //     if (incomingNote.includes("#")) {
+      //       // change "#" to "sharp" to match class name
+      //       let arr = incomingNote.split("#")
+      //       arr.push("sharp")
+      //       let noteInWords = arr.join("")
+
+      //       // get all divs with that class and add lit class
+      //       let notesByClass = document.getElementsByClassName(noteInWords)
+      //       for (let i = 0; i < notesByClass.length; i++) {
+      //         notesByClass[i].classList.add("lit")
+      //       }
+      //     }
+      //     else {
+      //       let notesByClass = document.getElementsByClassName(incomingNote)
+      //       for (let i = 0; i < notesByClass.length; i++) {
+      //         notesByClass[i].classList.add("lit")
+      //       }
+      //     }
+      // // do the same for flats
+
+      // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
+      // add a check: If ##, take init letter and replace F## -> G, etc
+      // OR, and probably better, make the selection by relative place. Maybe
+    }
+  }, {
+    key: "getChordNotes",
+    value: function getChordNotes() {
+      var chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
+      var notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
+
+      for (var i = 0; i < notes.length; i++) {
+        var thisNote = String(notes[i]);
+        this.lightUpChord(thisNote);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      this.getChordNotes();
+
+      return _react2.default.createElement(
+        "div",
+        { className: "fretboard" },
+        _react2.default.createElement(
+          "div",
+          { className: "string", id: "first-string" },
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret0 E E4 open-note", id: "fret0-string1" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret1 F F4", id: "fret1-string1" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret2 Fsharp Gflat F4sharp G4flat sharp-or-flat", id: "fret2-string1" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret3 G G4", id: "fret3-string1" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret4 Gsharp Aflat G4sharp A4flat sharp-or-flat", id: "fret4-string1" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret5 A A4", id: "fret5-string1" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret6 Asharp Bflat A4sharp B4flat", id: "fret6-string1" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret7 B B4", id: "fret7-string1" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret8 C C5", id: "fret8-string1" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret9 Csharp Dflat C5sharp D5flat", id: "fret9-string1" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret10 D D5", id: "fret10-string1" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret11 Dsharp Eflat D5sharp E5flat", id: "fret11-string1" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret12 E E5", id: "fret12-string1" },
+            "E"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "string", id: "second-string" },
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret0 B B3 open-note", id: "fret0-string2" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret1 C C4", id: "fret1-string2" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret2 Csharp Dflat C4sharp D4flat sharp-or-flat", id: "fret2-string2" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret3 D D4", id: "fret3-string2" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret4 Dsharp Eflat D4sharp E4flat sharp-or-flat", id: "fret4-string2" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret5 E E4", id: "fret5-string2" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret6 F F4", id: "fret6-string2" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret7 Fsharp Gflat F4sharp G4flat", id: "fret7-string2" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret8 G G4", id: "fret8-string2" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret9 Gsharp Aflat G4sharp A4flat", id: "fret9-string2" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret10 A A4", id: "fret10-string2" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret11 Asharp Bflat A4sharp B4flat", id: "fret11-string2" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret12 B B4", id: "fret12-string2" },
+            "B"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "string", id: "third-string" },
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret0 G G3 open-note", id: "fret0-string3" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret1 Gsharp Aflat G3sharp A3flat sharp-or-flat", id: "fret1-string3" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret2 A A3", id: "fret2-string3" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret3 Asharp Bflat A3sharp B3flat sharp-or-flat", id: "fret3-string3" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret4 B B3", id: "fret4-string3" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret5 C C4", id: "fret5-string3" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret6 Csharp Dflat C4sharp D4flat", id: "fret6-string3" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret7 D D4", id: "fret7-string3" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret8 Dsharp E4flat D4sharp E4flat", id: "fret8-string3" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret9 E E4", id: "fret9-string3" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret10 F F4", id: "fret10-string3" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret11 Fsharp Gflat F4sharp G4flat", id: "fret11-string3" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret12 G G4", id: "fret12-string3" },
+            "G"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "string", id: "fourth-string" },
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret0 D D3 open-note", id: "fret0-string4" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret1 Dsharp Eflat D3sharp E3flat sharp-or-flat", id: "fret1-string4" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret2 E E3", id: "fret2-string4" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret3 F F3", id: "fret3-string4" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret4 Fsharp Gflat F3sharp G3flat sharp-or-flat", id: "fret4-string4" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret5 G G3", id: "fret5-string4" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret6 Gsharp Aflat G3sharp A3flat", id: "fret6-string4" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret7 A A3", id: "fret7-string4" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret8 Asharp Bflat A3sharp B3flat", id: "fret8-string4" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret9 B B3", id: "fret9-string4" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret10 C C4", id: "fret10-string4" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret11 Csharp Dflat C4sharp D4flat", id: "fret11-string4" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret12 D D4", id: "fret12-string4" },
+            "D"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "string", id: "fifth-string" },
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret0 A A2 open-note", id: "fret0-string5" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret1 Asharp Bflat A2sharp B2flat sharp-or-flat", id: "fret1-string5" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret2 B B2", id: "fret2-string5" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret3 C C3", id: "fret3-string5" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret4 Csharp Dflat C3sharp D3flat sharp-or-flat", id: "fret4-string5" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret5 D D3", id: "fret5-string5" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret6 Dsharp Eflat D3sharp E3flat", id: "fret6-string5" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret7 E E3", id: "fret7-string5" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret8 F F3", id: "fret8-string5" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret9 Fsharp Gflat F3sharp G3flat", id: "fret9-string5" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret10 G G3", id: "fret10-string5" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret11 Gsharp Aflat G3sharp A3flat", id: "fret11-string5" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret12 A A3", id: "fret12-string5" },
+            "A"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "string", id: "sixth-string" },
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret0 E E2 open-note", id: "fret0-string6" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret1 F F2", id: "fret1-string6" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret2 Fsharp Gflat F2sharp G2flat sharp-or-flat", id: "fret2-string6" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret3 G G2", id: "fret3-string6" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret4 Gsharp Aflat G2sharp A2flat sharp-or-flat", id: "fret4-string6" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret5 A A2", id: "fret5-string6" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret6 Asharp Bflat A2sharp B2flat", id: "fret6-string6" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret7 B B2", id: "fret7-string6" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret8 C C3", id: "fret8-string6" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret9 Csharp Dflat C3sharp D3flat", id: "fret9-string6" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret10 D D3", id: "fret10-string6" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret11 Dsharp Eflat D3sharp E3flat", id: "fret11-string6" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret12 E E3", id: "fret12-string6" },
+            "E"
+          )
+        )
+      );
+    }
+  }]);
+
+  return Fretboard;
 }(_react2.default.Component);
+
+function mapStateToProps(state) {
+  return {
+    selectedChord: state.selectedChord
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Fretboard);
+
+/***/ }),
+
+/***/ "./client/components/KeyChordButtons.jsx":
+/*!***********************************************!*\
+  !*** ./client/components/KeyChordButtons.jsx ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _actions = __webpack_require__(/*! ../actions */ "./client/actions/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var KeyChordButtons = function (_Component) {
+  _inherits(KeyChordButtons, _Component);
+
+  function KeyChordButtons(props) {
+    _classCallCheck(this, KeyChordButtons);
+
+    return _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
+  }
+
+  _createClass(KeyChordButtons, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      // Event listeners for all key letters and chord types to trigger display on click
+      var keyClass = document.getElementsByClassName("key");
+      for (var i = 0; i < keyClass.length; i++) {
+        keyClass[i].addEventListener("click", function (x) {
+          _this2.setState({ inputKey: x.target.value });
+          _this2.props.dispatch((0, _actions.keyToState)(x.target.value));
+        });
+      }
+
+      var toneClass = document.getElementsByClassName("tone");
+      for (var _i = 0; _i < toneClass.length; _i++) {
+        toneClass[_i].addEventListener("click", function (x) {
+          _this2.setState({ inputTone: x.target.value });
+          _this2.props.dispatch((0, _actions.toneToState)(x.target.value));
+        });
+      }
+
+      var chordTypeClass = document.getElementsByClassName("chord-type");
+      for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
+        chordTypeClass[_i2].addEventListener("click", function (x) {
+          _this2.setState({ inputChordType: x.target.value });
+          _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+
+      return _react2.default.createElement(
+        "div",
+        { className: "keyChordContainer" },
+        _react2.default.createElement(
+          "div",
+          { id: "chord-display" },
+          _react2.default.createElement(
+            "p",
+            null,
+            "Selected Chord: ",
+            this.props.selectedChord.selectedKey,
+            this.props.selectedChord.selectedTone,
+            this.props.selectedChord.selectedChordType
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "keys" },
+          _react2.default.createElement(
+            "div",
+            { className: "keyRow" },
+            _react2.default.createElement("input", { className: "key", type: "button", value: "C" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "D" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "E" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "F" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "G" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "A" }),
+            _react2.default.createElement("input", { className: "key", type: "button", value: "B" })
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "toneRow" },
+            _react2.default.createElement("input", { className: "tone", type: "button", value: "#" }),
+            _react2.default.createElement("input", { className: "tone", type: "button", value: "b" })
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "chords" },
+          _react2.default.createElement(
+            "div",
+            { className: "chordRow" },
+            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "M" }),
+            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "m" })
+          )
+        )
+      );
+    }
+  }]);
+
+  return KeyChordButtons;
+}(_react.Component);
+
+function mapStateToProps(state) {
+  return {
+    selectedChord: state.selectedChord
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(KeyChordButtons);
 
 /***/ }),
 
@@ -331,24 +967,24 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 
-var _reducerName = __webpack_require__(/*! ./reducerName */ "./client/reducers/reducerName.js");
+var _selectedChord = __webpack_require__(/*! ./selectedChord */ "./client/reducers/selectedChord.js");
 
-var _reducerName2 = _interopRequireDefault(_reducerName);
+var _selectedChord2 = _interopRequireDefault(_selectedChord);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var reducers = (0, _redux.combineReducers)({
-  reducerName: _reducerName2.default
+  selectedChord: _selectedChord2.default
 });
 
 exports.default = reducers;
 
 /***/ }),
 
-/***/ "./client/reducers/reducerName.js":
-/*!****************************************!*\
-  !*** ./client/reducers/reducerName.js ***!
-  \****************************************/
+/***/ "./client/reducers/selectedChord.js":
+/*!******************************************!*\
+  !*** ./client/reducers/selectedChord.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -358,197 +994,42 @@ exports.default = reducers;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var initialState = [];
+var initialState = {};
 
-function reducerName() {
+function selectedChord() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
   switch (action.type) {
-    case "RECEIVE_THING":
-      // console.log("------------ reducers/reducerName.js switch RECIEVE_THING --------")
-      // console.log(action.actionObjectData)
-      return action.actionObjectData; // This then goes into state
+    case "SELECT_CHORD":
+      return action.chord;
+    case "SELECT_KEY":
+      return {
+        selectedKey: action.chord.selectedKey,
+        selectedTone: state.selectedTone,
+        selectedChordType: state.selectedChordType
+      };
+
+    case "SELECT_TONE":
+      return {
+        selectedKey: state.selectedKey,
+        selectedTone: action.chord.selectedTone,
+        selectedChordType: state.selectedChordType
+      };
+
+    case "SELECT_CHORDTYPE":
+      return {
+        selectedKey: state.selectedKey,
+        selectedTone: state.selectedTone,
+        selectedChordType: action.chord.selectedChordType
+      };
+
     default:
       return state;
   }
 }
 
-exports.default = reducerName;
-
-/***/ }),
-
-/***/ "./node_modules/component-emitter/index.js":
-/*!*************************************************!*\
-  !*** ./node_modules/component-emitter/index.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Expose `Emitter`.
- */
-
-if (true) {
-  module.exports = Emitter;
-}
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks['$' + event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
+exports.default = selectedChord;
 
 /***/ }),
 
@@ -24655,1926 +25136,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/superagent/lib/agent-base.js":
-/*!***************************************************!*\
-  !*** ./node_modules/superagent/lib/agent-base.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function Agent() {
-  this._defaults = [];
-}
-
-["use", "on", "once", "set", "query", "type", "accept", "auth", "withCredentials", "sortQuery", "retry", "ok", "redirects",
- "timeout", "buffer", "serialize", "parse", "ca", "key", "pfx", "cert"].forEach(fn => {
-  /** Default setting for all requests from this agent */
-  Agent.prototype[fn] = function(...args) {
-    this._defaults.push({fn, args});
-    return this;
-  }
-});
-
-Agent.prototype._setDefaults = function(req) {
-    this._defaults.forEach(def => {
-      req[def.fn].apply(req, def.args);
-    });
-};
-
-module.exports = Agent;
-
-
-/***/ }),
-
-/***/ "./node_modules/superagent/lib/client.js":
-/*!***********************************************!*\
-  !*** ./node_modules/superagent/lib/client.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Root reference for iframes.
- */
-
-let root;
-if (typeof window !== 'undefined') { // Browser window
-  root = window;
-} else if (typeof self !== 'undefined') { // Web Worker
-  root = self;
-} else { // Other environments
-  console.warn("Using browser-only version of superagent in non-browser environment");
-  root = this;
-}
-
-const Emitter = __webpack_require__(/*! component-emitter */ "./node_modules/component-emitter/index.js");
-const RequestBase = __webpack_require__(/*! ./request-base */ "./node_modules/superagent/lib/request-base.js");
-const isObject = __webpack_require__(/*! ./is-object */ "./node_modules/superagent/lib/is-object.js");
-const ResponseBase = __webpack_require__(/*! ./response-base */ "./node_modules/superagent/lib/response-base.js");
-const Agent = __webpack_require__(/*! ./agent-base */ "./node_modules/superagent/lib/agent-base.js");
-
-/**
- * Noop.
- */
-
-function noop(){};
-
-/**
- * Expose `request`.
- */
-
-const request = exports = module.exports = function(method, url) {
-  // callback
-  if ('function' == typeof url) {
-    return new exports.Request('GET', method).end(url);
-  }
-
-  // url first
-  if (1 == arguments.length) {
-    return new exports.Request('GET', method);
-  }
-
-  return new exports.Request(method, url);
-};
-
-exports.Request = Request;
-
-/**
- * Determine XHR.
- */
-
-request.getXHR = () => {
-  if (root.XMLHttpRequest
-      && (!root.location || 'file:' != root.location.protocol
-          || !root.ActiveXObject)) {
-    return new XMLHttpRequest;
-  } else {
-    try { return new ActiveXObject('Microsoft.XMLHTTP'); } catch(e) {}
-    try { return new ActiveXObject('Msxml2.XMLHTTP.6.0'); } catch(e) {}
-    try { return new ActiveXObject('Msxml2.XMLHTTP.3.0'); } catch(e) {}
-    try { return new ActiveXObject('Msxml2.XMLHTTP'); } catch(e) {}
-  }
-  throw Error("Browser-only version of superagent could not find XHR");
-};
-
-/**
- * Removes leading and trailing whitespace, added to support IE.
- *
- * @param {String} s
- * @return {String}
- * @api private
- */
-
-const trim = ''.trim
-  ? s => s.trim()
-  : s => s.replace(/(^\s*|\s*$)/g, '');
-
-/**
- * Serialize the given `obj`.
- *
- * @param {Object} obj
- * @return {String}
- * @api private
- */
-
-function serialize(obj) {
-  if (!isObject(obj)) return obj;
-  const pairs = [];
-  for (const key in obj) {
-    pushEncodedKeyValuePair(pairs, key, obj[key]);
-  }
-  return pairs.join('&');
-}
-
-/**
- * Helps 'serialize' with serializing arrays.
- * Mutates the pairs array.
- *
- * @param {Array} pairs
- * @param {String} key
- * @param {Mixed} val
- */
-
-function pushEncodedKeyValuePair(pairs, key, val) {
-  if (val != null) {
-    if (Array.isArray(val)) {
-      val.forEach(v => {
-        pushEncodedKeyValuePair(pairs, key, v);
-      });
-    } else if (isObject(val)) {
-      for(const subkey in val) {
-        pushEncodedKeyValuePair(pairs, `${key}[${subkey}]`, val[subkey]);
-      }
-    } else {
-      pairs.push(encodeURIComponent(key)
-        + '=' + encodeURIComponent(val));
-    }
-  } else if (val === null) {
-    pairs.push(encodeURIComponent(key));
-  }
-}
-
-/**
- * Expose serialization method.
- */
-
-request.serializeObject = serialize;
-
-/**
-  * Parse the given x-www-form-urlencoded `str`.
-  *
-  * @param {String} str
-  * @return {Object}
-  * @api private
-  */
-
-function parseString(str) {
-  const obj = {};
-  const pairs = str.split('&');
-  let pair;
-  let pos;
-
-  for (let i = 0, len = pairs.length; i < len; ++i) {
-    pair = pairs[i];
-    pos = pair.indexOf('=');
-    if (pos == -1) {
-      obj[decodeURIComponent(pair)] = '';
-    } else {
-      obj[decodeURIComponent(pair.slice(0, pos))] =
-        decodeURIComponent(pair.slice(pos + 1));
-    }
-  }
-
-  return obj;
-}
-
-/**
- * Expose parser.
- */
-
-request.parseString = parseString;
-
-/**
- * Default MIME type map.
- *
- *     superagent.types.xml = 'application/xml';
- *
- */
-
-request.types = {
-  html: 'text/html',
-  json: 'application/json',
-  xml: 'text/xml',
-  urlencoded: 'application/x-www-form-urlencoded',
-  'form': 'application/x-www-form-urlencoded',
-  'form-data': 'application/x-www-form-urlencoded'
-};
-
-/**
- * Default serialization map.
- *
- *     superagent.serialize['application/xml'] = function(obj){
- *       return 'generated xml here';
- *     };
- *
- */
-
-request.serialize = {
-  'application/x-www-form-urlencoded': serialize,
-  'application/json': JSON.stringify
-};
-
-/**
-  * Default parsers.
-  *
-  *     superagent.parse['application/xml'] = function(str){
-  *       return { object parsed from str };
-  *     };
-  *
-  */
-
-request.parse = {
-  'application/x-www-form-urlencoded': parseString,
-  'application/json': JSON.parse
-};
-
-/**
- * Parse the given header `str` into
- * an object containing the mapped fields.
- *
- * @param {String} str
- * @return {Object}
- * @api private
- */
-
-function parseHeader(str) {
-  const lines = str.split(/\r?\n/);
-  const fields = {};
-  let index;
-  let line;
-  let field;
-  let val;
-
-  for (let i = 0, len = lines.length; i < len; ++i) {
-    line = lines[i];
-    index = line.indexOf(':');
-    if (index === -1) { // could be empty line, just skip it
-      continue;
-    }
-    field = line.slice(0, index).toLowerCase();
-    val = trim(line.slice(index + 1));
-    fields[field] = val;
-  }
-
-  return fields;
-}
-
-/**
- * Check if `mime` is json or has +json structured syntax suffix.
- *
- * @param {String} mime
- * @return {Boolean}
- * @api private
- */
-
-function isJSON(mime) {
-  // should match /json or +json
-  // but not /json-seq
-  return /[\/+]json($|[^-\w])/.test(mime);
-}
-
-/**
- * Initialize a new `Response` with the given `xhr`.
- *
- *  - set flags (.ok, .error, etc)
- *  - parse header
- *
- * Examples:
- *
- *  Aliasing `superagent` as `request` is nice:
- *
- *      request = superagent;
- *
- *  We can use the promise-like API, or pass callbacks:
- *
- *      request.get('/').end(function(res){});
- *      request.get('/', function(res){});
- *
- *  Sending data can be chained:
- *
- *      request
- *        .post('/user')
- *        .send({ name: 'tj' })
- *        .end(function(res){});
- *
- *  Or passed to `.send()`:
- *
- *      request
- *        .post('/user')
- *        .send({ name: 'tj' }, function(res){});
- *
- *  Or passed to `.post()`:
- *
- *      request
- *        .post('/user', { name: 'tj' })
- *        .end(function(res){});
- *
- * Or further reduced to a single call for simple cases:
- *
- *      request
- *        .post('/user', { name: 'tj' }, function(res){});
- *
- * @param {XMLHTTPRequest} xhr
- * @param {Object} options
- * @api private
- */
-
-function Response(req) {
-  this.req = req;
-  this.xhr = this.req.xhr;
-  // responseText is accessible only if responseType is '' or 'text' and on older browsers
-  this.text = ((this.req.method !='HEAD' && (this.xhr.responseType === '' || this.xhr.responseType === 'text')) || typeof this.xhr.responseType === 'undefined')
-     ? this.xhr.responseText
-     : null;
-  this.statusText = this.req.xhr.statusText;
-  let status = this.xhr.status;
-  // handle IE9 bug: http://stackoverflow.com/questions/10046972/msie-returns-status-code-of-1223-for-ajax-request
-  if (status === 1223) {
-    status = 204;
-  }
-  this._setStatusProperties(status);
-  this.header = this.headers = parseHeader(this.xhr.getAllResponseHeaders());
-  // getAllResponseHeaders sometimes falsely returns "" for CORS requests, but
-  // getResponseHeader still works. so we get content-type even if getting
-  // other headers fails.
-  this.header['content-type'] = this.xhr.getResponseHeader('content-type');
-  this._setHeaderProperties(this.header);
-
-  if (null === this.text && req._responseType) {
-    this.body = this.xhr.response;
-  } else {
-    this.body = this.req.method != 'HEAD'
-      ? this._parseBody(this.text ? this.text : this.xhr.response)
-      : null;
-  }
-}
-
-ResponseBase(Response.prototype);
-
-/**
- * Parse the given body `str`.
- *
- * Used for auto-parsing of bodies. Parsers
- * are defined on the `superagent.parse` object.
- *
- * @param {String} str
- * @return {Mixed}
- * @api private
- */
-
-Response.prototype._parseBody = function(str) {
-  let parse = request.parse[this.type];
-  if (this.req._parser) {
-    return this.req._parser(this, str);
-  }
-  if (!parse && isJSON(this.type)) {
-    parse = request.parse['application/json'];
-  }
-  return parse && str && (str.length || str instanceof Object)
-    ? parse(str)
-    : null;
-};
-
-/**
- * Return an `Error` representative of this response.
- *
- * @return {Error}
- * @api public
- */
-
-Response.prototype.toError = function(){
-  const req = this.req;
-  const method = req.method;
-  const url = req.url;
-
-  const msg = `cannot ${method} ${url} (${this.status})`;
-  const err = new Error(msg);
-  err.status = this.status;
-  err.method = method;
-  err.url = url;
-
-  return err;
-};
-
-/**
- * Expose `Response`.
- */
-
-request.Response = Response;
-
-/**
- * Initialize a new `Request` with the given `method` and `url`.
- *
- * @param {String} method
- * @param {String} url
- * @api public
- */
-
-function Request(method, url) {
-  const self = this;
-  this._query = this._query || [];
-  this.method = method;
-  this.url = url;
-  this.header = {}; // preserves header name case
-  this._header = {}; // coerces header names to lowercase
-  this.on('end', () => {
-    let err = null;
-    let res = null;
-
-    try {
-      res = new Response(self);
-    } catch(e) {
-      err = new Error('Parser is unable to parse the response');
-      err.parse = true;
-      err.original = e;
-      // issue #675: return the raw response if the response parsing fails
-      if (self.xhr) {
-        // ie9 doesn't have 'response' property
-        err.rawResponse = typeof self.xhr.responseType == 'undefined' ? self.xhr.responseText : self.xhr.response;
-        // issue #876: return the http status code if the response parsing fails
-        err.status = self.xhr.status ? self.xhr.status : null;
-        err.statusCode = err.status; // backwards-compat only
-      } else {
-        err.rawResponse = null;
-        err.status = null;
-      }
-
-      return self.callback(err);
-    }
-
-    self.emit('response', res);
-
-    let new_err;
-    try {
-      if (!self._isResponseOK(res)) {
-        new_err = new Error(res.statusText || 'Unsuccessful HTTP response');
-      }
-    } catch(custom_err) {
-      new_err = custom_err; // ok() callback can throw
-    }
-
-    // #1000 don't catch errors from the callback to avoid double calling it
-    if (new_err) {
-      new_err.original = err;
-      new_err.response = res;
-      new_err.status = res.status;
-      self.callback(new_err, res);
-    } else {
-      self.callback(null, res);
-    }
-  });
-}
-
-/**
- * Mixin `Emitter` and `RequestBase`.
- */
-
-Emitter(Request.prototype);
-RequestBase(Request.prototype);
-
-/**
- * Set Content-Type to `type`, mapping values from `request.types`.
- *
- * Examples:
- *
- *      superagent.types.xml = 'application/xml';
- *
- *      request.post('/')
- *        .type('xml')
- *        .send(xmlstring)
- *        .end(callback);
- *
- *      request.post('/')
- *        .type('application/xml')
- *        .send(xmlstring)
- *        .end(callback);
- *
- * @param {String} type
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.type = function(type){
-  this.set('Content-Type', request.types[type] || type);
-  return this;
-};
-
-/**
- * Set Accept to `type`, mapping values from `request.types`.
- *
- * Examples:
- *
- *      superagent.types.json = 'application/json';
- *
- *      request.get('/agent')
- *        .accept('json')
- *        .end(callback);
- *
- *      request.get('/agent')
- *        .accept('application/json')
- *        .end(callback);
- *
- * @param {String} accept
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.accept = function(type){
-  this.set('Accept', request.types[type] || type);
-  return this;
-};
-
-/**
- * Set Authorization field value with `user` and `pass`.
- *
- * @param {String} user
- * @param {String} [pass] optional in case of using 'bearer' as type
- * @param {Object} options with 'type' property 'auto', 'basic' or 'bearer' (default 'basic')
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.auth = function(user, pass, options){
-  if (1 === arguments.length) pass = '';
-  if (typeof pass === 'object' && pass !== null) { // pass is optional and can be replaced with options
-    options = pass;
-    pass = '';
-  }
-  if (!options) {
-    options = {
-      type: 'function' === typeof btoa ? 'basic' : 'auto',
-    };
-  }
-
-  const encoder = string => {
-    if ('function' === typeof btoa) {
-      return btoa(string);
-    }
-    throw new Error('Cannot use basic auth, btoa is not a function');
-  };
-
-  return this._auth(user, pass, options, encoder);
-};
-
-/**
- * Add query-string `val`.
- *
- * Examples:
- *
- *   request.get('/shoes')
- *     .query('size=10')
- *     .query({ color: 'blue' })
- *
- * @param {Object|String} val
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.query = function(val){
-  if ('string' != typeof val) val = serialize(val);
-  if (val) this._query.push(val);
-  return this;
-};
-
-/**
- * Queue the given `file` as an attachment to the specified `field`,
- * with optional `options` (or filename).
- *
- * ``` js
- * request.post('/upload')
- *   .attach('content', new Blob(['<a id="a"><b id="b">hey!</b></a>'], { type: "text/html"}))
- *   .end(callback);
- * ```
- *
- * @param {String} field
- * @param {Blob|File} file
- * @param {String|Object} options
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.attach = function(field, file, options){
-  if (file) {
-    if (this._data) {
-      throw Error("superagent can't mix .send() and .attach()");
-    }
-
-    this._getFormData().append(field, file, options || file.name);
-  }
-  return this;
-};
-
-Request.prototype._getFormData = function(){
-  if (!this._formData) {
-    this._formData = new root.FormData();
-  }
-  return this._formData;
-};
-
-/**
- * Invoke the callback with `err` and `res`
- * and handle arity check.
- *
- * @param {Error} err
- * @param {Response} res
- * @api private
- */
-
-Request.prototype.callback = function(err, res){
-  if (this._shouldRetry(err, res)) {
-    return this._retry();
-  }
-
-  const fn = this._callback;
-  this.clearTimeout();
-
-  if (err) {
-    if (this._maxRetries) err.retries = this._retries - 1;
-    this.emit('error', err);
-  }
-
-  fn(err, res);
-};
-
-/**
- * Invoke callback with x-domain error.
- *
- * @api private
- */
-
-Request.prototype.crossDomainError = function(){
-  const err = new Error('Request has been terminated\nPossible causes: the network is offline, Origin is not allowed by Access-Control-Allow-Origin, the page is being unloaded, etc.');
-  err.crossDomain = true;
-
-  err.status = this.status;
-  err.method = this.method;
-  err.url = this.url;
-
-  this.callback(err);
-};
-
-// This only warns, because the request is still likely to work
-Request.prototype.buffer = Request.prototype.ca = Request.prototype.agent = function(){
-  console.warn("This is not supported in browser version of superagent");
-  return this;
-};
-
-// This throws, because it can't send/receive data as expected
-Request.prototype.pipe = Request.prototype.write = () => {
-  throw Error("Streaming is not supported in browser version of superagent");
-};
-
-/**
- * Check if `obj` is a host object,
- * we don't want to serialize these :)
- *
- * @param {Object} obj
- * @return {Boolean}
- * @api private
- */
-Request.prototype._isHost = function _isHost(obj) {
-  // Native objects stringify to [object File], [object Blob], [object FormData], etc.
-  return obj && 'object' === typeof obj && !Array.isArray(obj) && Object.prototype.toString.call(obj) !== '[object Object]';
-}
-
-/**
- * Initiate request, invoking callback `fn(res)`
- * with an instanceof `Response`.
- *
- * @param {Function} fn
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.end = function(fn){
-  if (this._endCalled) {
-    console.warn("Warning: .end() was called twice. This is not supported in superagent");
-  }
-  this._endCalled = true;
-
-  // store callback
-  this._callback = fn || noop;
-
-  // querystring
-  this._finalizeQueryString();
-
-  this._end();
-};
-
-Request.prototype._end = function() {
-  if (this._aborted) return this.callback(Error("The request has been aborted even before .end() was called"));
-
-  const self = this;
-  const xhr = (this.xhr = request.getXHR());
-  let data = this._formData || this._data;
-
-  this._setTimeouts();
-
-  // state change
-  xhr.onreadystatechange = () => {
-    const readyState = xhr.readyState;
-    if (readyState >= 2 && self._responseTimeoutTimer) {
-      clearTimeout(self._responseTimeoutTimer);
-    }
-    if (4 != readyState) {
-      return;
-    }
-
-    // In IE9, reads to any property (e.g. status) off of an aborted XHR will
-    // result in the error "Could not complete the operation due to error c00c023f"
-    let status;
-    try { status = xhr.status } catch(e) { status = 0; }
-
-    if (!status) {
-      if (self.timedout || self._aborted) return;
-      return self.crossDomainError();
-    }
-    self.emit('end');
-  };
-
-  // progress
-  const handleProgress = (direction, e) => {
-    if (e.total > 0) {
-      e.percent = e.loaded / e.total * 100;
-    }
-    e.direction = direction;
-    self.emit('progress', e);
-  };
-  if (this.hasListeners('progress')) {
-    try {
-      xhr.onprogress = handleProgress.bind(null, 'download');
-      if (xhr.upload) {
-        xhr.upload.onprogress = handleProgress.bind(null, 'upload');
-      }
-    } catch(e) {
-      // Accessing xhr.upload fails in IE from a web worker, so just pretend it doesn't exist.
-      // Reported here:
-      // https://connect.microsoft.com/IE/feedback/details/837245/xmlhttprequest-upload-throws-invalid-argument-when-used-from-web-worker-context
-    }
-  }
-
-  // initiate request
-  try {
-    if (this.username && this.password) {
-      xhr.open(this.method, this.url, true, this.username, this.password);
-    } else {
-      xhr.open(this.method, this.url, true);
-    }
-  } catch (err) {
-    // see #1149
-    return this.callback(err);
-  }
-
-  // CORS
-  if (this._withCredentials) xhr.withCredentials = true;
-
-  // body
-  if (!this._formData && 'GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !this._isHost(data)) {
-    // serialize stuff
-    const contentType = this._header['content-type'];
-    let serialize = this._serializer || request.serialize[contentType ? contentType.split(';')[0] : ''];
-    if (!serialize && isJSON(contentType)) {
-      serialize = request.serialize['application/json'];
-    }
-    if (serialize) data = serialize(data);
-  }
-
-  // set header fields
-  for (const field in this.header) {
-    if (null == this.header[field]) continue;
-
-    if (this.header.hasOwnProperty(field))
-      xhr.setRequestHeader(field, this.header[field]);
-  }
-
-  if (this._responseType) {
-    xhr.responseType = this._responseType;
-  }
-
-  // send stuff
-  this.emit('request', this);
-
-  // IE11 xhr.send(undefined) sends 'undefined' string as POST payload (instead of nothing)
-  // We need null here if data is undefined
-  xhr.send(typeof data !== 'undefined' ? data : null);
-};
-
-request.agent = () => new Agent();
-
-["GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"].forEach(method => {
-  Agent.prototype[method.toLowerCase()] = function(url, fn) {
-    const req = new request.Request(method, url);
-    this._setDefaults(req);
-    if (fn) {
-      req.end(fn);
-    }
-    return req;
-  };
-});
-
-Agent.prototype.del = Agent.prototype['delete'];
-
-/**
- * GET `url` with optional callback `fn(res)`.
- *
- * @param {String} url
- * @param {Mixed|Function} [data] or fn
- * @param {Function} [fn]
- * @return {Request}
- * @api public
- */
-
-request.get = (url, data, fn) => {
-  const req = request('GET', url);
-  if ('function' == typeof data) (fn = data), (data = null);
-  if (data) req.query(data);
-  if (fn) req.end(fn);
-  return req;
-};
-
-/**
- * HEAD `url` with optional callback `fn(res)`.
- *
- * @param {String} url
- * @param {Mixed|Function} [data] or fn
- * @param {Function} [fn]
- * @return {Request}
- * @api public
- */
-
-request.head = (url, data, fn) => {
-  const req = request('HEAD', url);
-  if ('function' == typeof data) (fn = data), (data = null);
-  if (data) req.query(data);
-  if (fn) req.end(fn);
-  return req;
-};
-
-/**
- * OPTIONS query to `url` with optional callback `fn(res)`.
- *
- * @param {String} url
- * @param {Mixed|Function} [data] or fn
- * @param {Function} [fn]
- * @return {Request}
- * @api public
- */
-
-request.options = (url, data, fn) => {
-  const req = request('OPTIONS', url);
-  if ('function' == typeof data) (fn = data), (data = null);
-  if (data) req.send(data);
-  if (fn) req.end(fn);
-  return req;
-};
-
-/**
- * DELETE `url` with optional `data` and callback `fn(res)`.
- *
- * @param {String} url
- * @param {Mixed} [data]
- * @param {Function} [fn]
- * @return {Request}
- * @api public
- */
-
-function del(url, data, fn) {
-  const req = request('DELETE', url);
-  if ('function' == typeof data) (fn = data), (data = null);
-  if (data) req.send(data);
-  if (fn) req.end(fn);
-  return req;
-}
-
-request['del'] = del;
-request['delete'] = del;
-
-/**
- * PATCH `url` with optional `data` and callback `fn(res)`.
- *
- * @param {String} url
- * @param {Mixed} [data]
- * @param {Function} [fn]
- * @return {Request}
- * @api public
- */
-
-request.patch = (url, data, fn) => {
-  const req = request('PATCH', url);
-  if ('function' == typeof data) (fn = data), (data = null);
-  if (data) req.send(data);
-  if (fn) req.end(fn);
-  return req;
-};
-
-/**
- * POST `url` with optional `data` and callback `fn(res)`.
- *
- * @param {String} url
- * @param {Mixed} [data]
- * @param {Function} [fn]
- * @return {Request}
- * @api public
- */
-
-request.post = (url, data, fn) => {
-  const req = request('POST', url);
-  if ('function' == typeof data) (fn = data), (data = null);
-  if (data) req.send(data);
-  if (fn) req.end(fn);
-  return req;
-};
-
-/**
- * PUT `url` with optional `data` and callback `fn(res)`.
- *
- * @param {String} url
- * @param {Mixed|Function} [data] or fn
- * @param {Function} [fn]
- * @return {Request}
- * @api public
- */
-
-request.put = (url, data, fn) => {
-  const req = request('PUT', url);
-  if ('function' == typeof data) (fn = data), (data = null);
-  if (data) req.send(data);
-  if (fn) req.end(fn);
-  return req;
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/superagent/lib/is-object.js":
-/*!**************************************************!*\
-  !*** ./node_modules/superagent/lib/is-object.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Check if `obj` is an object.
- *
- * @param {Object} obj
- * @return {Boolean}
- * @api private
- */
-
-function isObject(obj) {
-  return null !== obj && 'object' === typeof obj;
-}
-
-module.exports = isObject;
-
-
-/***/ }),
-
-/***/ "./node_modules/superagent/lib/request-base.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/superagent/lib/request-base.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Module of mixed-in functions shared between node and client code
- */
-const isObject = __webpack_require__(/*! ./is-object */ "./node_modules/superagent/lib/is-object.js");
-
-/**
- * Expose `RequestBase`.
- */
-
-module.exports = RequestBase;
-
-/**
- * Initialize a new `RequestBase`.
- *
- * @api public
- */
-
-function RequestBase(obj) {
-  if (obj) return mixin(obj);
-}
-
-/**
- * Mixin the prototype properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (const key in RequestBase.prototype) {
-    obj[key] = RequestBase.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Clear previous timeout.
- *
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.clearTimeout = function _clearTimeout(){
-  clearTimeout(this._timer);
-  clearTimeout(this._responseTimeoutTimer);
-  delete this._timer;
-  delete this._responseTimeoutTimer;
-  return this;
-};
-
-/**
- * Override default response body parser
- *
- * This function will be called to convert incoming data into request.body
- *
- * @param {Function}
- * @api public
- */
-
-RequestBase.prototype.parse = function parse(fn){
-  this._parser = fn;
-  return this;
-};
-
-/**
- * Set format of binary response body.
- * In browser valid formats are 'blob' and 'arraybuffer',
- * which return Blob and ArrayBuffer, respectively.
- *
- * In Node all values result in Buffer.
- *
- * Examples:
- *
- *      req.get('/')
- *        .responseType('blob')
- *        .end(callback);
- *
- * @param {String} val
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.responseType = function(val){
-  this._responseType = val;
-  return this;
-};
-
-/**
- * Override default request body serializer
- *
- * This function will be called to convert data set via .send or .attach into payload to send
- *
- * @param {Function}
- * @api public
- */
-
-RequestBase.prototype.serialize = function serialize(fn){
-  this._serializer = fn;
-  return this;
-};
-
-/**
- * Set timeouts.
- *
- * - response timeout is time between sending request and receiving the first byte of the response. Includes DNS and connection time.
- * - deadline is the time from start of the request to receiving response body in full. If the deadline is too short large files may not load at all on slow connections.
- *
- * Value of 0 or false means no timeout.
- *
- * @param {Number|Object} ms or {response, deadline}
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.timeout = function timeout(options){
-  if (!options || 'object' !== typeof options) {
-    this._timeout = options;
-    this._responseTimeout = 0;
-    return this;
-  }
-
-  for(const option in options) {
-    switch(option) {
-      case 'deadline':
-        this._timeout = options.deadline;
-        break;
-      case 'response':
-        this._responseTimeout = options.response;
-        break;
-      default:
-        console.warn("Unknown timeout option", option);
-    }
-  }
-  return this;
-};
-
-/**
- * Set number of retry attempts on error.
- *
- * Failed requests will be retried 'count' times if timeout or err.code >= 500.
- *
- * @param {Number} count
- * @param {Function} [fn]
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.retry = function retry(count, fn){
-  // Default to 1 if no count passed or true
-  if (arguments.length === 0 || count === true) count = 1;
-  if (count <= 0) count = 0;
-  this._maxRetries = count;
-  this._retries = 0;
-  this._retryCallback = fn;
-  return this;
-};
-
-const ERROR_CODES = [
-  'ECONNRESET',
-  'ETIMEDOUT',
-  'EADDRINFO',
-  'ESOCKETTIMEDOUT'
-];
-
-/**
- * Determine if a request should be retried.
- * (Borrowed from segmentio/superagent-retry)
- *
- * @param {Error} err
- * @param {Response} [res]
- * @returns {Boolean}
- */
-RequestBase.prototype._shouldRetry = function(err, res) {
-  if (!this._maxRetries || this._retries++ >= this._maxRetries) {
-    return false;
-  }
-  if (this._retryCallback) {
-    try {
-      const override = this._retryCallback(err, res);
-      if (override === true) return true;
-      if (override === false) return false;
-      // undefined falls back to defaults
-    } catch(e) {
-      console.error(e);
-    }
-  }
-  if (res && res.status && res.status >= 500 && res.status != 501) return true;
-  if (err) {
-    if (err.code && ~ERROR_CODES.indexOf(err.code)) return true;
-    // Superagent timeout
-    if (err.timeout && err.code == 'ECONNABORTED') return true;
-    if (err.crossDomain) return true;
-  }
-  return false;
-};
-
-/**
- * Retry request
- *
- * @return {Request} for chaining
- * @api private
- */
-
-RequestBase.prototype._retry = function() {
-
-  this.clearTimeout();
-
-  // node
-  if (this.req) {
-    this.req = null;
-    this.req = this.request();
-  }
-
-  this._aborted = false;
-  this.timedout = false;
-
-  return this._end();
-};
-
-/**
- * Promise support
- *
- * @param {Function} resolve
- * @param {Function} [reject]
- * @return {Request}
- */
-
-RequestBase.prototype.then = function then(resolve, reject) {
-  if (!this._fullfilledPromise) {
-    const self = this;
-    if (this._endCalled) {
-      console.warn("Warning: superagent request was sent twice, because both .end() and .then() were called. Never call .end() if you use promises");
-    }
-    this._fullfilledPromise = new Promise((innerResolve, innerReject) => {
-      self.on('error', innerReject);
-      self.end((err, res) => {
-        if (err) innerReject(err);
-        else innerResolve(res);
-      });
-    });
-  }
-  return this._fullfilledPromise.then(resolve, reject);
-};
-
-RequestBase.prototype['catch'] = function(cb) {
-  return this.then(undefined, cb);
-};
-
-/**
- * Allow for extension
- */
-
-RequestBase.prototype.use = function use(fn) {
-  fn(this);
-  return this;
-};
-
-RequestBase.prototype.ok = function(cb) {
-  if ('function' !== typeof cb) throw Error("Callback required");
-  this._okCallback = cb;
-  return this;
-};
-
-RequestBase.prototype._isResponseOK = function(res) {
-  if (!res) {
-    return false;
-  }
-
-  if (this._okCallback) {
-    return this._okCallback(res);
-  }
-
-  return res.status >= 200 && res.status < 300;
-};
-
-/**
- * Get request header `field`.
- * Case-insensitive.
- *
- * @param {String} field
- * @return {String}
- * @api public
- */
-
-RequestBase.prototype.get = function(field){
-  return this._header[field.toLowerCase()];
-};
-
-/**
- * Get case-insensitive header `field` value.
- * This is a deprecated internal API. Use `.get(field)` instead.
- *
- * (getHeader is no longer used internally by the superagent code base)
- *
- * @param {String} field
- * @return {String}
- * @api private
- * @deprecated
- */
-
-RequestBase.prototype.getHeader = RequestBase.prototype.get;
-
-/**
- * Set header `field` to `val`, or multiple fields with one object.
- * Case-insensitive.
- *
- * Examples:
- *
- *      req.get('/')
- *        .set('Accept', 'application/json')
- *        .set('X-API-Key', 'foobar')
- *        .end(callback);
- *
- *      req.get('/')
- *        .set({ Accept: 'application/json', 'X-API-Key': 'foobar' })
- *        .end(callback);
- *
- * @param {String|Object} field
- * @param {String} val
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.set = function(field, val){
-  if (isObject(field)) {
-    for (const key in field) {
-      this.set(key, field[key]);
-    }
-    return this;
-  }
-  this._header[field.toLowerCase()] = val;
-  this.header[field] = val;
-  return this;
-};
-
-/**
- * Remove header `field`.
- * Case-insensitive.
- *
- * Example:
- *
- *      req.get('/')
- *        .unset('User-Agent')
- *        .end(callback);
- *
- * @param {String} field
- */
-RequestBase.prototype.unset = function(field){
-  delete this._header[field.toLowerCase()];
-  delete this.header[field];
-  return this;
-};
-
-/**
- * Write the field `name` and `val`, or multiple fields with one object
- * for "multipart/form-data" request bodies.
- *
- * ``` js
- * request.post('/upload')
- *   .field('foo', 'bar')
- *   .end(callback);
- *
- * request.post('/upload')
- *   .field({ foo: 'bar', baz: 'qux' })
- *   .end(callback);
- * ```
- *
- * @param {String|Object} name
- * @param {String|Blob|File|Buffer|fs.ReadStream} val
- * @return {Request} for chaining
- * @api public
- */
-RequestBase.prototype.field = function(name, val) {
-  // name should be either a string or an object.
-  if (null === name || undefined === name) {
-    throw new Error('.field(name, val) name can not be empty');
-  }
-
-  if (this._data) {
-    throw new Error(".field() can't be used if .send() is used. Please use only .send() or only .field() & .attach()");
-  }
-
-  if (isObject(name)) {
-    for (const key in name) {
-      this.field(key, name[key]);
-    }
-    return this;
-  }
-
-  if (Array.isArray(val)) {
-    for (const i in val) {
-      this.field(name, val[i]);
-    }
-    return this;
-  }
-
-  // val should be defined now
-  if (null === val || undefined === val) {
-    throw new Error('.field(name, val) val can not be empty');
-  }
-  if ('boolean' === typeof val) {
-    val = '' + val;
-  }
-  this._getFormData().append(name, val);
-  return this;
-};
-
-/**
- * Abort the request, and clear potential timeout.
- *
- * @return {Request}
- * @api public
- */
-RequestBase.prototype.abort = function(){
-  if (this._aborted) {
-    return this;
-  }
-  this._aborted = true;
-  this.xhr && this.xhr.abort(); // browser
-  this.req && this.req.abort(); // node
-  this.clearTimeout();
-  this.emit('abort');
-  return this;
-};
-
-RequestBase.prototype._auth = function(user, pass, options, base64Encoder) {
-  switch (options.type) {
-    case 'basic':
-      this.set('Authorization', `Basic ${base64Encoder(`${user}:${pass}`)}`);
-      break;
-
-    case 'auto':
-      this.username = user;
-      this.password = pass;
-      break;
-
-    case 'bearer': // usage would be .auth(accessToken, { type: 'bearer' })
-      this.set('Authorization', `Bearer ${user}`);
-      break;
-  }
-  return this;
-};
-
-/**
- * Enable transmission of cookies with x-domain requests.
- *
- * Note that for this to work the origin must not be
- * using "Access-Control-Allow-Origin" with a wildcard,
- * and also must set "Access-Control-Allow-Credentials"
- * to "true".
- *
- * @api public
- */
-
-RequestBase.prototype.withCredentials = function(on) {
-  // This is browser-only functionality. Node side is no-op.
-  if (on == undefined) on = true;
-  this._withCredentials = on;
-  return this;
-};
-
-/**
- * Set the max redirects to `n`. Does noting in browser XHR implementation.
- *
- * @param {Number} n
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.redirects = function(n){
-  this._maxRedirects = n;
-  return this;
-};
-
-/**
- * Maximum size of buffered response body, in bytes. Counts uncompressed size.
- * Default 200MB.
- *
- * @param {Number} n
- * @return {Request} for chaining
- */
-RequestBase.prototype.maxResponseSize = function(n){
-  if ('number' !== typeof n) {
-    throw TypeError("Invalid argument");
-  }
-  this._maxResponseSize = n;
-  return this;
-};
-
-/**
- * Convert to a plain javascript object (not JSON string) of scalar properties.
- * Note as this method is designed to return a useful non-this value,
- * it cannot be chained.
- *
- * @return {Object} describing method, url, and data of this request
- * @api public
- */
-
-RequestBase.prototype.toJSON = function() {
-  return {
-    method: this.method,
-    url: this.url,
-    data: this._data,
-    headers: this._header,
-  };
-};
-
-/**
- * Send `data` as the request body, defaulting the `.type()` to "json" when
- * an object is given.
- *
- * Examples:
- *
- *       // manual json
- *       request.post('/user')
- *         .type('json')
- *         .send('{"name":"tj"}')
- *         .end(callback)
- *
- *       // auto json
- *       request.post('/user')
- *         .send({ name: 'tj' })
- *         .end(callback)
- *
- *       // manual x-www-form-urlencoded
- *       request.post('/user')
- *         .type('form')
- *         .send('name=tj')
- *         .end(callback)
- *
- *       // auto x-www-form-urlencoded
- *       request.post('/user')
- *         .type('form')
- *         .send({ name: 'tj' })
- *         .end(callback)
- *
- *       // defaults to x-www-form-urlencoded
- *      request.post('/user')
- *        .send('name=tobi')
- *        .send('species=ferret')
- *        .end(callback)
- *
- * @param {String|Object} data
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.send = function(data){
-  const isObj = isObject(data);
-  let type = this._header['content-type'];
-
-  if (this._formData) {
-    throw new Error(".send() can't be used if .attach() or .field() is used. Please use only .send() or only .field() & .attach()");
-  }
-
-  if (isObj && !this._data) {
-    if (Array.isArray(data)) {
-      this._data = [];
-    } else if (!this._isHost(data)) {
-      this._data = {};
-    }
-  } else if (data && this._data && this._isHost(this._data)) {
-    throw Error("Can't merge these send calls");
-  }
-
-  // merge
-  if (isObj && isObject(this._data)) {
-    for (const key in data) {
-      this._data[key] = data[key];
-    }
-  } else if ('string' == typeof data) {
-    // default to x-www-form-urlencoded
-    if (!type) this.type('form');
-    type = this._header['content-type'];
-    if ('application/x-www-form-urlencoded' == type) {
-      this._data = this._data
-        ? `${this._data}&${data}`
-        : data;
-    } else {
-      this._data = (this._data || '') + data;
-    }
-  } else {
-    this._data = data;
-  }
-
-  if (!isObj || this._isHost(data)) {
-    return this;
-  }
-
-  // default to json
-  if (!type) this.type('json');
-  return this;
-};
-
-/**
- * Sort `querystring` by the sort function
- *
- *
- * Examples:
- *
- *       // default order
- *       request.get('/user')
- *         .query('name=Nick')
- *         .query('search=Manny')
- *         .sortQuery()
- *         .end(callback)
- *
- *       // customized sort function
- *       request.get('/user')
- *         .query('name=Nick')
- *         .query('search=Manny')
- *         .sortQuery(function(a, b){
- *           return a.length - b.length;
- *         })
- *         .end(callback)
- *
- *
- * @param {Function} sort
- * @return {Request} for chaining
- * @api public
- */
-
-RequestBase.prototype.sortQuery = function(sort) {
-  // _sort default to true but otherwise can be a function or boolean
-  this._sort = typeof sort === 'undefined' ? true : sort;
-  return this;
-};
-
-/**
- * Compose querystring to append to req.url
- *
- * @api private
- */
-RequestBase.prototype._finalizeQueryString = function(){
-  const query = this._query.join('&');
-  if (query) {
-    this.url += (this.url.indexOf('?') >= 0 ? '&' : '?') + query;
-  }
-  this._query.length = 0; // Makes the call idempotent
-
-  if (this._sort) {
-    const index = this.url.indexOf('?');
-    if (index >= 0) {
-      const queryArr = this.url.substring(index + 1).split('&');
-      if ('function' === typeof this._sort) {
-        queryArr.sort(this._sort);
-      } else {
-        queryArr.sort();
-      }
-      this.url = this.url.substring(0, index) + '?' + queryArr.join('&');
-    }
-  }
-};
-
-// For backwards compat only
-RequestBase.prototype._appendQueryString = () => {console.trace("Unsupported");}
-
-/**
- * Invoke callback with timeout error.
- *
- * @api private
- */
-
-RequestBase.prototype._timeoutError = function(reason, timeout, errno){
-  if (this._aborted) {
-    return;
-  }
-  const err = new Error(`${reason + timeout}ms exceeded`);
-  err.timeout = timeout;
-  err.code = 'ECONNABORTED';
-  err.errno = errno;
-  this.timedout = true;
-  this.abort();
-  this.callback(err);
-};
-
-RequestBase.prototype._setTimeouts = function() {
-  const self = this;
-
-  // deadline
-  if (this._timeout && !this._timer) {
-    this._timer = setTimeout(() => {
-      self._timeoutError('Timeout of ', self._timeout, 'ETIME');
-    }, this._timeout);
-  }
-  // response timeout
-  if (this._responseTimeout && !this._responseTimeoutTimer) {
-    this._responseTimeoutTimer = setTimeout(() => {
-      self._timeoutError('Response timeout of ', self._responseTimeout, 'ETIMEDOUT');
-    }, this._responseTimeout);
-  }
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/superagent/lib/response-base.js":
-/*!******************************************************!*\
-  !*** ./node_modules/superagent/lib/response-base.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Module dependencies.
- */
-
-const utils = __webpack_require__(/*! ./utils */ "./node_modules/superagent/lib/utils.js");
-
-/**
- * Expose `ResponseBase`.
- */
-
-module.exports = ResponseBase;
-
-/**
- * Initialize a new `ResponseBase`.
- *
- * @api public
- */
-
-function ResponseBase(obj) {
-  if (obj) return mixin(obj);
-}
-
-/**
- * Mixin the prototype properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (const key in ResponseBase.prototype) {
-    obj[key] = ResponseBase.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Get case-insensitive `field` value.
- *
- * @param {String} field
- * @return {String}
- * @api public
- */
-
-ResponseBase.prototype.get = function(field) {
-  return this.header[field.toLowerCase()];
-};
-
-/**
- * Set header related properties:
- *
- *   - `.type` the content type without params
- *
- * A response of "Content-Type: text/plain; charset=utf-8"
- * will provide you with a `.type` of "text/plain".
- *
- * @param {Object} header
- * @api private
- */
-
-ResponseBase.prototype._setHeaderProperties = function(header){
-    // TODO: moar!
-    // TODO: make this a util
-
-    // content-type
-    const ct = header['content-type'] || '';
-    this.type = utils.type(ct);
-
-    // params
-    const params = utils.params(ct);
-    for (const key in params) this[key] = params[key];
-
-    this.links = {};
-
-    // links
-    try {
-        if (header.link) {
-            this.links = utils.parseLinks(header.link);
-        }
-    } catch (err) {
-        // ignore
-    }
-};
-
-/**
- * Set flags such as `.ok` based on `status`.
- *
- * For example a 2xx response will give you a `.ok` of __true__
- * whereas 5xx will be __false__ and `.error` will be __true__. The
- * `.clientError` and `.serverError` are also available to be more
- * specific, and `.statusType` is the class of error ranging from 1..5
- * sometimes useful for mapping respond colors etc.
- *
- * "sugar" properties are also defined for common cases. Currently providing:
- *
- *   - .noContent
- *   - .badRequest
- *   - .unauthorized
- *   - .notAcceptable
- *   - .notFound
- *
- * @param {Number} status
- * @api private
- */
-
-ResponseBase.prototype._setStatusProperties = function(status){
-    const type = status / 100 | 0;
-
-    // status / class
-    this.status = this.statusCode = status;
-    this.statusType = type;
-
-    // basics
-    this.info = 1 == type;
-    this.ok = 2 == type;
-    this.redirect = 3 == type;
-    this.clientError = 4 == type;
-    this.serverError = 5 == type;
-    this.error = (4 == type || 5 == type)
-        ? this.toError()
-        : false;
-
-    // sugar
-    this.created = 201 == status;
-    this.accepted = 202 == status;
-    this.noContent = 204 == status;
-    this.badRequest = 400 == status;
-    this.unauthorized = 401 == status;
-    this.notAcceptable = 406 == status;
-    this.forbidden = 403 == status;
-    this.notFound = 404 == status;
-    this.unprocessableEntity = 422 == status;
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/superagent/lib/utils.js":
-/*!**********************************************!*\
-  !*** ./node_modules/superagent/lib/utils.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Return the mime type for the given `str`.
- *
- * @param {String} str
- * @return {String}
- * @api private
- */
-
-exports.type = str => str.split(/ *; */).shift();
-
-/**
- * Return header field parameters.
- *
- * @param {String} str
- * @return {Object}
- * @api private
- */
-
-exports.params = str => str.split(/ *; */).reduce((obj, str) => {
-  const parts = str.split(/ *= */);
-  const key = parts.shift();
-  const val = parts.shift();
-
-  if (key && val) obj[key] = val;
-  return obj;
-}, {});
-
-/**
- * Parse Link header fields.
- *
- * @param {String} str
- * @return {Object}
- * @api private
- */
-
-exports.parseLinks = str => str.split(/ *, */).reduce((obj, str) => {
-  const parts = str.split(/ *; */);
-  const url = parts[0].slice(1, -1);
-  const rel = parts[1].split(/ *= */)[1].slice(1, -1);
-  obj[rel] = url;
-  return obj;
-}, {});
-
-/**
- * Strip content related fields from `header`.
- *
- * @param {Object} header
- * @return {Object} header
- * @api private
- */
-
-exports.cleanHeader = (header, changesOrigin) => {
-  delete header['content-type'];
-  delete header['content-length'];
-  delete header['transfer-encoding'];
-  delete header['host'];
-  // secuirty
-  if (changesOrigin) {
-    delete header['authorization'];
-    delete header['cookie'];
-  }
-  return header;
-};
-
-
-/***/ }),
-
 /***/ "./node_modules/symbol-observable/es/index.js":
 /*!****************************************************!*\
   !*** ./node_modules/symbol-observable/es/index.js ***!
@@ -26634,6 +25195,1794 @@ function symbolObservablePonyfill(root) {
 
 	return result;
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/tonal-array/build/es6.js":
+/*!***********************************************!*\
+  !*** ./node_modules/tonal-array/build/es6.js ***!
+  \***********************************************/
+/*! exports provided: range, rotate, compact, sort, unique, shuffle, permutations */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "range", function() { return range; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotate", function() { return rotate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compact", function() { return compact; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sort", function() { return sort; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unique", function() { return unique; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shuffle", function() { return shuffle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "permutations", function() { return permutations; });
+/* harmony import */ var tonal_note__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tonal-note */ "./node_modules/tonal-note/build/es6.js");
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-array.svg?style=flat-square)](https://www.npmjs.com/package/tonal-array)
+ *
+ * Tonal array utilities. Create ranges, sort notes, ...
+ *
+ * @example
+ * import * as Array;
+ * Array.sort(["f", "a", "c"]) // => ["C", "F", "A"]
+ *
+ * @example
+ * const Array = require("tonal-array")
+ * Array.range(1, 4) // => [1, 2, 3, 4]
+ *
+ * @module Array
+ */
+
+
+// ascending range
+function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b){ ; }
+  return a;
+}
+// descending range
+function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n){ ; }
+  return a;
+}
+
+/**
+ * Create a numeric range
+ *
+ * @param {Number} from
+ * @param {Number} to
+ * @return {Array}
+ *
+ * @example
+ * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
+ * Array.range(2, -2) // => [2, 1, 0, -1, -2]
+ */
+function range(a, b) {
+  return a === null || b === null
+    ? []
+    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
+}
+/**
+ *
+ * Rotates a list a number of times. It"s completly agnostic about the
+ * contents of the list.
+ *
+ * @param {Integer} times - the number of rotations
+ * @param {Array} array
+ * @return {Array} the rotated array
+ * @example
+ * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
+ */
+function rotate(times, arr) {
+  var len = arr.length;
+  var n = (times % len + len) % len;
+  return arr.slice(n, len).concat(arr.slice(0, n));
+}
+
+/**
+ * Return a copy of the array with the null values removed
+ * @function
+ * @param {Array} array
+ * @return {Array}
+ *
+ * @example
+ * Array.compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
+ */
+var compact = function (arr) { return arr.filter(function (n) { return n === 0 || n; }); };
+
+// a function that get note heights (with negative number for pitch classes)
+var height = function (name) {
+  var m = Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["props"])(name).midi;
+  return m !== null ? m : Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["props"])(name + "-100").midi;
+};
+
+/**
+ * Sort an array of notes in ascending order
+ *
+ * @param {String|Array} notes
+ * @return {Array} sorted array of notes
+ */
+function sort(src) {
+  return compact(src.map(tonal_note__WEBPACK_IMPORTED_MODULE_0__["name"])).sort(function (a, b) { return height(a) > height(b); });
+}
+
+/**
+ * Get sorted notes with duplicates removed
+ *
+ * @function
+ * @param {Array} notes
+ */
+function unique(arr) {
+  return sort(arr).filter(function (n, i, a) { return i === 0 || n !== a[i - 1]; });
+}
+
+/**
+ * Randomizes the order of the specified array in-place, using the Fisher–Yates shuffle.
+ *
+ * @private
+ * @function
+ * @param {Array|String} arr - the array
+ * @return {Array} the shuffled array
+ *
+ * @example
+ * Array.shuffle(["C", "D", "E", "F"])
+ */
+var shuffle = function (arr, rnd) {
+  if ( rnd === void 0 ) rnd = Math.random;
+
+  var i, t;
+  var m = arr.length;
+  while (m) {
+    i = (rnd() * m--) | 0;
+    t = arr[m];
+    arr[m] = arr[i];
+    arr[i] = t;
+  }
+  return arr;
+};
+
+/**
+ * Get all permutations of an array
+ * http://stackoverflow.com/questions/9960908/permutations-in-javascript
+ *
+ * @param {Array} array - the array
+ * @return {Array<Array>} an array with all the permutations
+ */
+var permutations = function (arr) {
+  if (arr.length === 0) { return [[]]; }
+  return permutations(arr.slice(1)).reduce(function(acc, perm) {
+    return acc.concat(
+      arr.map(function(e, pos) {
+        var newPerm = perm.slice();
+        newPerm.splice(pos, 0, arr[0]);
+        return newPerm;
+      })
+    );
+  }, []);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/tonal-chord/build/es6.js":
+/*!***********************************************!*\
+  !*** ./node_modules/tonal-chord/build/es6.js ***!
+  \***********************************************/
+/*! exports provided: names, props, intervals, notes, exists, supersets, subsets, tokenize */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "names", function() { return names; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "props", function() { return props; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "intervals", function() { return intervals; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "notes", function() { return notes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exists", function() { return exists; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "supersets", function() { return supersets; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subsets", function() { return subsets; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tokenize", function() { return tokenize; });
+/* harmony import */ var tonal_note__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tonal-note */ "./node_modules/tonal-note/build/es6.js");
+/* harmony import */ var tonal_distance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tonal-distance */ "./node_modules/tonal-distance/build/es6.js");
+/* harmony import */ var tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tonal-dictionary */ "./node_modules/tonal-dictionary/build/es6.js");
+/* harmony import */ var tonal_pcset__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tonal-pcset */ "./node_modules/tonal-pcset/build/es6.js");
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+ * [![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-chord` is a collection of functions to manipulate musical chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * // es6
+ * import * as Chord from "tonal-chord"
+ * // es5
+ * const Chord = require("tonal-chord")
+ *
+ * @example
+ * Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
+ *
+ * @module Chord
+ */
+
+
+
+
+
+/**
+ * Return the available chord names
+ *
+ * @function
+ * @param {boolean} aliases - true to include aliases
+ * @return {Array} the chord names
+ *
+ * @example
+ * Chord.names() // => ["maj7", ...]
+ */
+var names = tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"].names;
+
+var NO_CHORD = Object.freeze({
+  name: null,
+  names: [],
+  intervals: [],
+  chroma: null,
+  setnum: null
+});
+
+var properties = function (name) {
+  var intervals = Object(tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"])(name);
+  if (!intervals) { return NO_CHORD; }
+  var s = { intervals: intervals, name: name };
+  s.chroma = Object(tonal_pcset__WEBPACK_IMPORTED_MODULE_3__["chroma"])(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"].names(s.chroma);
+  return s;
+};
+
+var memo = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+/**
+ * Get chord properties. It returns an object with:
+ *
+ * - name: the chord name
+ * - names: a list with all possible names (includes the current)
+ * - intervals: an array with the chord intervals
+ * - chroma:  chord croma (see pcset)
+ * - setnum: chord chroma number
+ *
+ * @function
+ * @param {String} name - the chord name (without tonic)
+ * @return {Object} an object with the properties or a object with all properties
+ * set to null if not valid chord name
+ */
+var props = memo(properties);
+
+/**
+ * Get chord intervals. It always returns an array
+ *
+ * @function
+ * @param {String} name - the chord name (optionally a tonic and type)
+ * @return {Array<String>} a list of intervals or null if the type is not known
+ */
+var intervals = function (name) { return props(tokenize(name)[1]).intervals; };
+
+/**
+ * Get the chord notes of a chord. This function accepts either a chord name
+ * (for example: "Cmaj7") or a list of notes.
+ *
+ * It always returns an array, even if the chord is not found.
+ *
+ * @function
+ * @param {String} nameOrTonic - name of the chord or the tonic (if the second parameter is present)
+ * @param {String} [name] - (Optional) name if the first parameter is the tonic
+ * @return {Array} an array of notes or an empty array
+ *
+ * @example
+ * Chord.notes("Cmaj7") // => ["C", "E", "G", "B"]
+ * Chord.notes("C", "maj7") // => ["C", "E", "G", "B"]
+ */
+function notes(nameOrTonic, name) {
+  var p = tokenize(nameOrTonic);
+  name = name || p[1];
+  return props(name).intervals.map(Object(tonal_distance__WEBPACK_IMPORTED_MODULE_1__["transpose"])(p[0]));
+}
+
+/**
+ * Check if a given name correspond to a chord in the dictionary
+ *
+ * @function
+ * @param {String} name
+ * @return {Boolean}
+ * @example
+ * Chord.exists("CMaj7") // => true
+ * Chord.exists("Maj7") // => true
+ * Chord.exists("Ablah") // => false
+ */
+var exists = function (name) { return Object(tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"])(tokenize(name)[1]) !== undefined; };
+
+/**
+ * Get all chords names that are a superset of the given one
+ * (has the same notes and at least one more)
+ *
+ * @function
+ * @param {String} name
+ * @return {Array} a list of chord names
+ */
+var supersets = function (name) {
+  if (!intervals(name).length) { return []; }
+  var isSuperset = Object(tonal_pcset__WEBPACK_IMPORTED_MODULE_3__["isSupersetOf"])(intervals(name));
+  return tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"].names().filter(function (name) { return isSuperset(Object(tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"])(name)); });
+};
+
+/**
+ * Find all chords names that are a subset of the given one
+ * (has less notes but all from the given chord)
+ *
+ * @function
+ * @param {String} name
+ * @return {Array} a list of chord names
+ */
+var subsets = function (name) {
+  var isSubset = Object(tonal_pcset__WEBPACK_IMPORTED_MODULE_3__["isSubsetOf"])(intervals(name));
+  return tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"].names().filter(function (name) { return isSubset(Object(tonal_dictionary__WEBPACK_IMPORTED_MODULE_2__["chord"])(name)); });
+};
+
+// 6, 64, 7, 9, 11 and 13 are consider part of the chord
+// (see https://github.com/danigb/tonal/issues/55)
+var NUM_TYPES = /^(6|64|7|9|11|13)$/;
+/**
+ * Tokenize a chord name. It returns an array with the tonic and chord type
+ * If not tonic is found, all the name is considered the chord name.
+ *
+ * This function does NOT check if the chord type exists or not. It only tries
+ * to split the tonic and chord type.
+ *
+ * @function
+ * @param {String} name - the chord name
+ * @return {Array} an array with [type, tonic]
+ * @example
+ * Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
+ * Chord.tokenize("C7") // => [ "C", "7" ]
+ * Chord.tokenize("mMaj7") // => [ "", "mMaj7" ]
+ * Chord.tokenize("Cnonsense") // => [ "C", "nonsense" ]
+ */
+function tokenize(name) {
+  var p = Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["tokenize"])(name);
+  if (p[0] === "") { return ["", name]; }
+  // aug is augmented (see https://github.com/danigb/tonal/issues/55)
+  if (p[0] === "A" && p[3] === "ug") { return ["", "aug"]; }
+
+  if (NUM_TYPES.test(p[2])) {
+    return [p[0] + p[1], p[2] + p[3]];
+  } else {
+    return [p[0] + p[1] + p[2], p[3]];
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/tonal-dictionary/build/data/chords.json":
+/*!**************************************************************!*\
+  !*** ./node_modules/tonal-dictionary/build/data/chords.json ***!
+  \**************************************************************/
+/*! exports provided: 4, 5, 7, 9, 11, 13, 64, M, M#5, M#5add9, M13, M13#11, M6, M6#11, M69, M69#11, M7#11, M7#5, M7#5sus4, M7#9#11, M7add13, M7b5, M7b6, M7b9, M7sus4, M9, M9#11, M9#5, M9#5sus4, M9b5, M9sus4, Madd9, Maj7, Mb5, Mb6, Msus2, Msus4, Maddb9, 11b9, 13#11, 13#9, 13#9#11, 13b5, 13b9, 13b9#11, 13no5, 13sus4, 69#11, 7#11, 7#11b13, 7#5, 7#5#9, 7#5b9, 7#5b9#11, 7#5sus4, 7#9, 7#9#11, 7#9#11b13, 7#9b13, 7add6, 7b13, 7b5, 7b6, 7b9, 7b9#11, 7b9#9, 7b9b13, 7b9b13#11, 7no5, 7sus4, 7sus4b9, 7sus4b9b13, 9#11, 9#11b13, 9#5, 9#5#11, 9b13, 9b5, 9no5, 9sus4, m, m#5, m11, m11A 5, m11b5, m13, m6, m69, m7, m7#5, m7add11, m7b5, m9, m9#5, m9b5, mMaj7, mMaj7b6, mM9, mM9b6, mb6M7, mb6b9, o, o7, o7M7, oM7, sus24, +add#9, madd4, madd9, default */
+/***/ (function(module) {
+
+module.exports = {"4":["1P 4P 7m 10m",["quartal"]],"5":["1P 5P"],"7":["1P 3M 5P 7m",["Dominant","Dom"]],"9":["1P 3M 5P 7m 9M",["79"]],"11":["1P 5P 7m 9M 11P"],"13":["1P 3M 5P 7m 9M 13M",["13_"]],"64":["5P 8P 10M"],"M":["1P 3M 5P",["Major",""]],"M#5":["1P 3M 5A",["augmented","maj#5","Maj#5","+","aug"]],"M#5add9":["1P 3M 5A 9M",["+add9"]],"M13":["1P 3M 5P 7M 9M 13M",["maj13","Maj13"]],"M13#11":["1P 3M 5P 7M 9M 11A 13M",["maj13#11","Maj13#11","M13+4","M13#4"]],"M6":["1P 3M 5P 13M",["6"]],"M6#11":["1P 3M 5P 6M 11A",["M6b5","6#11","6b5"]],"M69":["1P 3M 5P 6M 9M",["69"]],"M69#11":["1P 3M 5P 6M 9M 11A"],"M7#11":["1P 3M 5P 7M 11A",["maj7#11","Maj7#11","M7+4","M7#4"]],"M7#5":["1P 3M 5A 7M",["maj7#5","Maj7#5","maj9#5","M7+"]],"M7#5sus4":["1P 4P 5A 7M"],"M7#9#11":["1P 3M 5P 7M 9A 11A"],"M7add13":["1P 3M 5P 6M 7M 9M"],"M7b5":["1P 3M 5d 7M"],"M7b6":["1P 3M 6m 7M"],"M7b9":["1P 3M 5P 7M 9m"],"M7sus4":["1P 4P 5P 7M"],"M9":["1P 3M 5P 7M 9M",["maj9","Maj9"]],"M9#11":["1P 3M 5P 7M 9M 11A",["maj9#11","Maj9#11","M9+4","M9#4"]],"M9#5":["1P 3M 5A 7M 9M",["Maj9#5"]],"M9#5sus4":["1P 4P 5A 7M 9M"],"M9b5":["1P 3M 5d 7M 9M"],"M9sus4":["1P 4P 5P 7M 9M"],"Madd9":["1P 3M 5P 9M",["2","add9","add2"]],"Maj7":["1P 3M 5P 7M",["maj7","M7"]],"Mb5":["1P 3M 5d"],"Mb6":["1P 3M 13m"],"Msus2":["1P 2M 5P",["add9no3","sus2"]],"Msus4":["1P 4P 5P",["sus","sus4"]],"Maddb9":["1P 3M 5P 9m"],"11b9":["1P 5P 7m 9m 11P"],"13#11":["1P 3M 5P 7m 9M 11A 13M",["13+4","13#4"]],"13#9":["1P 3M 5P 7m 9A 13M",["13#9_"]],"13#9#11":["1P 3M 5P 7m 9A 11A 13M"],"13b5":["1P 3M 5d 6M 7m 9M"],"13b9":["1P 3M 5P 7m 9m 13M"],"13b9#11":["1P 3M 5P 7m 9m 11A 13M"],"13no5":["1P 3M 7m 9M 13M"],"13sus4":["1P 4P 5P 7m 9M 13M",["13sus"]],"69#11":["1P 3M 5P 6M 9M 11A"],"7#11":["1P 3M 5P 7m 11A",["7+4","7#4","7#11_","7#4_"]],"7#11b13":["1P 3M 5P 7m 11A 13m",["7b5b13"]],"7#5":["1P 3M 5A 7m",["+7","7aug","aug7"]],"7#5#9":["1P 3M 5A 7m 9A",["7alt","7#5#9_","7#9b13_"]],"7#5b9":["1P 3M 5A 7m 9m"],"7#5b9#11":["1P 3M 5A 7m 9m 11A"],"7#5sus4":["1P 4P 5A 7m"],"7#9":["1P 3M 5P 7m 9A",["7#9_"]],"7#9#11":["1P 3M 5P 7m 9A 11A",["7b5#9"]],"7#9#11b13":["1P 3M 5P 7m 9A 11A 13m"],"7#9b13":["1P 3M 5P 7m 9A 13m"],"7add6":["1P 3M 5P 7m 13M",["67","7add13"]],"7b13":["1P 3M 7m 13m"],"7b5":["1P 3M 5d 7m"],"7b6":["1P 3M 5P 6m 7m"],"7b9":["1P 3M 5P 7m 9m"],"7b9#11":["1P 3M 5P 7m 9m 11A",["7b5b9"]],"7b9#9":["1P 3M 5P 7m 9m 9A"],"7b9b13":["1P 3M 5P 7m 9m 13m"],"7b9b13#11":["1P 3M 5P 7m 9m 11A 13m",["7b9#11b13","7b5b9b13"]],"7no5":["1P 3M 7m"],"7sus4":["1P 4P 5P 7m",["7sus"]],"7sus4b9":["1P 4P 5P 7m 9m",["susb9","7susb9","7b9sus","7b9sus4","phryg"]],"7sus4b9b13":["1P 4P 5P 7m 9m 13m",["7b9b13sus4"]],"9#11":["1P 3M 5P 7m 9M 11A",["9+4","9#4","9#11_","9#4_"]],"9#11b13":["1P 3M 5P 7m 9M 11A 13m",["9b5b13"]],"9#5":["1P 3M 5A 7m 9M",["9+"]],"9#5#11":["1P 3M 5A 7m 9M 11A"],"9b13":["1P 3M 7m 9M 13m"],"9b5":["1P 3M 5d 7m 9M"],"9no5":["1P 3M 7m 9M"],"9sus4":["1P 4P 5P 7m 9M",["9sus"]],"m":["1P 3m 5P"],"m#5":["1P 3m 5A",["m+","mb6"]],"m11":["1P 3m 5P 7m 9M 11P",["_11"]],"m11A 5":["1P 3m 6m 7m 9M 11P"],"m11b5":["1P 3m 7m 12d 2M 4P",["h11","_11b5"]],"m13":["1P 3m 5P 7m 9M 11P 13M",["_13"]],"m6":["1P 3m 4P 5P 13M",["_6"]],"m69":["1P 3m 5P 6M 9M",["_69"]],"m7":["1P 3m 5P 7m",["minor7","_","_7"]],"m7#5":["1P 3m 6m 7m"],"m7add11":["1P 3m 5P 7m 11P",["m7add4"]],"m7b5":["1P 3m 5d 7m",["half-diminished","h7","_7b5"]],"m9":["1P 3m 5P 7m 9M",["_9"]],"m9#5":["1P 3m 6m 7m 9M"],"m9b5":["1P 3m 7m 12d 2M",["h9","-9b5"]],"mMaj7":["1P 3m 5P 7M",["mM7","_M7"]],"mMaj7b6":["1P 3m 5P 6m 7M",["mM7b6"]],"mM9":["1P 3m 5P 7M 9M",["mMaj9","-M9"]],"mM9b6":["1P 3m 5P 6m 7M 9M",["mMaj9b6"]],"mb6M7":["1P 3m 6m 7M"],"mb6b9":["1P 3m 6m 9m"],"o":["1P 3m 5d",["mb5","dim"]],"o7":["1P 3m 5d 13M",["diminished","m6b5","dim7"]],"o7M7":["1P 3m 5d 6M 7M"],"oM7":["1P 3m 5d 7M"],"sus24":["1P 2M 4P 5P",["sus4add9"]],"+add#9":["1P 3M 5A 9A"],"madd4":["1P 3m 4P 5P"],"madd9":["1P 3m 5P 9M"]};
+
+/***/ }),
+
+/***/ "./node_modules/tonal-dictionary/build/data/scales.json":
+/*!**************************************************************!*\
+  !*** ./node_modules/tonal-dictionary/build/data/scales.json ***!
+  \**************************************************************/
+/*! exports provided: chromatic, lydian, major, mixolydian, dorian, aeolian, phrygian, locrian, melodic minor, melodic minor second mode, lydian augmented, lydian dominant, melodic minor fifth mode, locrian #2, altered, harmonic minor, phrygian dominant, half-whole diminished, diminished, major pentatonic, lydian pentatonic, mixolydian pentatonic, locrian pentatonic, minor pentatonic, minor six pentatonic, minor hexatonic, flat three pentatonic, flat six pentatonic, major flat two pentatonic, whole tone pentatonic, ionian pentatonic, lydian #5P pentatonic, lydian dominant pentatonic, minor #7M pentatonic, super locrian pentatonic, in-sen, iwato, hirajoshi, kumoijoshi, pelog, vietnamese 1, vietnamese 2, prometheus, prometheus neopolitan, ritusen, scriabin, piongio, major blues, minor blues, composite blues, augmented, augmented heptatonic, dorian #4, lydian diminished, whole tone, leading whole tone, lydian minor, locrian major, neopolitan, neopolitan minor, neopolitan major, neopolitan major pentatonic, romanian minor, double harmonic lydian, harmonic major, double harmonic major, egyptian, hungarian minor, hungarian major, oriental, spanish heptatonic, flamenco, balinese, todi raga, malkos raga, kafi raga, purvi raga, persian, bebop, bebop dominant, bebop minor, bebop major, bebop locrian, minor bebop, mystery #1, enigmatic, minor six diminished, ionian augmented, lydian #9, ichikosucho, six tone symmetric, default */
+/***/ (function(module) {
+
+module.exports = {"chromatic":["1P 2m 2M 3m 3M 4P 4A 5P 6m 6M 7m 7M"],"lydian":["1P 2M 3M 4A 5P 6M 7M"],"major":["1P 2M 3M 4P 5P 6M 7M",["ionian"]],"mixolydian":["1P 2M 3M 4P 5P 6M 7m",["dominant"]],"dorian":["1P 2M 3m 4P 5P 6M 7m"],"aeolian":["1P 2M 3m 4P 5P 6m 7m",["minor"]],"phrygian":["1P 2m 3m 4P 5P 6m 7m"],"locrian":["1P 2m 3m 4P 5d 6m 7m"],"melodic minor":["1P 2M 3m 4P 5P 6M 7M"],"melodic minor second mode":["1P 2m 3m 4P 5P 6M 7m"],"lydian augmented":["1P 2M 3M 4A 5A 6M 7M"],"lydian dominant":["1P 2M 3M 4A 5P 6M 7m",["lydian b7"]],"melodic minor fifth mode":["1P 2M 3M 4P 5P 6m 7m",["hindu","mixolydian b6M"]],"locrian #2":["1P 2M 3m 4P 5d 6m 7m",["half-diminished"]],"altered":["1P 2m 3m 3M 5d 6m 7m",["super locrian","diminished whole tone","pomeroy"]],"harmonic minor":["1P 2M 3m 4P 5P 6m 7M"],"phrygian dominant":["1P 2m 3M 4P 5P 6m 7m",["spanish","phrygian major"]],"half-whole diminished":["1P 2m 3m 3M 4A 5P 6M 7m",["dominant diminished"]],"diminished":["1P 2M 3m 4P 5d 6m 6M 7M",["whole-half diminished"]],"major pentatonic":["1P 2M 3M 5P 6M",["pentatonic"]],"lydian pentatonic":["1P 3M 4A 5P 7M",["chinese"]],"mixolydian pentatonic":["1P 3M 4P 5P 7m",["indian"]],"locrian pentatonic":["1P 3m 4P 5d 7m",["minor seven flat five pentatonic"]],"minor pentatonic":["1P 3m 4P 5P 7m"],"minor six pentatonic":["1P 3m 4P 5P 6M"],"minor hexatonic":["1P 2M 3m 4P 5P 7M"],"flat three pentatonic":["1P 2M 3m 5P 6M",["kumoi"]],"flat six pentatonic":["1P 2M 3M 5P 6m"],"major flat two pentatonic":["1P 2m 3M 5P 6M"],"whole tone pentatonic":["1P 3M 5d 6m 7m"],"ionian pentatonic":["1P 3M 4P 5P 7M"],"lydian #5P pentatonic":["1P 3M 4A 5A 7M"],"lydian dominant pentatonic":["1P 3M 4A 5P 7m"],"minor #7M pentatonic":["1P 3m 4P 5P 7M"],"super locrian pentatonic":["1P 3m 4d 5d 7m"],"in-sen":["1P 2m 4P 5P 7m"],"iwato":["1P 2m 4P 5d 7m"],"hirajoshi":["1P 2M 3m 5P 6m"],"kumoijoshi":["1P 2m 4P 5P 6m"],"pelog":["1P 2m 3m 5P 6m"],"vietnamese 1":["1P 3m 4P 5P 6m"],"vietnamese 2":["1P 3m 4P 5P 7m"],"prometheus":["1P 2M 3M 4A 6M 7m"],"prometheus neopolitan":["1P 2m 3M 4A 6M 7m"],"ritusen":["1P 2M 4P 5P 6M"],"scriabin":["1P 2m 3M 5P 6M"],"piongio":["1P 2M 4P 5P 6M 7m"],"major blues":["1P 2M 3m 3M 5P 6M"],"minor blues":["1P 3m 4P 5d 5P 7m",["blues"]],"composite blues":["1P 2M 3m 3M 4P 5d 5P 6M 7m"],"augmented":["1P 2A 3M 5P 5A 7M"],"augmented heptatonic":["1P 2A 3M 4P 5P 5A 7M"],"dorian #4":["1P 2M 3m 4A 5P 6M 7m"],"lydian diminished":["1P 2M 3m 4A 5P 6M 7M"],"whole tone":["1P 2M 3M 4A 5A 7m"],"leading whole tone":["1P 2M 3M 4A 5A 7m 7M"],"lydian minor":["1P 2M 3M 4A 5P 6m 7m"],"locrian major":["1P 2M 3M 4P 5d 6m 7m",["arabian"]],"neopolitan":["1P 2m 3m 4P 5P 6m 7M"],"neopolitan minor":["1P 2m 3m 4P 5P 6m 7M"],"neopolitan major":["1P 2m 3m 4P 5P 6M 7M",["dorian b2"]],"neopolitan major pentatonic":["1P 3M 4P 5d 7m"],"romanian minor":["1P 2M 3m 5d 5P 6M 7m"],"double harmonic lydian":["1P 2m 3M 4A 5P 6m 7M"],"harmonic major":["1P 2M 3M 4P 5P 6m 7M"],"double harmonic major":["1P 2m 3M 4P 5P 6m 7M",["gypsy"]],"egyptian":["1P 2M 4P 5P 7m"],"hungarian minor":["1P 2M 3m 4A 5P 6m 7M"],"hungarian major":["1P 2A 3M 4A 5P 6M 7m"],"oriental":["1P 2m 3M 4P 5d 6M 7m"],"spanish heptatonic":["1P 2m 3m 3M 4P 5P 6m 7m"],"flamenco":["1P 2m 3m 3M 4A 5P 7m"],"balinese":["1P 2m 3m 4P 5P 6m 7M"],"todi raga":["1P 2m 3m 4A 5P 6m 7M"],"malkos raga":["1P 3m 4P 6m 7m"],"kafi raga":["1P 3m 3M 4P 5P 6M 7m 7M"],"purvi raga":["1P 2m 3M 4P 4A 5P 6m 7M"],"persian":["1P 2m 3M 4P 5d 6m 7M"],"bebop":["1P 2M 3M 4P 5P 6M 7m 7M"],"bebop dominant":["1P 2M 3M 4P 5P 6M 7m 7M"],"bebop minor":["1P 2M 3m 3M 4P 5P 6M 7m"],"bebop major":["1P 2M 3M 4P 5P 5A 6M 7M"],"bebop locrian":["1P 2m 3m 4P 5d 5P 6m 7m"],"minor bebop":["1P 2M 3m 4P 5P 6m 7m 7M"],"mystery #1":["1P 2m 3M 5d 6m 7m"],"enigmatic":["1P 2m 3M 5d 6m 7m 7M"],"minor six diminished":["1P 2M 3m 4P 5P 6m 6M 7M"],"ionian augmented":["1P 2M 3M 4P 5A 6M 7M"],"lydian #9":["1P 2m 3M 4A 5P 6M 7M"],"ichikosucho":["1P 2M 3M 4P 5d 5P 6M 7M"],"six tone symmetric":["1P 2m 3M 4P 5A 6M"]};
+
+/***/ }),
+
+/***/ "./node_modules/tonal-dictionary/build/es6.js":
+/*!****************************************************!*\
+  !*** ./node_modules/tonal-dictionary/build/es6.js ***!
+  \****************************************************/
+/*! exports provided: dictionary, combine, scale, chord, pcset */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dictionary", function() { return dictionary; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combine", function() { return combine; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chord", function() { return chord; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pcset", function() { return pcset; });
+/* harmony import */ var _data_scales_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data/scales.json */ "./node_modules/tonal-dictionary/build/data/scales.json");
+var _data_scales_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./data/scales.json */ "./node_modules/tonal-dictionary/build/data/scales.json", 1);
+/* harmony import */ var _data_chords_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data/chords.json */ "./node_modules/tonal-dictionary/build/data/chords.json");
+var _data_chords_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./data/chords.json */ "./node_modules/tonal-dictionary/build/data/chords.json", 1);
+/* harmony import */ var tonal_pcset__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tonal-pcset */ "./node_modules/tonal-pcset/build/es6.js");
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-dictionary.svg)](https://www.npmjs.com/package/tonal-dictionary)
+ *
+ * `tonal-dictionary` contains a dictionary of musical scales and chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * // es6
+ * import * as Dictionary from "tonal-dictionary"
+ * // es5
+ * const Dictionary = require("tonal-dictionary")
+ *
+ * @example
+ * Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]
+ *
+ * @module Dictionary
+ */
+
+
+
+
+var dictionary = function (raw) {
+  var keys = Object.keys(raw).sort();
+  var data = [];
+  var index = [];
+
+  var add = function (name, ivls, chroma) {
+    data[name] = ivls;
+    index[chroma] = index[chroma] || [];
+    index[chroma].push(name);
+  };
+
+  keys.forEach(function (key) {
+    var ivls = raw[key][0].split(" ");
+    var alias = raw[key][1];
+    var chr = Object(tonal_pcset__WEBPACK_IMPORTED_MODULE_2__["chroma"])(ivls);
+
+    add(key, ivls, chr);
+    if (alias) { alias.forEach(function (a) { return add(a, ivls, chr); }); }
+  });
+  var allKeys = Object.keys(data).sort();
+
+  var dict = function (name) { return data[name]; };
+  dict.names = function (p) {
+    if (typeof p === "string") { return (index[p] || []).slice(); }
+    else { return (p === true ? allKeys : keys).slice(); }
+  };
+  return dict;
+};
+
+var combine = function (a, b) {
+  var dict = function (name) { return a(name) || b(name); };
+  dict.names = function (p) { return a.names(p).concat(b.names(p)); };
+  return dict;
+};
+
+/**
+ * A dictionary of scales: a function that given a scale name (without tonic)
+ * returns an array of intervals
+ *
+ * @function
+ * @param {String} name
+ * @return {Array} intervals
+ * @example
+ * import { scale } from "tonal-dictionary"
+ * scale("major") // => ["1P", "2M", ...]
+ * scale.names(); // => ["major", ...]
+ */
+var scale = dictionary(_data_scales_json__WEBPACK_IMPORTED_MODULE_0__);
+
+/**
+ * A dictionary of chords: a function that given a chord type
+ * returns an array of intervals
+ *
+ * @function
+ * @param {String} type
+ * @return {Array} intervals
+ * @example
+ * import { chord } from "tonal-dictionary"
+ * chord("Maj7") // => ["1P", "3M", ...]
+ * chord.names(); // => ["Maj3", ...]
+ */
+var chord = dictionary(_data_chords_json__WEBPACK_IMPORTED_MODULE_1__);
+var pcset = combine(scale, chord);
+
+
+/***/ }),
+
+/***/ "./node_modules/tonal-distance/build/es6.js":
+/*!**************************************************!*\
+  !*** ./node_modules/tonal-distance/build/es6.js ***!
+  \**************************************************/
+/*! exports provided: transpose, trFifths, fifths, transposeBy, addIntervals, add, subtract, interval, semitones */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transpose", function() { return transpose; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trFifths", function() { return trFifths; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fifths", function() { return fifths; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transposeBy", function() { return transposeBy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addIntervals", function() { return addIntervals; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "interval", function() { return interval; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "semitones", function() { return semitones; });
+/* harmony import */ var tonal_note__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tonal-note */ "./node_modules/tonal-note/build/es6.js");
+/* harmony import */ var tonal_interval__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tonal-interval */ "./node_modules/tonal-interval/build/es6.js");
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
+ * [![tonal](https://img.shields.io/badge/tonal-distance-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/tonal/distance)
+ *
+ * Transpose notes by intervals and find distances between notes
+ *
+ * @example
+ * // es6
+ * import * as Distance from "tonal-distance"
+ * Distance.interval("C3", "C4") // => "1P"
+ *
+ * @example
+ * // es6 import selected functions
+ * import { interval, semitones, transpose } from "tonal-distance"
+ *
+ * semitones("C" ,"D") // => 2
+ * interval("C4", "G4") // => "5P"
+ * transpose("C4", "P5") // => "G4"
+ *
+ * @example
+ * // included in tonal facade
+ * const Tonal = require("tonal");
+ * Tonal.Distance.transpose("C4", "P5")
+ * Tonal.Distance.transposeBy("P5", "C4")
+ *
+ * @module Distance
+ */
+
+
+
+// Map from letter step to number of fifths starting from "C":
+// { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
+var FIFTHS = [0, 2, 4, -1, 1, 3, 5];
+
+// Given a number of fifths, return the octaves they span
+var fOcts = function (f) { return Math.floor(f * 7 / 12); };
+
+// Get the number of octaves it span each step
+var FIFTH_OCTS = FIFTHS.map(fOcts);
+
+var encode = function (ref) {
+  var step = ref.step;
+  var alt = ref.alt;
+  var oct = ref.oct;
+  var dir = ref.dir; if ( dir === void 0 ) dir = 1;
+
+  var f = FIFTHS[step] + 7 * alt;
+  if (oct === null) { return [dir * f]; }
+  var o = oct - FIFTH_OCTS[step] - 4 * alt;
+  return [dir * f, dir * o];
+};
+
+// We need to get the steps from fifths
+// Fifths for CDEFGAB are [ 0, 2, 4, -1, 1, 3, 5 ]
+// We add 1 to fifths to avoid negative numbers, so:
+// for ["F", "C", "G", "D", "A", "E", "B"] we have:
+var STEPS = [3, 0, 4, 1, 5, 2, 6];
+
+// Return the number of fifths as if it were unaltered
+function unaltered(f) {
+  var i = (f + 1) % 7;
+  return i < 0 ? 7 + i : i;
+}
+
+var decode = function (f, o, dir) {
+  var step = STEPS[unaltered(f)];
+  var alt = Math.floor((f + 1) / 7);
+  if (o === undefined) { return { step: step, alt: alt, dir: dir }; }
+  var oct = o + 4 * alt + FIFTH_OCTS[step];
+  return { step: step, alt: alt, oct: oct, dir: dir };
+};
+
+var memo = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+var encoder = function (props) { return memo(function (str) {
+    var p = props(str);
+    return p.name === null ? null : encode(p);
+  }); };
+
+var encodeNote = encoder(tonal_note__WEBPACK_IMPORTED_MODULE_0__["props"]);
+var encodeIvl = encoder(tonal_interval__WEBPACK_IMPORTED_MODULE_1__["props"]);
+
+/**
+ * Transpose a note by an interval. The note can be a pitch class.
+ *
+ * This function can be partially applied.
+ *
+ * @param {String} note
+ * @param {String} interval
+ * @return {String} the transposed note
+ * @example
+ * import { tranpose } from "tonal-distance"
+ * transpose("d3", "3M") // => "F#3"
+ * // it works with pitch classes
+ * transpose("D", "3M") // => "F#"
+ * // can be partially applied
+ * ["C", "D", "E", "F", "G"].map(transpose("M3)) // => ["E", "F#", "G#", "A", "B"]
+ */
+function transpose(note, interval) {
+  if (arguments.length === 1) { return function (i) { return transpose(note, i); }; }
+  var n = encodeNote(note);
+  var i = encodeIvl(interval);
+  if (n === null || i === null) { return null; }
+  var tr = n.length === 1 ? [n[0] + i[0]] : [n[0] + i[0], n[1] + i[1]];
+  return Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["build"])(decode(tr[0], tr[1]));
+}
+
+/**
+ * Transpose a pitch class by a number of perfect fifths.
+ *
+ * It can be partially applied.
+ *
+ * @function
+ * @param {String} pitchClass - the pitch class
+ * @param {Integer} fifhts - the number of fifths
+ * @return {String} the transposed pitch class
+ *
+ * @example
+ * import { trFifths } from "tonal-transpose"
+ * [0, 1, 2, 3, 4].map(trFifths("C")) // => ["C", "G", "D", "A", "E"]
+ * // or using tonal
+ * Distance.trFifths("G4", 1) // => "D"
+ */
+
+function trFifths(note, fifths) {
+  if (arguments.length === 1) { return function (f) { return trFifths(note, f); }; }
+  var n = encodeNote(note);
+  if (n === null) { return null; }
+  return Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["build"])(decode(n[0] + fifths));
+}
+
+/**
+ * Get the distance in fifths between pitch classes
+ *
+ * Can be partially applied.
+ *
+ * @param {String} to - note or pitch class
+ * @param {String} from - note or pitch class
+ */
+function fifths(from, to) {
+  if (arguments.length === 1) { return function (to) { return fifths(from, to); }; }
+  var f = encodeNote(from);
+  var t = encodeNote(to);
+  if (t === null || f === null) { return null; }
+  return t[0] - f[0];
+}
+
+/**
+ * The same as transpose with the arguments inverted.
+ *
+ * Can be partially applied.
+ *
+ * @param {String} note
+ * @param {String} interval
+ * @return {String} the transposed note
+ * @example
+ * import { tranposeBy } from "tonal-distance"
+ * transposeBy("3m", "5P") // => "7m"
+ */
+function transposeBy(interval, note) {
+  if (arguments.length === 1) { return function (n) { return transpose(n, interval); }; }
+  return transpose(note, interval);
+}
+
+var isDescending = function (e) { return e[0] * 7 + e[1] * 12 < 0; };
+var decodeIvl = function (i) { return isDescending(i) ? decode(-i[0], -i[1], -1) : decode(i[0], i[1], 1); };
+
+function addIntervals(ivl1, ivl2, dir) {
+  var i1 = encodeIvl(ivl1);
+  var i2 = encodeIvl(ivl2);
+  if (i1 === null || i2 === null) { return null; }
+  var i = [i1[0] + dir * i2[0], i1[1] + dir * i2[1]];
+  return Object(tonal_interval__WEBPACK_IMPORTED_MODULE_1__["build"])(decodeIvl(i));
+}
+
+/**
+ * Add two intervals
+ *
+ * Can be partially applied.
+ *
+ * @param {String} interval1
+ * @param {String} interval2
+ * @return {String} the resulting interval
+ * @example
+ * import { add } from "tonal-distance"
+ * add("3m", "5P") // => "7m"
+ */
+function add(ivl1, ivl2) {
+  if (arguments.length === 1) { return function (i2) { return add(ivl1, i2); }; }
+  return addIntervals(ivl1, ivl2, 1);
+}
+
+/**
+ * Subtract two intervals
+ *
+ * Can be partially applied
+ *
+ * @param {String} minuend
+ * @param {String} subtrahend
+ * @return {String} interval diference
+ */
+function subtract(ivl1, ivl2) {
+  if (arguments.length === 1) { return function (i2) { return add(ivl1, i2); }; }
+  return addIntervals(ivl1, ivl2, -1);
+}
+
+/**
+ * Find the interval between two pitches. It works with pitch classes
+ * (both must be pitch classes and the interval is always ascending)
+ *
+ * Can be partially applied
+ *
+ * @param {String} from - distance from
+ * @param {String} to - distance to
+ * @return {String} the interval distance
+ *
+ * @example
+ * import { interval } from "tonal-distance"
+ * interval("C2", "C3") // => "P8"
+ * interval("G", "B") // => "M3"
+ *
+ * @example
+ * import * as Distance from "tonal-distance"
+ * Distance.interval("M2", "P5") // => "P4"
+ */
+function interval(from, to) {
+  if (arguments.length === 1) { return function (t) { return interval(from, t); }; }
+  var f = encodeNote(from);
+  var t = encodeNote(to);
+  if (f === null || t === null || f.length !== t.length) { return null; }
+  var d =
+    f.length === 1
+      ? [t[0] - f[0], -Math.floor((t[0] - f[0]) * 7 / 12)]
+      : [t[0] - f[0], t[1] - f[1]];
+  return Object(tonal_interval__WEBPACK_IMPORTED_MODULE_1__["build"])(decodeIvl(d));
+}
+
+/**
+ * Get the distance between two notes in semitones
+ *
+ * @param {String|Pitch} from - first note
+ * @param {String|Pitch} to - last note
+ * @return {Integer} the distance in semitones or null if not valid notes
+ * @example
+ * import { semitones } from "tonal-distance"
+ * semitones("C3", "A2") // => -3
+ * // or use tonal
+ * Tonal.Distance.semitones("C3", "G3") // => 7
+ */
+function semitones(from, to) {
+  if (arguments.length === 1) { return function (t) { return semitones(from, t); }; }
+  var f = Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["props"])(from);
+  var t = Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["props"])(to);
+  return f.midi !== null && t.midi !== null
+    ? t.midi - f.midi
+    : f.chroma !== null && t.chroma !== null
+      ? (t.chroma - f.chroma + 12) % 12
+      : null;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/tonal-interval/build/es6.js":
+/*!**************************************************!*\
+  !*** ./node_modules/tonal-interval/build/es6.js ***!
+  \**************************************************/
+/*! exports provided: names, tokenize, props, num, name, semitones, chroma, ic, build, simplify, invert, fromSemitones */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "names", function() { return names; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tokenize", function() { return tokenize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "props", function() { return props; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "num", function() { return num; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name", function() { return name; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "semitones", function() { return semitones; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chroma", function() { return chroma; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ic", function() { return ic; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "build", function() { return build; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "simplify", function() { return simplify; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invert", function() { return invert; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromSemitones", function() { return fromSemitones; });
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
+ * [![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-interval` is a collection of functions to create and manipulate music intervals.
+ *
+ * The intervals are strings in shorthand notation. Two variations are supported:
+ *
+ * - standard shorthand notation: type and number, for example: "M3", "d-4"
+ * - inverse shorthand notation: number and then type, for example: "3M", "-4d"
+ *
+ * The problem with the standard shorthand notation is that some strings can be
+ * parsed as notes or intervals, for example: "A4" can be note A in 4th octave
+ * or an augmented four. To remove ambiguity, the prefered notation in tonal is the
+ * inverse shortand notation.
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * ## Usage
+ *
+ * ```js
+ * // es6
+ * import * as Interval from "tonal-interval"
+ * // es5
+ * const Interval = require("tonal-interval")
+ * // part of tonal
+ * import { Interval } from "tonal"
+ *
+ * Interval.semitones("4P") // => 5
+ * Interval.invert("3m") // => "6M"
+ * Interval.simplify("9m") // => "2m"
+ * ```
+ *
+ * ## Install
+ *
+ * [![npm install tonal-interval](https://nodei.co/npm/tonal-interval.png?mini=true)](https://npmjs.org/package/tonal-interval/)
+ *
+ * ## API Documentation
+ *
+ * @module Interval
+ */
+// shorthand tonal notation (with quality after number)
+var IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
+// standard shorthand notation (with quality before number)
+var IVL_STR = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
+var REGEX = new RegExp("^" + IVL_TNL + "|" + IVL_STR + "$");
+var SIZES = [0, 2, 4, 5, 7, 9, 11];
+var TYPES = "PMMPPMM";
+var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
+var NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
+
+/**
+ * List basic (perfect, major, minor) interval names within a octave
+ * @param {String} qualities - (Optional, default "PMm") the valid types
+ * @return {Array} the interval names
+ * @example
+ * Interval.names() // => [ "1P", "2m", "2M", "3m", "3M", "4P", "5P", "6m", "6M", "7m", "7M", "8P" ]
+ * Interval.names("P") // => [ "1P", "4P", "5P", "8P" ]
+ * Interval.names("PM") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
+ * Interval.names("Pm") // => [ "1P", "2m", "3m", "4P", "5P", "6m", "7m", "8P" ]
+ * Interval.names("d") // => []
+ */
+var names = function (types) { return typeof types !== "string"
+    ? NAMES.slice()
+    : NAMES.filter(function (n) { return types.indexOf(n[1]) !== -1; }); };
+
+var tokenize = function (str) {
+  var m = REGEX.exec(str);
+  return m === null ? null : m[1] ? [m[1], m[2]] : [m[4], m[3]];
+};
+
+var NO_IVL = Object.freeze({
+  name: null,
+  num: null,
+  q: null,
+  step: null,
+  alt: null,
+  dir: null,
+  type: null,
+  simple: null,
+  semitones: null,
+  chroma: null
+});
+
+var fillStr = function (s, n) { return Array(Math.abs(n) + 1).join(s); };
+
+var qToAlt = function (type, q) {
+  if (q === "M" && type === "M") { return 0; }
+  if (q === "P" && type === "P") { return 0; }
+  if (q === "m" && type === "M") { return -1; }
+  if (/^A+$/.test(q)) { return q.length; }
+  if (/^d+$/.test(q)) { return type === "P" ? -q.length : -q.length - 1; }
+  return null;
+};
+
+var altToQ = function (type, alt) {
+  if (alt === 0) { return type === "M" ? "M" : "P"; }
+  else if (alt === -1 && type === "M") { return "m"; }
+  else if (alt > 0) { return fillStr("A", alt); }
+  else if (alt < 0) { return fillStr("d", type === "P" ? alt : alt + 1); }
+  else { return null; }
+};
+
+var numToStep = function (num) { return (Math.abs(num) - 1) % 7; };
+
+var properties = function (str) {
+  var t = tokenize(str);
+  if (t === null) { return NO_IVL; }
+  var p = { num: +t[0], q: t[1] };
+  p.step = numToStep(p.num);
+  p.type = TYPES[p.step];
+  if (p.type === "M" && p.q === "P") { return NO_IVL; }
+
+  p.name = "" + p.num + p.q;
+  p.dir = p.num < 0 ? -1 : 1;
+  p.simple = p.num === 8 || p.num === -8 ? p.num : p.dir * (p.step + 1);
+  p.alt = qToAlt(p.type, p.q);
+  p.oct = Math.floor((Math.abs(p.num) - 1) / 7);
+  p.semitones = p.dir * (SIZES[p.step] + p.alt + 12 * p.oct);
+  p.chroma = ((p.dir * (SIZES[p.step] + p.alt)) % 12 + 12) % 12;
+  return Object.freeze(p);
+};
+
+var cache = {};
+/**
+ * Get interval properties. It returns an object with:
+ *
+ * - name: name
+ * - num: number
+ * - q: quality
+ * - step: step
+ * - alt: alteration
+ * - dir: direction (1 ascending, -1 descending)
+ * - type: "P" or "M" for perfectable or majorable
+ * - simple: the simplified number
+ * - semitones: the size in semitones
+ * - chroma: the interval chroma
+ * - ic: the interval class
+ *
+ * @function
+ * @param {String} interval - the interval
+ * @return {Object} the interval in the form [number, alt]
+ */
+function props(str) {
+  if (typeof str !== "string") { return NO_IVL; }
+  return cache[str] || (cache[str] = properties(str));
+}
+
+/**
+ * Get the number of the interval
+ *
+ * @function
+ * @param {String} interval - the interval
+ * @return {Integer}
+ * @example
+ * Interval.num("m2") // => 2
+ * Interval.num("P9") // => 9
+ * Interval.num("P-4") // => -4
+ */
+var num = function (str) { return props(str).num; };
+
+/**
+ * Get interval name. Can be used to test if it"s an interval. It accepts intervals
+ * as pitch or string in shorthand notation or tonal notation. It returns always
+ * intervals in tonal notation.
+ *
+ * @function
+ * @param {String} interval - the interval string or array
+ * @return {String} the interval name or null if not valid interval
+ * @example
+ * Interval.name("m-3") // => "-3m"
+ * Interval.name("3") // => null
+ */
+var name = function (str) { return props(str).name; };
+
+/**
+ * Get size in semitones of an interval
+ *
+ * @function
+ * @param {String} ivl
+ * @return {Integer} the number of semitones or null if not an interval
+ * @example
+ * import { semitones } from "tonal-interval"
+ * semitones("P4") // => 5
+ * // or using tonal
+ * Tonal.Interval.semitones("P5") // => 7
+ */
+var semitones = function (str) { return props(str).semitones; };
+
+/**
+ * Get the chroma of the interval. The chroma is a number between 0 and 7
+ * that represents the position within an octave (pitch set)
+ *
+ * @function
+ * @param {String} str
+ * @return {Number}
+ */
+var chroma = function (str) { return props(str).chroma; };
+
+/**
+ * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
+ * number of a given interval.
+ *
+ * In musical set theory, an interval class is the shortest distance in
+ * pitch class space between two unordered pitch classes
+ *
+ * @function
+ * @param {String|Integer} interval - the interval or the number of semitones
+ * @return {Integer} A value between 0 and 6
+ *
+ * @example
+ * Interval.ic("P8") // => 0
+ * Interval.ic("m6") // => 4
+ * Interval.ic(10) // => 2
+ * ["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
+ */
+var ic = function (ivl) {
+  if (typeof ivl === "string") { ivl = props(ivl).chroma; }
+  return typeof ivl === "number" ? CLASSES[ivl % 12] : null;
+};
+
+/**
+ * Given a interval property object, get the interval name
+ *
+ * The properties must contain a `num` *or* `step`, and `alt`:
+ *
+ * - num: the interval number
+ * - step: the interval step (overrides the num property)
+ * - alt: the interval alteration
+ * - oct: (Optional) the number of octaves
+ * - dir: (Optional) the direction
+ *
+ * @function
+ * @param {Object} props - the interval property object
+ *
+ * @return {String} the interval name
+ * @example
+ * Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+ * Interval.build({ num: 9, alt: -1 }) // => "9m"
+ */
+var build = function (ref) {
+  if ( ref === void 0 ) ref = {};
+  var num = ref.num;
+  var step = ref.step;
+  var alt = ref.alt;
+  var oct = ref.oct; if ( oct === void 0 ) oct = 1;
+  var dir = ref.dir;
+
+  if (step !== undefined) { num = step + 1 + 7 * oct; }
+  if (num === undefined) { return null; }
+
+  var d = dir < 0 ? "-" : "";
+  var type = TYPES[numToStep(num)];
+  return d + num + altToQ(type, alt);
+};
+
+/**
+ * Get the simplified version of an interval.
+ *
+ * @function
+ * @param {String} interval - the interval to simplify
+ * @return {String} the simplified interval
+ *
+ * @example
+ * Interval.simplify("9M") // => "2M"
+ * ["8P", "9M", "10M", "11P", "12P", "13M", "14M", "15P"].map(Interval.simplify)
+ * // => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
+ * Interval.simplify("2M") // => "2M"
+ * Interval.simplify("-2M") // => "7m"
+ */
+var simplify = function (str) {
+  var p = props(str);
+  if (p === NO_IVL) { return null; }
+  return p.simple + p.q;
+};
+
+/**
+ * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+ * of an interval.
+ *
+ * @function
+ * @param {String} interval - the interval to invert in interval shorthand
+ * notation or interval array notation
+ * @return {String} the inverted interval
+ *
+ * @example
+ * Interval.invert("3m") // => "6M"
+ * Interval.invert("2M") // => "7m"
+ */
+var invert = function (str) {
+  var p = props(str);
+  if (p === NO_IVL) { return null; }
+  var step = (7 - p.step) % 7;
+  var alt = p.type === "P" ? -p.alt : -(p.alt + 1);
+  return build({ step: step, alt: alt, oct: p.oct, dir: p.dir });
+};
+
+// interval numbers
+var IN = [1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 7];
+// interval qualities
+var IQ = "P m M m M P d P m M m M".split(" ");
+
+/**
+ * Get interval name from semitones number. Since there are several interval
+ * names for the same number, the name it"s arbitraty, but deterministic.
+ *
+ * @function
+ * @param {Integer} num - the number of semitones (can be negative)
+ * @return {String} the interval name
+ * @example
+ * import { fromSemitones } from "tonal-interval"
+ * fromSemitones(7) // => "5P"
+ * // or using tonal
+ * Tonal.Distance.fromSemitones(-7) // => "-5P"
+ */
+var fromSemitones = function (num) {
+  var d = num < 0 ? -1 : 1;
+  var n = Math.abs(num);
+  var c = n % 12;
+  var o = Math.floor(n / 12);
+  return d * (IN[c] + 7 * o) + IQ[c];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/tonal-note/build/es6.js":
+/*!**********************************************!*\
+  !*** ./node_modules/tonal-note/build/es6.js ***!
+  \**********************************************/
+/*! exports provided: names, tokenize, props, name, pc, midi, midiToFreq, freq, freqToMidi, chroma, oct, stepToLetter, altToAcc, from, build, fromMidi, simplify, enharmonic */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "names", function() { return names; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tokenize", function() { return tokenize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "props", function() { return props; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name", function() { return name; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pc", function() { return pc; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "midi", function() { return midi; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "midiToFreq", function() { return midiToFreq; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "freq", function() { return freq; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "freqToMidi", function() { return freqToMidi; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chroma", function() { return chroma; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "oct", function() { return oct; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "stepToLetter", function() { return stepToLetter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "altToAcc", function() { return altToAcc; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "from", function() { return from; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "build", function() { return build; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromMidi", function() { return fromMidi; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "simplify", function() { return simplify; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enharmonic", function() { return enharmonic; });
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
+ * [![tonal](https://img.shields.io/badge/tonal-note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-note` is a collection of functions to manipulate musical notes in scientific notation
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * ## Usage
+ *
+ * ```js
+ * import * as Note from "tonal-note"
+ * // or const Note = require("tonal-note")
+ * Note.name("bb2") // => "Bb2"
+ * Note.chroma("bb2") // => 10
+ * Note.midi("a4") // => 69
+ * Note.freq("a4") // => 440
+ * Note.oct("G3") // => 3
+ *
+ * // part of tonal
+ * const Tonal = require("tonal")
+ * // or import Note from "tonal"
+ * Tonal.Note.midi("d4") // => 62
+ * ```
+ *
+ * ## Install
+ *
+ * [![npm install tonal-note](https://nodei.co/npm/tonal-note.png?mini=true)](https://npmjs.org/package/tonal-note/)
+ *
+ * ## API Documentation
+ *
+ * @module Note
+ */
+
+var NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
+
+/**
+ * Get a list of note names (pitch classes) within a octave
+ *
+ * @param {string} accTypes - (Optional, by default " b#"). A string with the
+ * accidentals types: " " means no accidental, "#" means sharps, "b" mean flats,
+ * can be combined (see examples)
+ * @return {Array}
+ * @example
+ * Note.names(" b") // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
+ * Note.names(" #") // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
+ */
+var names = function (accTypes) { return typeof accTypes !== "string"
+    ? NAMES.slice()
+    : NAMES.filter(function (n) {
+        var acc = n[1] || " ";
+        return accTypes.indexOf(acc) !== -1;
+      }); };
+
+var SHARPS = names(" #");
+var FLATS = names(" b");
+var REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+
+/**
+ * Split a string into tokens related to note parts.
+ * It returns an array of strings `[letter, accidental, octave, modifier]`
+ *
+ * It always returns an array
+ *
+ * @param {String} str
+ * @return {Array} an array of note tokens
+ * @example
+ * Note.tokenize("C#2") // => ["C", "#", "2", ""]
+ * Note.tokenize("Db3 major") // => ["D", "b", "3", "major"]
+ * Note.tokenize("major") // => ["", "", "", "major"]
+ * Note.tokenize("##") // => ["", "##", "", ""]
+ * Note.tokenize() // => ["", "", "", ""]
+ */
+function tokenize(str) {
+  if (typeof str !== "string") { str = ""; }
+  var m = REGEX.exec(str);
+  if (!m) { return null; }
+  return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
+}
+
+var NO_NOTE = Object.freeze({
+  pc: null,
+  name: null,
+  step: null,
+  alt: null,
+  oct: null,
+  octStr: null,
+  chroma: null,
+  midi: null,
+  freq: null
+});
+
+var SEMI = [0, 2, 4, 5, 7, 9, 11];
+var properties = function (str) {
+  var tokens = tokenize(str);
+  if (tokens[0] === "" || tokens[3] !== "") { return NO_NOTE; }
+  var letter = tokens[0];
+  var acc = tokens[1];
+  var octStr = tokens[2];
+  var p = { letter: letter, acc: acc, octStr: octStr };
+  p.pc = p.letter + p.acc;
+  p.name = p.pc + octStr;
+  p.step = (p.letter.charCodeAt(0) + 3) % 7;
+  p.alt = p.acc[0] === "b" ? -p.acc.length : p.acc.length;
+  p.oct = octStr.length ? +octStr : null;
+  p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
+  p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
+  p.freq = midiToFreq(p.midi);
+  return Object.freeze(p);
+};
+
+var memo = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+/**
+ * Get note properties. It returns an object with the following information:
+ *
+ * - name {String}: the note name. The letter is always in uppercase
+ * - letter {String}: the note letter, always in uppercase
+ * - acc {String}: the note accidentals
+ * - octave {Number}: the octave or null if not present
+ * - pc {String}: the pitch class (letter + accidentals)
+ * - step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
+ * - alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
+ * - chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+ * - midi {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
+ * - freq {Number}: the frequency using an equal temperament at 440Hz
+ *
+ * This function *always* returns an object with all this properties, but if it"s
+ * not a valid note all properties will be null.
+ *
+ * The returned object can"t be mutated.
+ *
+ * @param {String} note - the note name in scientific notation
+ * @return {Object} an object with the properties (or an object will all properties
+ * set to null if not valid note)
+ * @example
+ * Note.props("fx-3").name // => "F##-3"
+ * Note.props("invalid").name // => null
+ * Note.props("C#3").oct // => 3
+ * Note.props().oct // => null
+ */
+var props = memo(properties);
+
+/**
+ * Given a note name, return the note name or null if not valid note.
+ * The note name will ALWAYS have the letter in upercase and accidentals
+ * using # or b
+ *
+ * Can be used to test if a string is a valid note name.
+ *
+ * @function
+ * @param {Pitch|string}
+ * @return {string}
+ *
+ * @example
+ * Note.name("cb2") // => "Cb2"
+ * ["c", "db3", "2", "g+", "gx4"].map(Note.name) // => ["C", "Db3", null, null, "G##4"]
+ */
+var name = function (str) { return props(str).name; };
+
+/**
+ * Get pitch class of a note. The note can be a string or a pitch array.
+ *
+ * @function
+ * @param {string|Pitch}
+ * @return {string} the pitch class
+ * @example
+ * Note.pc("Db3") // => "Db"
+ * ["db3", "bb6", "fx2"].map(Note.pc) // => [ "Db", "Bb", "F##"]
+ */
+var pc = function (str) { return props(str).pc; };
+
+var isMidiRange = function (m) { return m >= 0 && m <= 127; };
+/**
+ * Get the note midi number. It always return a number between 0 and 127
+ *
+ * @function
+ * @param {string|Number} note - the note to get the midi number from
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * Note.midi("C4") // => 60
+ * Note.midi(60) // => 60
+ * @see midi.toMidi
+ */
+var midi = function (note) {
+  if (typeof note !== "number" && typeof note !== "string") {
+    return null;
+  }
+  var midi = props(note).midi;
+  var value = midi || midi === 0 ? midi : +note;
+  return isMidiRange(value) ? value : null;
+};
+
+/**
+ * Get the frequency from midi number
+ *
+ * @param {Number} midi - the note midi number
+ * @param {Number} tuning - (Optional) 440 by default
+ * @return {Number} the frequency or null if not valid note midi
+ */
+var midiToFreq = function (midi, tuning) {
+    if ( tuning === void 0 ) tuning = 440;
+
+    return typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * tuning : null;
+};
+
+/**
+ * Get the frequency of a note
+ *
+ * @function
+ * @param {string|Number} note - the note name or midi note number
+ * @return {Number} the frequency
+ * @example
+ * Note.freq("A4") // => 440
+ * Note.freq(69) // => 440
+ */
+var freq = function (note) { return props(note).freq || midiToFreq(note); };
+
+var L2 = Math.log(2);
+var L440 = Math.log(440);
+/**
+ * Get the midi number from a frequency in hertz. The midi number can
+ * contain decimals (with two digits precission)
+ *
+ * @param {Number} frequency
+ * @return {Number}
+ * @example
+ * Note.freqToMidi(220)); //=> 57;
+ * Note.freqToMidi(261.62)); //=> 60;
+ * Note.freqToMidi(261)); //=> 59.96;
+ */
+var freqToMidi = function (freq) {
+  var v = 12 * (Math.log(freq) - L440) / L2 + 69;
+  return Math.round(v * 100) / 100;
+};
+
+/**
+ * Return the chroma of a note. The chroma is the numeric equivalent to the
+ * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
+ *
+ * @param {string} note - the note name
+ * @return {Integer} the chroma number
+ * @example
+ * Note.chroma("Cb") // => 11
+ * ["C", "D", "E", "F"].map(Note.chroma) // => [0, 2, 4, 5]
+ */
+var chroma = function (str) { return props(str).chroma; };
+
+/**
+ * Get the octave of the given pitch
+ *
+ * @function
+ * @param {string} note - the note
+ * @return {Integer} the octave or null if doesn"t have an octave or not a valid note
+ * @example
+ * Note.oct("C#4") // => 4
+ * Note.oct("C") // => null
+ * Note.oct("blah") // => undefined
+ */
+var oct = function (str) { return props(str).oct; };
+
+var LETTERS = "CDEFGAB";
+/**
+ * Given a step number return it's letter (0 = C, 1 = D, 2 = E)
+ * @param {number} step
+ * @return {string} the letter
+ * @example
+ * Note.stepToLetter(3) // => "F"
+ */
+var stepToLetter = function (step) { return LETTERS[step]; };
+
+var fillStr = function (s, n) { return Array(n + 1).join(s); };
+var numToStr = function (num, op) { return (typeof num !== "number" ? "" : op(num)); };
+
+/**
+ * Given an alteration number, return the accidentals
+ * @param {Number} alt
+ * @return {String}
+ * @example
+ * Note.altToAcc(-3) // => "bbb"
+ */
+var altToAcc = function (alt) { return numToStr(alt, function (alt) { return (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)); }); };
+
+/**
+ * Creates a note name in scientific notation from note properties,
+ * and optionally another note name.
+ * It receives an object with:
+ * - step: the note step (0 = C, 1 = D, ... 6 = B)
+ * - alt: (optional) the alteration. Negative numbers are flats, positive sharps
+ * - oct: (optional) the octave
+ *
+ * Optionally it receives another note as a "base", meaning that any prop not explicitly
+ * received on the first parameter will be taken from that base note. That way it can be used
+ * as an immutable "set" operator for a that base note
+ *
+ * @function
+ * @param {Object} props - the note properties
+ * @param {String} [baseNote] - note to build the result from. If given, it returns
+ * the result of applying the given props to this note.
+ * @return {String} the note name in scientific notation or null if not valid properties
+ * @example
+ * Note.from({ step: 5 }) // => "A"
+ * Note.from({ step: 1, acc: -1 }) // => "Db"
+ * Note.from({ step: 2, acc: 2, oct: 2 }) // => "E##2"
+ * Note.from({ step: 7 }) // => null
+ * Note.from({alt: 1, oct: 3}, "C4") // => "C#3"
+ */
+var from = function (fromProps, baseNote) {
+  if ( fromProps === void 0 ) fromProps = {};
+  if ( baseNote === void 0 ) baseNote = null;
+
+  var ref = baseNote
+    ? Object.assign({}, props(baseNote), fromProps)
+    : fromProps;
+  var step = ref.step;
+  var alt = ref.alt;
+  var oct = ref.oct;
+  var letter = stepToLetter(step);
+  if (!letter) { return null; }
+  var pc = letter + altToAcc(alt);
+  return oct || oct === 0 ? pc + oct : pc;
+};
+
+/**
+ * Deprecated. This is kept for backwards compatibility only.
+ * Use Note.from instead
+ */
+var build = from;
+
+/**
+ * Given a midi number, returns a note name. The altered notes will have
+ * flats unless explicitly set with the optional `useSharps` parameter.
+ *
+ * @function
+ * @param {number} midi - the midi note number
+ * @param {boolean} useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {string} the note name
+ * @example
+ * Note.fromMidi(61) // => "Db4"
+ * Note.fromMidi(61, true) // => "C#4"
+ * // it rounds to nearest note
+ * Note.fromMidi(61.7) // => "D4"
+ */
+function fromMidi(num, sharps) {
+  num = Math.round(num);
+  var pcs = sharps === true ? SHARPS : FLATS;
+  var pc = pcs[num % 12];
+  var o = Math.floor(num / 12) - 1;
+  return pc + o;
+}
+
+/**
+ * Simplify the note: find an enhramonic note with less accidentals.
+ *
+ * @param {String} note - the note to be simplified
+ * @param {boolean} useSameAccType - (optional, true by default) set to true
+ * to ensure the returned note has the same accidental types that the given note
+ * @return {String} the simplfiied note or null if not valid note
+ * @example
+ * Note.simplify("C##") // => "D"
+ * Note.simplify("C###") // => "D#"
+ * Note.simplify("C###", false) // => "Eb"
+ * Note.simplify("B#4") // => "C5"
+ */
+var simplify = function (note, sameAcc) {
+  var ref = props(note);
+  var alt = ref.alt;
+  var chroma = ref.chroma;
+  var midi = ref.midi;
+  if (chroma === null) { return null; }
+  var useSharps = sameAcc === false ? alt < 0 : alt > 0;
+  return midi === null
+    ? pc(fromMidi(chroma, useSharps))
+    : fromMidi(midi, useSharps);
+};
+
+/**
+ * Get the simplified and enhramonic note of the given one.
+ *
+ * @param {String} note
+ * @return {String} the enhramonic note
+ * @example
+ * Note.enharmonic("Db") // => "C#"
+ * Note.enhramonic("C") // => "C"
+ */
+var enharmonic = function (note) { return simplify(note, false); };
+
+
+/***/ }),
+
+/***/ "./node_modules/tonal-pcset/build/es6.js":
+/*!***********************************************!*\
+  !*** ./node_modules/tonal-pcset/build/es6.js ***!
+  \***********************************************/
+/*! exports provided: chroma, chromas, modes, isChroma, intervals, isEqual, isSubsetOf, isSupersetOf, includes, filter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chroma", function() { return chroma; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chromas", function() { return chromas; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "modes", function() { return modes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isChroma", function() { return isChroma; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "intervals", function() { return intervals; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqual", function() { return isEqual; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSubsetOf", function() { return isSubsetOf; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSupersetOf", function() { return isSupersetOf; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "includes", function() { return includes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filter", function() { return filter; });
+/* harmony import */ var tonal_note__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tonal-note */ "./node_modules/tonal-note/build/es6.js");
+/* harmony import */ var tonal_interval__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tonal-interval */ "./node_modules/tonal-interval/build/es6.js");
+/* harmony import */ var tonal_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tonal-array */ "./node_modules/tonal-array/build/es6.js");
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-pcset.svg?style=flat-square)](https://www.npmjs.com/package/tonal-pcset)
+ * [![tonal](https://img.shields.io/badge/tonal-pcset-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-pcset` is a collection of functions to work with pitch class sets, oriented
+ * to make comparations (isEqual, isSubset, isSuperset)
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * You can install via npm: `npm i --save tonal-pcset`
+ *
+ * ```js
+ * // es6
+ * import PcSet from "tonal-pcset"
+ * var PcSet = require("tonal-pcset")
+ *
+ * PcSet.isEqual("c2 d5 e6", "c6 e3 d1") // => true
+ * ```
+ *
+ * ## API documentation
+ *
+ * @module PcSet
+ */
+
+
+
+
+var chr = function (str) { return Object(tonal_note__WEBPACK_IMPORTED_MODULE_0__["chroma"])(str) || Object(tonal_interval__WEBPACK_IMPORTED_MODULE_1__["chroma"])(str) || 0; };
+var pcsetNum = function (set) { return parseInt(chroma(set), 2); };
+var clen = function (chroma) { return chroma.replace(/0/g, "").length; };
+
+/**
+ * Get chroma of a pitch class set. A chroma identifies each set uniquely.
+ * It"s a 12-digit binary each presenting one semitone of the octave.
+ *
+ * Note that this function accepts a chroma as parameter and return it
+ * without modification.
+ *
+ * @param {Array|String} set - the pitch class set
+ * @return {String} a binary representation of the pitch class set
+ * @example
+ * PcSet.chroma(["C", "D", "E"]) // => "1010100000000"
+ */
+function chroma(set) {
+  if (isChroma(set)) { return set; }
+  if (!Array.isArray(set)) { return ""; }
+  var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  set.map(chr).forEach(function (i) {
+    b[i] = 1;
+  });
+  return b.join("");
+}
+
+var all = null;
+/**
+ * Get a list of all possible chromas (all possible scales)
+ * More information: http://allthescales.org/
+ * @return {Array} an array of possible chromas from '10000000000' to '11111111111'
+ *
+ */
+function chromas(n) {
+  all = all || Object(tonal_array__WEBPACK_IMPORTED_MODULE_2__["range"])(2048, 4095).map(function (n) { return n.toString(2); });
+  return typeof n === "number"
+    ? all.filter(function (chroma) { return clen(chroma) === n; })
+    : all.slice();
+}
+
+/**
+ * Given a a list of notes or a pcset chroma, produce the rotations
+ * of the chroma discarding the ones that starts with "0"
+ *
+ * This is used, for example, to get all the modes of a scale.
+ *
+ * @param {Array|String} set - the list of notes or pitchChr of the set
+ * @param {Boolean} normalize - (Optional, true by default) remove all
+ * the rotations that starts with "0"
+ * @return {Array<String>} an array with all the modes of the chroma
+ *
+ * @example
+ * PcSet.modes(["C", "D", "E"]).map(PcSet.intervals)
+ */
+function modes(set, normalize) {
+  normalize = normalize !== false;
+  var binary = chroma(set).split("");
+  return Object(tonal_array__WEBPACK_IMPORTED_MODULE_2__["compact"])(
+    binary.map(function(_, i) {
+      var r = Object(tonal_array__WEBPACK_IMPORTED_MODULE_2__["rotate"])(i, binary);
+      return normalize && r[0] === "0" ? null : r.join("");
+    })
+  );
+}
+
+var REGEX = /^[01]{12}$/;
+/**
+ * Test if the given string is a pitch class set chroma.
+ * @param {String} chroma - the pitch class set chroma
+ * @return {Boolean} true if its a valid pcset chroma
+ * @example
+ * PcSet.isChroma("101010101010") // => true
+ * PcSet.isChroma("101001") // => false
+ */
+function isChroma(set) {
+  return REGEX.test(set);
+}
+
+var IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
+/**
+ * Given a pcset (notes or chroma) return it"s intervals
+ * @param {String|Array} pcset - the pitch class set (notes or chroma)
+ * @return {Array} intervals or empty array if not valid pcset
+ * @example
+ * PcSet.intervals("1010100000000") => ["1P", "2M", "3M"]
+ */
+function intervals(set) {
+  if (!isChroma(set)) { return []; }
+  return Object(tonal_array__WEBPACK_IMPORTED_MODULE_2__["compact"])(
+    set.split("").map(function(d, i) {
+      return d === "1" ? IVLS[i] : null;
+    })
+  );
+}
+
+/**
+ * Test if two pitch class sets are identical
+ *
+ * @param {Array|String} set1 - one of the pitch class sets
+ * @param {Array|String} set2 - the other pitch class set
+ * @return {Boolean} true if they are equal
+ * @example
+ * PcSet.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
+ */
+function isEqual(s1, s2) {
+  if (arguments.length === 1) { return function (s) { return isEqual(s1, s); }; }
+  return chroma(s1) === chroma(s2);
+}
+
+/**
+ * Create a function that test if a collection of notes is a
+ * subset of a given set
+ *
+ * The function can be partially applied
+ *
+ * @param {Array|String} set - an array of notes or a chroma set string to test against
+ * @param {Array|String} notes - an array of notes or a chroma set
+ * @return {boolean} true if notes is a subset of set, false otherwise
+ * @example
+ * const inCMajor = PcSet.isSubsetOf(["C", "E", "G"])
+ * inCMajor(["e6", "c4"]) // => true
+ * inCMajor(["e6", "c4", "d3"]) // => false
+ */
+function isSubsetOf(set, notes) {
+  if (arguments.length > 1) { return isSubsetOf(set)(notes); }
+  set = pcsetNum(set);
+  return function(notes) {
+    notes = pcsetNum(notes);
+    return notes !== set && (notes & set) === notes;
+  };
+}
+
+/**
+ * Create a function that test if a collectio of notes is a
+ * superset of a given set (it contains all notes and at least one more)
+ *
+ * @param {Array|String} set - an array of notes or a chroma set string to test against
+ * @param {Array|String} notes - an array of notes or a chroma set
+ * @return {boolean} true if notes is a superset of set, false otherwise
+ * @example
+ * const extendsCMajor = PcSet.isSupersetOf(["C", "E", "G"])
+ * extendsCMajor(["e6", "a", "c4", "g2"]) // => true
+ * extendsCMajor(["c6", "e4", "g3"]) // => false
+ */
+function isSupersetOf(set, notes) {
+  if (arguments.length > 1) { return isSupersetOf(set)(notes); }
+  set = pcsetNum(set);
+  return function(notes) {
+    notes = pcsetNum(notes);
+    return notes !== set && (notes | set) === notes;
+  };
+}
+
+/**
+ * Test if a given pitch class set includes a note
+ * @param {Array|String} set - the base set to test against
+ * @param {String|Pitch} note - the note to test
+ * @return {Boolean} true if the note is included in the pcset
+ * @example
+ * PcSet.includes(["C", "D", "E"], "C4") // => true
+ * PcSet.includes(["C", "D", "E"], "C#4") // => false
+ */
+function includes(set, note) {
+  if (arguments.length > 1) { return includes(set)(note); }
+  set = chroma(set);
+  return function(note) {
+    return set[chr(note)] === "1";
+  };
+}
+
+/**
+ * Filter a list with a pitch class set
+ *
+ * @param {Array|String} set - the pitch class set notes
+ * @param {Array|String} notes - the note list to be filtered
+ * @return {Array} the filtered notes
+ *
+ * @example
+ * PcSet.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "d2", "c3", "d3" ])
+ * PcSet.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "c3" ])
+ */
+function filter(set, notes) {
+  if (arguments.length === 1) { return function (n) { return filter(set, n); }; }
+  return notes.filter(includes(set));
+}
 
 
 /***/ }),

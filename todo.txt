@@ -1,0 +1,7 @@
+Lianna To-Do list
+
+- make lightup selection by string/fret grid instead of ID or class
+
+- make functionality for double sharps
+
+-- maybe work the two above by selecting the tonic and then finding the rest of the chord by relative position

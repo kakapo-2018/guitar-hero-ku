@@ -1,24 +1,27 @@
-import request from "superagent"
 
-
-export function fetchThing() {
-  return (dispatch) => {
-    request.get("/api/v1/route")
-    .then((res) => {
-// console.log("------------ actions/index.js fetchThing() --------")
-// console.log(res.body)
-      return res.body //array of objects from the route
-    }).then(dataFromRoute => {
-      dispatch(receiveThing(dataFromRoute))
-    })
+export const keyToState = (key) => {
+  return {
+    type: "SELECT_KEY",
+    chord: {
+      selectedKey: key,
+    }
   }
 }
 
-export function receiveThing(dataFetchedFromRoute){
-// console.log("------------ actions/index.js recieveThing() --------")
-// console.log(dataFetchedFromRoute)
+export const toneToState = (tone) => {
   return {
-    type: "RECEIVE_THING",
-    actionObjectData: dataFetchedFromRoute //array of objects
+    type: "SELECT_TONE",
+    chord: {
+      selectedTone: tone,
+    }
+  }
+}
+
+export const chordTypeToState = (chordType) => {
+  return {
+    type: "SELECT_CHORDTYPE",
+    chord: {
+      selectedChordType: chordType
+    }
   }
 }
