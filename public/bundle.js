@@ -281,41 +281,9 @@ var Fretboard = function (_React$Component) {
       var selectedNote = document.getElementById(incomingNote);
       selectedNote.classList.add("lit");
     }
-  }, {
-    key: "lightUpChord",
-    value: function lightUpChord(incomingNote) {
-      console.log("incomingNote is", incomingNote);
 
-      // ---------------------------- IN PROGRESS --------------------
+    // maybe need to do this differently, IE need the full chord info when lighting up so to actually get chords rather than a jumble of notes that could make a chord if sorted
 
-      // if (incomingNote.includes("#") )
-
-
-      // //for sharps
-      //     if (incomingNote.includes("#")) {
-      //       // change "#" to "sharp" to match class name
-      //       let arr = incomingNote.split("#")
-      //       arr.push("sharp")
-      //       let noteInWords = arr.join("")
-
-      //       // get all divs with that class and add lit class
-      //       let notesByClass = document.getElementsByClassName(noteInWords)
-      //       for (let i = 0; i < notesByClass.length; i++) {
-      //         notesByClass[i].classList.add("lit")
-      //       }
-      //     }
-      //     else {
-      //       let notesByClass = document.getElementsByClassName(incomingNote)
-      //       for (let i = 0; i < notesByClass.length; i++) {
-      //         notesByClass[i].classList.add("lit")
-      //       }
-      //     }
-      // // do the same for flats
-
-      // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
-      // add a check: If ##, take init letter and replace F## -> G, etc
-      // OR, and probably better, make the selection by relative place. Maybe
-    }
   }, {
     key: "getChordNotes",
     value: function getChordNotes() {
@@ -326,6 +294,46 @@ var Fretboard = function (_React$Component) {
         var thisNote = String(notes[i]);
         this.lightUpChord(thisNote);
       }
+    }
+  }, {
+    key: "lightUpChord",
+    value: function lightUpChord(incoming) {
+      console.log("incoming is", incoming);
+
+      // ---------------------------- IN PROGRESS --------------------
+
+      // 1st position: 
+      // if fret > fret5, do not light up
+      // then need buttons to swap between positions... later. Much later.
+
+
+      // if (incoming.includes("#") )
+
+
+      // //for sharps
+      //     if (incoming.includes("#")) {
+      //       // change "#" to "sharp" to match class name
+      //       let arr = incoming.split("#")
+      //       arr.push("sharp")
+      //       let noteInWords = arr.join("")
+
+      //       // get all divs with that class and add lit class
+      //       let notesByClass = document.getElementsByClassName(noteInWords)
+      //       for (let i = 0; i < notesByClass.length; i++) {
+      //         notesByClass[i].classList.add("lit")
+      //       }
+      //     }
+      //     else {
+      //       let notesByClass = document.getElementsByClassName(incoming)
+      //       for (let i = 0; i < notesByClass.length; i++) {
+      //         notesByClass[i].classList.add("lit")
+      //       }
+      //     }
+      // // do the same for flats
+
+      // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
+      // add a check: If ##, take init letter and replace F## -> G, etc
+      // OR, and probably better, make the selection by relative place. Maybe
     }
   }, {
     key: "render",

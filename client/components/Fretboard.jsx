@@ -30,18 +30,34 @@ lightUpNote(incomingNote) {
     selectedNote.classList.add("lit")
 }
 
-lightUpChord(incomingNote) {
-    console.log("incomingNote is", incomingNote)
+// maybe need to do this differently, IE need the full chord info when lighting up so to actually get chords rather than a jumble of notes that could make a chord if sorted
+getChordNotes() {
+  let chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
+  let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+
+  for (let i = 0; i < notes.length; i++) {
+    let thisNote = String(notes[i])
+    this.lightUpChord(thisNote)
+  }
+}
+
+lightUpChord(incoming) {
+    console.log("incoming is", incoming)
 
 // ---------------------------- IN PROGRESS --------------------
 
-  // if (incomingNote.includes("#") )
+// 1st position: 
+// if fret > fret5, do not light up
+// then need buttons to swap between positions... later. Much later.
+
+
+  // if (incoming.includes("#") )
 
 
 // //for sharps
-//     if (incomingNote.includes("#")) {
+//     if (incoming.includes("#")) {
 //       // change "#" to "sharp" to match class name
-//       let arr = incomingNote.split("#")
+//       let arr = incoming.split("#")
 //       arr.push("sharp")
 //       let noteInWords = arr.join("")
 
@@ -52,7 +68,7 @@ lightUpChord(incomingNote) {
 //       }
 //     }
 //     else {
-//       let notesByClass = document.getElementsByClassName(incomingNote)
+//       let notesByClass = document.getElementsByClassName(incoming)
 //       for (let i = 0; i < notesByClass.length; i++) {
 //         notesByClass[i].classList.add("lit")
 //       }
@@ -66,15 +82,6 @@ lightUpChord(incomingNote) {
 }
 
 
-getChordNotes() {
-  let chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
-  let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
-
-  for (let i = 0; i < notes.length; i++) {
-    let thisNote = String(notes[i])
-    this.lightUpChord(thisNote)
-  }
-}
 
 
 
