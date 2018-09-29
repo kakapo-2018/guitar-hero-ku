@@ -6,24 +6,21 @@ import KeyChordButtons from "./KeyChordButtons"
 class App extends React.Component {
     constructor(props) {
       super(props)
-
     }
 
   componentDidMount(){
   }
 
-
   render() {
     return (
       <div>
-        <p>Guitar HeroKu</p>
+        <h1>Guitar HeroKu</h1>
         <Fretboard />
         <KeyChordButtons />
       </div>
     )
   }
 }
-
 
 function mapStateToProps(state) {
   return {
@@ -33,7 +30,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(App)
 
-
-// Keep for testing when removing container
+// Use for testing when removing container:
 // export default App
 // // export {App}
