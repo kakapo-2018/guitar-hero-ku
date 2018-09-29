@@ -33,6 +33,7 @@ render() {
     <div className="fretboard">
 
 {/* Probably should add full flats and sharp possibilities on every note... but cannot be bothered right now and we may not need them */}
+
       <div className="string" id="first-string">
         <div className="fret string1 fret0 E E4 open-note" id="fret0-string1">E</div>
         <div className="fret string1 fret1 F F4" id="fret1-string1">F</div>
