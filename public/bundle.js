@@ -99,34 +99,44 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var getChord = exports.getChord = function getChord(key, tone, chordType) {
-  return {
-    type: "SELECT_CHORD",
-    chord: {
-      selectedKey: key,
-      selectedTone: tone,
-      selectedChordType: chordType
-    }
-  };
-};
 
-// export const keyToState = (key) => {
+// export const getChord = (key, tone,chordType) => {
 //   return {
-//     type: "SELECT_KEY",
+//     type: "SELECT_CHORD",
 //     chord: {
 //       selectedKey: key,
-//     }
-//   }
-// }
-
-// export const chordTypeToState = (chordType) => {
-//   return {
-//     type: "SELECT_CHORDTYPE",
-//     chord: {
+//       selectedTone: tone,
 //       selectedChordType: chordType
 //     }
 //   }
 // }
+
+var keyToState = exports.keyToState = function keyToState(key) {
+  return {
+    type: "SELECT_KEY",
+    chord: {
+      selectedKey: key
+    }
+  };
+};
+
+var toneToState = exports.toneToState = function toneToState(tone) {
+  return {
+    type: "SELECT_TONE",
+    chord: {
+      selectedTone: tone
+    }
+  };
+};
+
+var chordTypeToState = exports.chordTypeToState = function chordTypeToState(chordType) {
+  return {
+    type: "SELECT_CHORDTYPE",
+    chord: {
+      selectedChordType: chordType
+    }
+  };
+};
 
 /***/ }),
 
@@ -287,6 +297,8 @@ var Fretboard = function (_React$Component) {
     key: "lightUpChord",
     value: function lightUpChord(incomingNote) {
       console.log("incomingNote is", incomingNote);
+
+      // ---------------------------- IN PROGRESS --------------------
 
       // if (incomingNote.includes("#") )
 
@@ -603,7 +615,6 @@ var KeyChordButtons = function (_Component) {
       inputChordType: ""
     };
 
-    _this.fetchChord = _this.fetchChord.bind(_this);
     return _this;
   }
 
@@ -617,6 +628,7 @@ var KeyChordButtons = function (_Component) {
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
           _this2.setState({ inputKey: x.target.value });
+          _this2.props.dispatch((0, _actions.keyToState)(x.target.value));
         });
       }
 
@@ -624,6 +636,7 @@ var KeyChordButtons = function (_Component) {
       for (var _i = 0; _i < toneClass.length; _i++) {
         toneClass[_i].addEventListener("click", function (x) {
           _this2.setState({ inputTone: x.target.value });
+          _this2.props.dispatch((0, _actions.toneToState)(x.target.value));
         });
       }
 
@@ -631,14 +644,15 @@ var KeyChordButtons = function (_Component) {
       for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
         chordTypeClass[_i2].addEventListener("click", function (x) {
           _this2.setState({ inputChordType: x.target.value });
+          _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
         });
       }
     }
-  }, {
-    key: "fetchChord",
-    value: function fetchChord() {
-      this.props.dispatch((0, _actions.getChord)(this.state.inputKey, this.state.inputTone, this.state.inputChordType));
-    }
+
+    // fetchChord(){
+    //     this.props.dispatch(getChord(this.state.inputKey, this.state.inputTone, this.state.inputChordType))
+    //   }
+
   }, {
     key: "render",
     value: function render() {
@@ -656,14 +670,7 @@ var KeyChordButtons = function (_Component) {
             this.state.inputKey,
             this.state.inputTone,
             this.state.inputChordType
-          ),
-          _react2.default.createElement(
-            "button",
-            { onClick: this.fetchChord },
-            "Find Chord"
-          ),
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("br", null)
+          )
         ),
         _react2.default.createElement(
           "div",
@@ -814,16 +821,27 @@ function selectedChord() {
   switch (action.type) {
     case "SELECT_CHORD":
       return action.chord;
-    // case "SELECT_KEY":
-    //   return {
-    //     selectedKey: action.chord,
-    //     selectedChordType: [...state]
-    //   }
-    // case "SELECT_CHORDTYPE":
-    //   return {
-    //     selectedKey: [...state],
-    //     selectedChordType: action.chord
-    //   }
+    case "SELECT_KEY":
+      return {
+        selectedKey: action.chord.selectedKey,
+        selectedTone: state.selectedTone,
+        selectedChordType: state.selectedChordType
+      };
+
+    case "SELECT_TONE":
+      return {
+        selectedKey: state.selectedKey,
+        selectedTone: action.chord.selectedTone,
+        selectedChordType: state.selectedChordType
+      };
+
+    case "SELECT_CHORDTYPE":
+      return {
+        selectedKey: state.selectedKey,
+        selectedTone: state.selectedTone,
+        selectedChordType: action.chord.selectedChordType
+      };
+
     default:
       return state;
   }

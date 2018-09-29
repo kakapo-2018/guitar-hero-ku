@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
-import {getChord} from "../actions"
+import {keyToState, toneToState, chordTypeToState} from "../actions"
 
 class KeyChordButtons extends Component {
   constructor(props) {
@@ -12,7 +12,6 @@ class KeyChordButtons extends Component {
       inputChordType: ""
     }
 
-    this.fetchChord = this.fetchChord.bind(this)
   }
 
   componentDidMount(){
@@ -21,6 +20,7 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
         this.setState({inputKey: x.target.value})
+        this.props.dispatch(keyToState(x.target.value))
       })
     }
 
@@ -28,6 +28,7 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < toneClass.length; i++) {
       toneClass[i].addEventListener("click", (x) => {
         this.setState({inputTone: x.target.value})
+        this.props.dispatch(toneToState(x.target.value))
       })
     }
 
@@ -35,16 +36,16 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < chordTypeClass.length; i++) {
       chordTypeClass[i].addEventListener("click", (x) => {
         this.setState({inputChordType: x.target.value})
+        this.props.dispatch(chordTypeToState(x.target.value))
       })
     }
   }
 
 
 
-
-fetchChord(){
-    this.props.dispatch(getChord(this.state.inputKey, this.state.inputTone, this.state.inputChordType))
-  }
+// fetchChord(){
+//     this.props.dispatch(getChord(this.state.inputKey, this.state.inputTone, this.state.inputChordType))
+//   }
   render() { 
 
     return (
@@ -52,7 +53,7 @@ fetchChord(){
 
         <div id="chord-display">
         {<p>Selected Chord: {this.state.inputKey}{this.state.inputTone}{this.state.inputChordType}</p>}
-          <button onClick={this.fetchChord}>Find Chord</button><br /><br />
+          {/* <button onClick={this.fetchChord}>Find Chord</button><br /><br /> */}
         </div>
 
         <div className="keys">
