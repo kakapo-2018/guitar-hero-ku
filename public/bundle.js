@@ -292,7 +292,6 @@ var Fretboard = function (_React$Component) {
 
 
       // //for sharps
-      // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
       //     if (incomingNote.includes("#")) {
       //       // change "#" to "sharp" to match class name
       //       let arr = incomingNote.split("#")
@@ -312,6 +311,10 @@ var Fretboard = function (_React$Component) {
       //       }
       //     }
       // // do the same for flats
+
+      // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
+      // add a check: If ##, take init letter and replace F## -> G, etc
+      // OR, and probably better, make the selection by relative place. Maybe
     }
   }, {
     key: "getChordNotes",
