@@ -1,11 +1,14 @@
 import React from "react"
 import {connect} from 'react-redux'
 
+import * as Chord from "tonal-chord"
+
 class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
     this.lightUpNote = this.lightUpNote.bind(this)
+    this.getChordNotes = this.getChordNotes.bind(this)
   }
 
   componentDidMount(){
@@ -27,12 +30,16 @@ lightUpNote(noteID) {
   selectedNote.classList.add("lit")
 }
 
+getChordNotes() {
+  let notes = Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType)
+  console.log(notes)
+}
+
 
 
 render() {
-
-// --------- Here's how to access information that's in redux state from here: 
-console.log(this.props.selectedChord)
+// console.log(Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType));
+this.getChordNotes()
 
   return(
     <div className="fretboard">
