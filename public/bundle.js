@@ -302,14 +302,17 @@ var Fretboard = function (_React$Component) {
 
       // ---------------------------- IN PROGRESS --------------------
 
-      // 1st position: 
-      // if fret > fret5, do not light up
-      // then need buttons to swap between positions... later. Much later.
+      // Build a major chord given a tonic
+      // limit to 1 note per string and not above fret 5
+      // translate sharps and flats.... somehow. Each "#" + 1, each "b" -1 ?
+      // need to select tonic without sharp/flat interference
 
 
-      // if (incoming.includes("#") )
+      // add a check: If ##, take init letter and replace F## -> G, etc
+      // OR, and probably better, make the selection by relative place. Maybe
 
 
+      // ------------------ OLD but working functionality for single sharps
       // //for sharps
       //     if (incoming.includes("#")) {
       //       // change "#" to "sharp" to match class name
@@ -329,11 +332,8 @@ var Fretboard = function (_React$Component) {
       //         notesByClass[i].classList.add("lit")
       //       }
       //     }
-      // // do the same for flats
-
       // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
-      // add a check: If ##, take init letter and replace F## -> G, etc
-      // OR, and probably better, make the selection by relative place. Maybe
+
     }
   }, {
     key: "render",
