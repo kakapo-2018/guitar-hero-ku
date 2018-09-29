@@ -33,41 +33,39 @@ lightUpNote(incomingNote) {
 lightUpChord(incomingNote) {
     console.log("incomingNote is", incomingNote)
 
-//for sharps
-// DOESN'T WORK FOR DOUBLE SHARPS. SIGH
-    if (incomingNote.includes("#")) {
-      // change "#" to "sharp" to match class name
-      let arr = incomingNote.split("#")
-      arr.push("sharp")
-      let noteInWords = arr.join("")
+  // if (incomingNote.includes("#") )
 
-      // get all divs with that class and add lit class
-      let notesByClass = document.getElementsByClassName(noteInWords)
-      for (let i = 0; i < notesByClass.length; i++) {
-        notesByClass[i].classList.add("lit")
-      }
-    }
-    else {
-      let notesByClass = document.getElementsByClassName(incomingNote)
-      for (let i = 0; i < notesByClass.length; i++) {
-        notesByClass[i].classList.add("lit")
-      }
-    }
-// do the same for flats
+
+// //for sharps
+// // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
+//     if (incomingNote.includes("#")) {
+//       // change "#" to "sharp" to match class name
+//       let arr = incomingNote.split("#")
+//       arr.push("sharp")
+//       let noteInWords = arr.join("")
+
+//       // get all divs with that class and add lit class
+//       let notesByClass = document.getElementsByClassName(noteInWords)
+//       for (let i = 0; i < notesByClass.length; i++) {
+//         notesByClass[i].classList.add("lit")
+//       }
+//     }
+//     else {
+//       let notesByClass = document.getElementsByClassName(incomingNote)
+//       for (let i = 0; i < notesByClass.length; i++) {
+//         notesByClass[i].classList.add("lit")
+//       }
+//     }
+// // do the same for flats
 }
 
 
 getChordNotes() {
-  let notes = Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType)
-  console.log(notes)
+  let chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
+  let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+
   for (let i = 0; i < notes.length; i++) {
     let thisNote = String(notes[i])
-
-// need to use as a filtering tool, find all with matching class, and then return IDs for all
-// OR
-// use this as a way to immediately get only the particular notes wanted
-
-
     this.lightUpChord(thisNote)
   }
 }

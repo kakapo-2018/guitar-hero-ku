@@ -1,6 +1,6 @@
-.active-chord {
-  background-color: blue
-}
+/* .E2 {
+  background-color: lightblue
+} */
 
 
 /* ---------------------- Fretboard ----------------------  */
@@ -29,11 +29,13 @@
 }
 
 .key,
+.tone,
 .chord-type {
   width: 100%;
 } 
 
 .keyRow,
+.toneRow,
 .chordRow {
   display: flex;
   align-content: space-between;

@@ -99,11 +99,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var getChord = exports.getChord = function getChord(key, chordType) {
+var getChord = exports.getChord = function getChord(key, tone, chordType) {
   return {
     type: "SELECT_CHORD",
     chord: {
       selectedKey: key,
+      selectedTone: tone,
       selectedChordType: chordType
     }
   };
@@ -287,40 +288,39 @@ var Fretboard = function (_React$Component) {
     value: function lightUpChord(incomingNote) {
       console.log("incomingNote is", incomingNote);
 
-      //for sharps
-      // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
-      if (incomingNote.includes("#")) {
-        // change "#" to "sharp" to match class name
-        var arr = incomingNote.split("#");
-        arr.push("sharp");
-        var noteInWords = arr.join("");
+      // if (incomingNote.includes("#") )
 
-        // get all divs with that class and add lit class
-        var notesByClass = document.getElementsByClassName(noteInWords);
-        for (var i = 0; i < notesByClass.length; i++) {
-          notesByClass[i].classList.add("lit");
-        }
-      } else {
-        var _notesByClass = document.getElementsByClassName(incomingNote);
-        for (var _i = 0; _i < _notesByClass.length; _i++) {
-          _notesByClass[_i].classList.add("lit");
-        }
-      }
-      // do the same for flats
+
+      // //for sharps
+      // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
+      //     if (incomingNote.includes("#")) {
+      //       // change "#" to "sharp" to match class name
+      //       let arr = incomingNote.split("#")
+      //       arr.push("sharp")
+      //       let noteInWords = arr.join("")
+
+      //       // get all divs with that class and add lit class
+      //       let notesByClass = document.getElementsByClassName(noteInWords)
+      //       for (let i = 0; i < notesByClass.length; i++) {
+      //         notesByClass[i].classList.add("lit")
+      //       }
+      //     }
+      //     else {
+      //       let notesByClass = document.getElementsByClassName(incomingNote)
+      //       for (let i = 0; i < notesByClass.length; i++) {
+      //         notesByClass[i].classList.add("lit")
+      //       }
+      //     }
+      // // do the same for flats
     }
   }, {
     key: "getChordNotes",
     value: function getChordNotes() {
-      var notes = Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType);
-      console.log(notes);
+      var chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
+      var notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
+
       for (var i = 0; i < notes.length; i++) {
         var thisNote = String(notes[i]);
-
-        // need to use as a filtering tool, find all with matching class, and then return IDs for all
-        // OR
-        // use this as a way to immediately get only the particular notes wanted
-
-
         this.lightUpChord(thisNote);
       }
     }
@@ -596,6 +596,7 @@ var KeyChordButtons = function (_Component) {
 
     _this.state = {
       inputKey: "",
+      inputTone: "",
       inputChordType: ""
     };
 
@@ -609,16 +610,23 @@ var KeyChordButtons = function (_Component) {
       var _this2 = this;
 
       // Event listeners for all key letters and chord types to trigger display on click
-      var keyClass = document.getElementsByClassName("keys");
+      var keyClass = document.getElementsByClassName("key");
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
           _this2.setState({ inputKey: x.target.value });
         });
       }
 
+      var toneClass = document.getElementsByClassName("tone");
+      for (var _i = 0; _i < toneClass.length; _i++) {
+        toneClass[_i].addEventListener("click", function (x) {
+          _this2.setState({ inputTone: x.target.value });
+        });
+      }
+
       var chordTypeClass = document.getElementsByClassName("chord-type");
-      for (var _i = 0; _i < chordTypeClass.length; _i++) {
-        chordTypeClass[_i].addEventListener("click", function (x) {
+      for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
+        chordTypeClass[_i2].addEventListener("click", function (x) {
           _this2.setState({ inputChordType: x.target.value });
         });
       }
@@ -626,7 +634,7 @@ var KeyChordButtons = function (_Component) {
   }, {
     key: "fetchChord",
     value: function fetchChord() {
-      this.props.dispatch((0, _actions.getChord)(this.state.inputKey, this.state.inputChordType));
+      this.props.dispatch((0, _actions.getChord)(this.state.inputKey, this.state.inputTone, this.state.inputChordType));
     }
   }, {
     key: "render",
@@ -643,6 +651,7 @@ var KeyChordButtons = function (_Component) {
             null,
             "Selected Chord: ",
             this.state.inputKey,
+            this.state.inputTone,
             this.state.inputChordType
           ),
           _react2.default.createElement(
@@ -669,12 +678,9 @@ var KeyChordButtons = function (_Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "keyRow" },
-            _react2.default.createElement("input", { className: "key", type: "button", value: "C#" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "D#" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "F#" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "G#" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "A#" })
+            { className: "toneRow" },
+            _react2.default.createElement("input", { className: "tone", type: "button", value: "#" }),
+            _react2.default.createElement("input", { className: "tone", type: "button", value: "b" })
           )
         ),
         _react2.default.createElement(

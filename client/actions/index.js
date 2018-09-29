@@ -1,9 +1,10 @@
 
-export const getChord = (key, chordType) => {
+export const getChord = (key, tone,chordType) => {
   return {
     type: "SELECT_CHORD",
     chord: {
       selectedKey: key,
+      selectedTone: tone,
       selectedChordType: chordType
     }
   }

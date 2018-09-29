@@ -8,6 +8,7 @@ class KeyChordButtons extends Component {
 
     this.state = {
       inputKey: "",
+      inputTone: "",
       inputChordType: ""
     }
 
@@ -16,10 +17,17 @@ class KeyChordButtons extends Component {
 
   componentDidMount(){
 // Event listeners for all key letters and chord types to trigger display on click
-    let keyClass = document.getElementsByClassName("keys")
+    let keyClass = document.getElementsByClassName("key")
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
         this.setState({inputKey: x.target.value})
+      })
+    }
+
+    let toneClass = document.getElementsByClassName("tone")
+    for (let i = 0; i < toneClass.length; i++) {
+      toneClass[i].addEventListener("click", (x) => {
+        this.setState({inputTone: x.target.value})
       })
     }
 
@@ -35,7 +43,7 @@ class KeyChordButtons extends Component {
 
 
 fetchChord(){
-    this.props.dispatch(getChord(this.state.inputKey, this.state.inputChordType))
+    this.props.dispatch(getChord(this.state.inputKey, this.state.inputTone, this.state.inputChordType))
   }
   render() { 
 
@@ -43,7 +51,7 @@ fetchChord(){
       <div className="keyChordContainer">
 
         <div id="chord-display">
-        {<p>Selected Chord: {this.state.inputKey}{this.state.inputChordType}</p>}
+        {<p>Selected Chord: {this.state.inputKey}{this.state.inputTone}{this.state.inputChordType}</p>}
           <button onClick={this.fetchChord}>Find Chord</button><br /><br />
         </div>
 
@@ -58,12 +66,9 @@ fetchChord(){
             <input className="key" type="button" value="B"></input>
 
           </div>
-          <div className="keyRow">
-            <input className="key" type="button" value="C#"></input>
-            <input className="key" type="button" value="D#"></input>
-            <input className="key" type="button" value="F#"></input>
-            <input className="key" type="button" value="G#"></input>
-            <input className="key" type="button" value="A#"></input>
+          <div className="toneRow">
+            <input className="tone" type="button" value="#"></input>
+            <input className="tone" type="button" value="b"></input>
 
           </div>
         </div>
