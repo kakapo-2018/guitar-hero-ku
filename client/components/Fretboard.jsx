@@ -24,9 +24,23 @@ class Fretboard extends React.Component {
   }
 
 
-lightUpNote(noteID) {
-  let selectedNote = document.getElementById(noteID)
-  selectedNote.classList.add("lit")
+lightUpNote(incomingNote) {
+  if (incomingNote.includes("-")) {
+    console.log("is an id")
+    let selectedNote = document.getElementById(incomingNote)
+    selectedNote.classList.add("lit")
+  }
+  else {
+
+
+//fine for whole notes, but need to deal with sharps and flats
+    let notesByClass = document.getElementsByClassName(incomingNote)
+    console.log(notesByClass)
+    for (let i = 0; i < notesByClass.length; i++) {
+      console.log(notesByClass[i])
+      notesByClass[i].classList.add("lit")
+    }
+  }
 }
 
 getChordNotes() {
@@ -40,7 +54,7 @@ getChordNotes() {
 // use this as a way to immediately get only the particular notes wanted
 
 
-    // this.lightUpNote(thisNote)
+    this.lightUpNote(thisNote)
   }
 }
 
@@ -53,58 +67,59 @@ this.getChordNotes()
   return(
     <div className="fretboard">
 
-      <div className="string" id="Estring1">
-        <div className="fret E E5 Estring1" id="fret-E5-Estring1">E</div>
-        <div className="fret F F5 Estring1" id="fret-F5-Estring1">F</div>
-        <div className="fret Fsharp F5sharp Estring1" id="fret-F5sharp-Estring1">F#</div>
-        <div className="fret G G5 Estring1" id="fret-G5-Estring1">G</div>
-        <div className="fret Gsharp G5sharp Estring1" id="fret-G5sharp-Estring1">G#</div>
-        <div className="fret A A5 Estring1" id="fret-A5-Estring1">A</div>
+{/* Probably should add full flats and sharp possibilities on every note... but cannot be bothered right now */}
+      <div className="string" id="first-string">
+        <div className="fret string1 fret0 E E4 open-note" id="fret0-string1">E</div>
+        <div className="fret string1 fret1 F F4" id="fret1-string1">F</div>
+        <div className="fret string1 fret2 Fsharp Gflat F4sharp G4flat sharp-or-flat" id="fret2-string1">F#</div>
+        <div className="fret string1 fret3 G G4" id="fret3-string1">G</div>
+        <div className="fret string1 fret4 Gsharp Aflat G4sharp A4flat sharp-or-flat" id="fret4-string1">G#</div>
+        <div className="fret string1 fret5 A A4" id="fret5-string1">A</div>
       </div>
 
-      <div className="string" id="Bstring2">
-        <div className="fret B B5 Bstring2" id="fret-B5-Bstring2">B</div>
-        <div className="fret C C5 Bstring2" id="fret-C5-Bstring2">C</div>
-        <div className="fret Csharp C5sharp Bstring2" id="fret-C5sharp-Bstring2">C#</div>
-        <div className="fret D D5 Bstring2" id="fret-D5-Bstring2">D</div>
-        <div className="fret Dsharp D5sharp Bstring2" id="fret-D5sharp-Bstring2">D#</div>
-        <div className="fret E E5 Bstring2" id="fret-E5-Bstring2">E</div>
+      <div className="string" id="second-string">
+        <div className="fret string2 fret0 B B3 open-note" id="fret0-string2">B</div>
+        <div className="fret string2 fret1 C C4" id="fret1-string2">C</div>
+        <div className="fret string2 fret2 Csharp Dflat C4sharp D4flat sharp-or-flat" id="fret2-string2">C#</div>
+        <div className="fret string2 fret3 D D4" id="fret3-string2">D</div>
+        <div className="fret string2 fret4 Dsharp Eflat D4sharp E4flat sharp-or-flat" id="fret4-string2">D#</div>
+        <div className="fret string2 fret5 E E4" id="fret5-string2">E</div>
       </div>
 
-      <div className="string" id="Gstring3">
-        <div className="fret G G4 Gstring3" id="fret-G4-Gstring3">G</div>
-        <div className="fret Gsharp G4sharp Gstring3" id="fret-G4sharp-Gstring3">G#</div>
-        <div className="fret A A5 Gstring3" id="fret-A5-Gstring3">A</div>
-        <div className="fret Asharp A5sharp Gstring3" id="fret-A5sharp-Gstring3">A#</div>
-        <div className="fret B B5 Gstring3" id="fret-B5-Gstring3">B</div>
-        <div className="fret C C5 Gstring3" id="fret-C5-Gstring3">C</div>
+      <div className="string" id="third-string">
+        <div className="fret string3 fret0 G G3 open-note" id="fret0-string3">G</div>
+        <div className="fret string3 fret1 Gsharp Aflat G3sharp A3flat sharp-or-flat" id="fret1-string3">G#</div>
+        <div className="fret string3 fret2 A A3" id="fret2-string3">A</div>
+        <div className="fret string3 fret3 Asharp Bflat A3sharp B3flat sharp-or-flat" id="fret3-string3">A#</div>
+        <div className="fret string3 fret4 B B3" id="fret4-string3">B</div>
+        <div className="fret string3 fret5 C C4" id="fret5-string3">C</div>
       </div>
 
-      <div className="string" id="Dstring4">
-        <div className="fret D D4 Dstring4" id="fret-D4-Dstring4">D</div>
-        <div className="fret Dsharp D4sharp Dstring4" id="fret-D4sharp-Dstring4">D#</div>
-        <div className="fret E E4 Dstring4" id="fret-E4-Dstring4">E</div>
-        <div className="fret F F4 Dstring4" id="fret-F4-Dstring4">F</div>
-        <div className="fret Fsharp F4sharp Dstring4" id="fret-F4sharp-Dstring4">F#</div>
-        <div className="fret G G4 Dstring4" id="fret-G4-Dstring4">G</div>
+      <div className="string" id="fourth-string">
+        <div className="fret string4 fret0 D D3 open-note" id="fret0-string4">D</div>
+        <div className="fret string4 fret1 Dsharp Eflat D3sharp E3flat sharp-or-flat" id="fret1-string4">D#</div>
+        <div className="fret string4 fret2 E E3" id="fret2-string4">E</div>
+        <div className="fret string4 fret3 F F3" id="fret3-string4">F</div>
+        <div className="fret string4 fret4 Fsharp Gflat F3sharp G3flat sharp-or-flat" id="fret4-string4">F#</div>
+        <div className="fret string4 fret5 G G3" id="fret5-string4">G</div>
       </div>
 
-      <div className="string" id="Astring5">
-        <div className="fret A A4 Astring5" id="fret-A4-Astring5">A</div>
-        <div className="fret Asharp A4sharp Astring5" id="fret-A4sharp-Astring5">A#</div>
-        <div className="fret B B4 Astring5" id="fret-B4-Astring5">B</div>
-        <div className="fret C C4 Astring5" id="fret-C4-Astring5">C</div>
-        <div className="fret Csharp C4sharp Astring5" id="fret-C4sharp-Astring5">C#</div>
-        <div className="fret D D4 Astring5" id="fret-D4-Astring5">D</div>
+      <div className="string" id="fifth-string">
+        <div className="fret string5 fret0 A A2 open-note" id="fret0-string5">A</div>
+        <div className="fret string5 fret1 Asharp Bflat A2sharp B2flat sharp-or-flat" id="fret1-string5">A#</div>
+        <div className="fret string5 fret2 B B2" id="fret2-string5">B</div>
+        <div className="fret string5 fret3 C C3" id="fret3-string5">C</div>
+        <div className="fret string5 fret4 Csharp Dflat C3sharp D3flat sharp-or-flat" id="fret4-string5">C#</div>
+        <div className="fret string5 fret5 D D3" id="fret5-string5">D</div>
       </div>
 
-      <div className="string" id="Estring6">
-        <div className="fret E E3 Estring6" id="fret-E3-Estring6">E</div>
-        <div className="fret F F3 Estring6" id="fret-F3-Estring6">F</div>
-        <div className="fret Fsharp F3sharp Estring6" id="fret-F3sharp-Estring6">F#</div>
-        <div className="fret G G3 Estring6" id="fret-G3-Estring6">G</div>
-        <div className="fret Gsharp G3sharp Estring6" id="fret-G3sharp-Estring6">G#</div>
-        <div className="fret A A4 Estring6" id="fret-A4-Estring6">A</div>
+      <div className="string" id="sixth-string">
+        <div className="fret string6 fret0 E E2 open-note" id="fret0-string6">E</div>
+        <div className="fret string6 fret1 F F2" id="fret1-string6">F</div>
+        <div className="fret string6 fret2 Fsharp Gflat F2sharp G2flat sharp-or-flat" id="fret2-string6">F#</div>
+        <div className="fret string6 fret3 G G2" id="fret3-string6">G</div>
+        <div className="fret string6 fret4 Gsharp Aflat G2sharp A2flat sharp-or-flat" id="fret4-string6">G#</div>
+        <div className="fret string6 fret5 A A2" id="fret5-string6">A</div>
       </div>
 
     </div>
