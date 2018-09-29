@@ -1,9 +1,16 @@
+.active-chord {
+  background-color: blue
+}
+
 
 /* ---------------------- Fretboard ----------------------  */
 
 .string {
     display: flex;
     align-content: space-around;
+    /* justify-content: flex-start;
+    align-content: center; */
+    border: 1px black solid
 }
 
 .fret {

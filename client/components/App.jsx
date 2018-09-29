@@ -1,18 +1,15 @@
 import React from "react"
-// import {connect} from 'react-redux'
+import {connect} from 'react-redux'
 import Fretboard from "./Fretboard"
 import KeyChordButtons from "./KeyChordButtons"
-
 
 class App extends React.Component {
     constructor(props) {
       super(props)
 
-  
     }
 
   componentDidMount(){
-    // this.props.dispatch(fetchThing())
   }
 
 
@@ -27,7 +24,16 @@ class App extends React.Component {
   }
 }
 
-export default App
+
+function mapStateToProps(state) {
+  return {
+    reducerName: state.reducerName
+  }
+}
+
+export default connect(mapStateToProps)(App)
+
 
 // Keep for testing when removing container
+// export default App
 // // export {App}
