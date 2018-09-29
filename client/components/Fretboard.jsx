@@ -33,6 +33,8 @@ lightUpNote(incomingNote) {
 lightUpChord(incomingNote) {
     console.log("incomingNote is", incomingNote)
 
+// ---------------------------- IN PROGRESS --------------------
+
   // if (incomingNote.includes("#") )
 
 
