@@ -79,7 +79,6 @@ getChordNotes() {
 
 
 render() {
-// console.log(Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType));
 this.getChordNotes()
 
   return(

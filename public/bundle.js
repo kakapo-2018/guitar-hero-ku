@@ -99,18 +99,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-// export const getChord = (key, tone,chordType) => {
-//   return {
-//     type: "SELECT_CHORD",
-//     chord: {
-//       selectedKey: key,
-//       selectedTone: tone,
-//       selectedChordType: chordType
-//     }
-//   }
-// }
-
 var keyToState = exports.keyToState = function keyToState(key) {
   return {
     type: "SELECT_KEY",
@@ -342,7 +330,6 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      // console.log(Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType));
       this.getChordNotes();
 
       return _react2.default.createElement(
@@ -607,15 +594,7 @@ var KeyChordButtons = function (_Component) {
   function KeyChordButtons(props) {
     _classCallCheck(this, KeyChordButtons);
 
-    var _this = _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
-
-    _this.state = {
-      inputKey: "",
-      inputTone: "",
-      inputChordType: ""
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
   }
 
   _createClass(KeyChordButtons, [{
@@ -648,11 +627,6 @@ var KeyChordButtons = function (_Component) {
         });
       }
     }
-
-    // fetchChord(){
-    //     this.props.dispatch(getChord(this.state.inputKey, this.state.inputTone, this.state.inputChordType))
-    //   }
-
   }, {
     key: "render",
     value: function render() {
@@ -667,9 +641,9 @@ var KeyChordButtons = function (_Component) {
             "p",
             null,
             "Selected Chord: ",
-            this.state.inputKey,
-            this.state.inputTone,
-            this.state.inputChordType
+            this.props.selectedChord.selectedKey,
+            this.props.selectedChord.selectedTone,
+            this.props.selectedChord.selectedChordType
           )
         ),
         _react2.default.createElement(
@@ -717,8 +691,6 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(KeyChordButtons);
-
-// export default KeyChordButtons;
 
 /***/ }),
 

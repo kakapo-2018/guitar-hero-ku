@@ -6,12 +6,6 @@ class KeyChordButtons extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      inputKey: "",
-      inputTone: "",
-      inputChordType: ""
-    }
-
   }
 
   componentDidMount(){
@@ -42,18 +36,13 @@ class KeyChordButtons extends Component {
   }
 
 
-
-// fetchChord(){
-//     this.props.dispatch(getChord(this.state.inputKey, this.state.inputTone, this.state.inputChordType))
-//   }
   render() { 
 
     return (
       <div className="keyChordContainer">
 
         <div id="chord-display">
-        {<p>Selected Chord: {this.state.inputKey}{this.state.inputTone}{this.state.inputChordType}</p>}
-          {/* <button onClick={this.fetchChord}>Find Chord</button><br /><br /> */}
+        {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedChordType}</p>}
         </div>
 
         <div className="keys">
@@ -96,5 +85,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(KeyChordButtons)
-
-// export default KeyChordButtons;
