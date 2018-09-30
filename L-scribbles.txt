@@ -1,6 +1,23 @@
+::: -------- determine what to play -------- :::
+??? 
+: rule set
+lowest note must be tonic
+array restricted on each string (b-1) highest index
+one note per string
+
+able to turn on and off
+
+
+::: -------- determine how to display -------- :::
+sharps problem
+strings as arrays of notes, like fretarray
+IF know the notes that need to be played, can generate? YES
+
+
  approach it as a piano, would easily get the triads built. How to translate, again? Basically where we are now
 
 light up note if within x many frets, instead of absolute? Still doesn't fix the B problem
+
 
 
  ------------------------- THINKING  -------------------------
@@ -10,7 +27,7 @@ search fretsequence for tonic/ [0], then find all following? ugh.
 if scinote letter IS one of arr && scinote num = tonic number or higher, then return
 
 * get sci numbers with a lgnth-1 thing at first determiation of scinote
-* best use "Csharp4" and get length-1, OR "C4sharp" and get second character
+* best use "Csharp4" and get length-1, OR "C4sharp" and get second character?
 
 * move this out of this component and into...?
 * make chordtype default to major, put in redux initialState

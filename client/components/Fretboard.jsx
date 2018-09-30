@@ -1,7 +1,5 @@
-
 import React from "react"
 import {connect} from 'react-redux'
-
 import * as Chord from "tonal-chord"
 
 class Fretboard extends React.Component {
@@ -89,7 +87,8 @@ getAllFretsForChord() {
   let chordKey = this.getChordKey()
   let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
   console.log(theseNotes)
-// ------------ not yet working for sharps or flats. call Tonal's Note.simplify converstion function
+// ------------ not yet working for sharps or flats. call Tonal's Note.simplify converstion function.
+// But then triad steps??
 
 // Limit number of frets for this and return list of frets within range
   let maxFretsFilter = 4 //hardcode for now, change to button selection in stretch
