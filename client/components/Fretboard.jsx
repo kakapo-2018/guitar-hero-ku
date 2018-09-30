@@ -9,6 +9,7 @@ class Fretboard extends React.Component {
 
     this.lightUpNote = this.lightUpNote.bind(this)
     this.lightUpChord = this.lightUpChord.bind(this)
+    this.getFretList = this.getFretList.bind(this)
     this.getChordNotes = this.getChordNotes.bind(this)
   }
 
@@ -31,7 +32,28 @@ lightUpNote(incomingNote) {
 }
 
 // maybe need to do this differently, IE need the full chord info when lighting up so to actually get chords rather than a jumble of notes that could make a chord if sorted
+getFretList() {
+  let testnote = "F4"
+  let list = []
+
+  let frets = document.getElementsByClassName("fret")
+      for (let i = 0; i < frets.length; i++) {
+        if (frets[i].classList.value.includes(testnote)) {
+          this.lightUpNote(frets[i].attributes.id.nodeValue)
+        console.log(frets[i].classList.value)
+        }
+        // list.push(frets[i])
+        // list.push(frets[i].textContent) //get printed note
+        // list.push(frets[i].attributes.id.nodeValue) or value //get fretID
+        // list.push(frets[i].classList.value) //gets all classes as a string with spaces
+      }
+
+  // console.log(list)
+}
+
+
 getChordNotes() {
+//get key:
   if (this.props.selectedChord.selectedTone) {
     let chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
     console.log(chordKey)
@@ -100,6 +122,7 @@ lightUpChord(incoming) {
 
 render() {
 this.getChordNotes()
+  this.getFretList()
 
   return(
     <div className="fretboard">

@@ -1,5 +1,4 @@
 # Lianna To-Do list
-## clear chord button (esp for clearing sharps/flats)
 
 ## write function to build a major/minor chord given a tonic and the triad structures. 
 * select the tonic and then find the rest of the chord by relative position

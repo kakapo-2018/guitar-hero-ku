@@ -258,6 +258,7 @@ var Fretboard = function (_React$Component) {
 
     _this.lightUpNote = _this.lightUpNote.bind(_this);
     _this.lightUpChord = _this.lightUpChord.bind(_this);
+    _this.getFretList = _this.getFretList.bind(_this);
     _this.getChordNotes = _this.getChordNotes.bind(_this);
     return _this;
   }
@@ -285,8 +286,29 @@ var Fretboard = function (_React$Component) {
     // maybe need to do this differently, IE need the full chord info when lighting up so to actually get chords rather than a jumble of notes that could make a chord if sorted
 
   }, {
+    key: "getFretList",
+    value: function getFretList() {
+      var testnote = "F4";
+      var list = [];
+
+      var frets = document.getElementsByClassName("fret");
+      for (var i = 0; i < frets.length; i++) {
+        if (frets[i].classList.value.includes(testnote)) {
+          this.lightUpNote(frets[i].attributes.id.nodeValue);
+          console.log(frets[i].classList.value);
+        }
+        // list.push(frets[i])
+        // list.push(frets[i].textContent) //get printed note
+        // list.push(frets[i].attributes.id.nodeValue) or value //get fretID
+        // list.push(frets[i].classList.value) //gets all classes as a string with spaces
+      }
+
+      // console.log(list)
+    }
+  }, {
     key: "getChordNotes",
     value: function getChordNotes() {
+      //get key:
       if (this.props.selectedChord.selectedTone) {
         var chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
         console.log(chordKey);
@@ -350,6 +372,7 @@ var Fretboard = function (_React$Component) {
     key: "render",
     value: function render() {
       this.getChordNotes();
+      this.getFretList();
 
       return _react2.default.createElement(
         "div",
