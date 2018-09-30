@@ -99,6 +99,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, chordType) {
+  return {
+    type: "SELECT_CHORD",
+    chord: {
+      selectedKey: key,
+      selectedTone: tone,
+      selectedChordType: chordType
+    }
+  };
+};
+
 var keyToState = exports.keyToState = function keyToState(key) {
   return {
     type: "SELECT_KEY",
@@ -257,11 +268,9 @@ var Fretboard = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
 
     _this.getChordKey = _this.getChordKey.bind(_this);
-    _this.getListOfAvailableFrets = _this.getListOfAvailableFrets.bind(_this);
     _this.lightUpNote = _this.lightUpNote.bind(_this);
     _this.clearLitNotes = _this.clearLitNotes.bind(_this);
 
-    _this.getAllFretsForChord = _this.getAllFretsForChord.bind(_this);
     return _this;
   }
 
@@ -285,90 +294,6 @@ var Fretboard = function (_React$Component) {
       if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;else return this.props.selectedChord.selectedKey;
     }
   }, {
-    key: "getListOfAvailableFrets",
-    value: function getListOfAvailableFrets(maxFret) {
-      var allowedFrets = [];
-      // let frets = document.getElementsByClassName("fret")
-      //   for (let i = 0; i < frets.length; i++) {
-      //     if (frets[i].attributes.fret.value < maxFret + 1) {
-      //         allowedFrets.push(frets[i])
-      //     }
-      // }
-
-      // push frets to array in pitch order, lowerst to highest. 
-      var string1 = document.getElementsByClassName("string1");
-      var string2 = document.getElementsByClassName("string2");
-      var string3 = document.getElementsByClassName("string3");
-      var string4 = document.getElementsByClassName("string4");
-      var string5 = document.getElementsByClassName("string5");
-      var string6 = document.getElementsByClassName("string6");
-
-      for (var i = 0; i < string6.length; i++) {
-        // if (string1[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string6[i]);
-      }
-      // }
-      for (var _i = 0; _i < string5.length; _i++) {
-        // if (string2[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string5[_i]);
-      }
-      // }
-      for (var _i2 = 0; _i2 < string4.length; _i2++) {
-        // if (string3[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string4[_i2]);
-      }
-      // }
-      for (var _i3 = 0; _i3 < string3.length; _i3++) {
-        // if (string4[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string3[_i3]);
-      }
-      // }
-      for (var _i4 = 0; _i4 < string2.length; _i4++) {
-        // if (string5[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string2[_i4]);
-      }
-      // }
-      for (var _i5 = 0; _i5 < string1.length; _i5++) {
-        // if (string6[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string1[_i5]);
-      }
-      // }
-      // console.log(allowedFrets)
-      return allowedFrets;
-    }
-  }, {
-    key: "getAllFretsForChord",
-    value: function getAllFretsForChord() {
-
-      // clear any currently lit notes
-      this.clearLitNotes();
-
-      // get chord details for current selected chord
-      var chordKey = this.getChordKey();
-      var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
-      console.log(theseNotes);
-      // ------------ not yet working for sharps or flats. call Tonal's Note.simplify converstion function.
-      // But then triad steps??
-
-      // Limit number of frets for this and return list of frets within range
-      var maxFretsFilter = 4; //hardcode for now, change to button selection in stretch
-      var currentFrets = this.getListOfAvailableFrets(maxFretsFilter);
-
-      // Create array of divs that are both within range and contain one of the notes  
-      var noteArray = [];
-      for (var i = 0; i < currentFrets.length; i++) {
-        for (var j = 0; j < theseNotes.length; j++) {
-          if (currentFrets[i].attributes.note.textContent === theseNotes[j]) {
-            // console.log(currentFrets[i].attributes.id.value)
-            noteArray.push(currentFrets[i]);
-            this.lightUpNote(currentFrets[i].attributes.id.value); //move later when maj/min is running
-          }
-        }
-      }
-      // console.log(noteArray)
-      // return noteArray
-    }
-  }, {
     key: "lightUpNote",
     value: function lightUpNote(incomingID) {
       var selectedNote = document.getElementById(incomingID);
@@ -387,7 +312,6 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      this.getAllFretsForChord();
 
       return _react2.default.createElement(
         "div",
@@ -1105,6 +1029,7 @@ function selectedChord() {
   switch (action.type) {
     case "SELECT_CHORD":
       return action.chord;
+
     case "SELECT_KEY":
       return {
         selectedKey: action.chord.selectedKey,
