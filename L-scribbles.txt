@@ -11,6 +11,9 @@ frets[i].attributes.string       //name of string
 frets[i].attributes.fret       //name of fret
 frets[i].attributes.string       // all classes
 
+  frets[i].attributes.fret.value
+  frets[i].attributes.id.value
+  frets[i].attributes.scinote.textContent
 
 
 

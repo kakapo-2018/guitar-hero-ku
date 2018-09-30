@@ -9,8 +9,9 @@ class Fretboard extends React.Component {
 
     this.lightUpNote = this.lightUpNote.bind(this)
     this.lightUpChord = this.lightUpChord.bind(this)
-    this.getFretList = this.getFretList.bind(this)
+    this.restrictFrets = this.restrictFrets.bind(this)
     this.getChordNotes = this.getChordNotes.bind(this)
+    this.getChordKey = this.getChordKey.bind(this)
   }
 
   componentDidMount(){
@@ -31,42 +32,50 @@ lightUpNote(incomingNote) {
     selectedNote.classList.add("lit")
 }
 
-getFretList() {
-// Purpose: get the full list of frets with restrictions (e.g. not above fret 3)
-
-let list = []
+restrictFrets(maxFret) {
+// use this later for set position (into redux)
+  let allowedFrets = []
   let frets = document.getElementsByClassName("fret")
-
     for (let i = 0; i < frets.length; i++) {
-      if (
-        // true
-        frets[i].attributes.fret.value < 4
-        ) {
-          // console.log(frets[i].attributes.fret.value)
-          // console.log(frets[i].attributes.id.value)
-          // console.log(frets[i].attributes.scinote.textContent)
-          this.lightUpNote(frets[i].attributes.id.value)
-        }
+      if (frets[i].attributes.fret.value < maxFret+1) {
+          allowedFrets.push(frets[i].attributes.id.value)
+          // this.lightUpNote(frets[i].attributes.id.value)
       }
-
-  console.log(list)
-
+  }
+  // console.log(allowedFrets)
+  return allowedFrets
 }
 
+getChordKey() {
+//get key, depending on if # or b is included:
+  if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
+  else return this.props.selectedChord.selectedKey
+}
 
 getChordNotes() {
-//get key, depending on if # or b is included:
-  if (this.props.selectedChord.selectedTone) {
-    let chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
-    console.log(chordKey)
-  }
-  else {
-    let chordKey = this.props.selectedChord.selectedKey
-    console.log(chordKey)
-  }
+  let chordKey = this.getChordKey()
 
-  // let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+  let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
 
+  let maxFretsFilter = 3
+  let currentFrets = this.restrictFrets(maxFretsFilter)
+  // console.log(currentFrets)
+
+// use currentFret IDs, get attribute, for now just note
+
+
+
+
+
+// loop frets return where match a note
+  // for (let i = 0; i < currentFrets.length; i++) {
+  //   // const element = currentFrets[i];
+  //   for (let j = 0; j < theseNotes.length; j++) {
+  //     // const element = theseNotes[j];
+  //   }
+  // }
+
+// console.log(theseNotes)
 
   // for (let i = 0; i < notes.length; i++) {
   //   let thisNote = String(notes[i])
@@ -98,7 +107,7 @@ lightUpChord(incoming) {
 
 render() {
 this.getChordNotes()
-this.getFretList()
+// this.restrictFrets() // temp
 
   return (
     <div className="fretboard">

@@ -258,8 +258,9 @@ var Fretboard = function (_React$Component) {
 
     _this.lightUpNote = _this.lightUpNote.bind(_this);
     _this.lightUpChord = _this.lightUpChord.bind(_this);
-    _this.getFretList = _this.getFretList.bind(_this);
+    _this.restrictFrets = _this.restrictFrets.bind(_this);
     _this.getChordNotes = _this.getChordNotes.bind(_this);
+    _this.getChordKey = _this.getChordKey.bind(_this);
     return _this;
   }
 
@@ -283,40 +284,49 @@ var Fretboard = function (_React$Component) {
       selectedNote.classList.add("lit");
     }
   }, {
-    key: "getFretList",
-    value: function getFretList() {
-      // Purpose: get the full list of frets with restrictions (e.g. not above fret 3)
-
-      var list = [];
+    key: "restrictFrets",
+    value: function restrictFrets(maxFret) {
+      // use this later for set position (into redux)
+      var allowedFrets = [];
       var frets = document.getElementsByClassName("fret");
-
       for (var i = 0; i < frets.length; i++) {
-        if (
-        // true
-        frets[i].attributes.fret.value < 4) {
-          // console.log(frets[i].attributes.fret.value)
-          // console.log(frets[i].attributes.id.value)
-          // console.log(frets[i].attributes.scinote.textContent)
-          this.lightUpNote(frets[i].attributes.id.value);
+        if (frets[i].attributes.fret.value < maxFret + 1) {
+          allowedFrets.push(frets[i].attributes.id.value);
+          // this.lightUpNote(frets[i].attributes.id.value)
         }
       }
-
-      console.log(list);
+      // console.log(allowedFrets)
+      return allowedFrets;
+    }
+  }, {
+    key: "getChordKey",
+    value: function getChordKey() {
+      //get key, depending on if # or b is included:
+      if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;else return this.props.selectedChord.selectedKey;
     }
   }, {
     key: "getChordNotes",
     value: function getChordNotes() {
-      //get key, depending on if # or b is included:
-      if (this.props.selectedChord.selectedTone) {
-        var chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
-        console.log(chordKey);
-      } else {
-        var _chordKey = this.props.selectedChord.selectedKey;
-        console.log(_chordKey);
-      }
+      var chordKey = this.getChordKey();
 
-      // let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+      var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
 
+      var maxFretsFilter = 3;
+      var currentFrets = this.restrictFrets(maxFretsFilter);
+      // console.log(currentFrets)
+
+      // use currentFret IDs, get attribute, for now just note
+
+
+      // loop frets return where match a note
+      // for (let i = 0; i < currentFrets.length; i++) {
+      //   // const element = currentFrets[i];
+      //   for (let j = 0; j < theseNotes.length; j++) {
+      //     // const element = theseNotes[j];
+      //   }
+      // }
+
+      // console.log(theseNotes)
 
       // for (let i = 0; i < notes.length; i++) {
       //   let thisNote = String(notes[i])
@@ -347,7 +357,7 @@ var Fretboard = function (_React$Component) {
     key: "render",
     value: function render() {
       this.getChordNotes();
-      this.getFretList();
+      // this.restrictFrets() // temp
 
       return _react2.default.createElement(
         "div",
