@@ -1,8 +1,6 @@
-get everything in class by string and call in reverse order manually. Or reverse each fret. whatever's easier
+approach it as a piano, would easily get the triads built. How to translate, again? Basically where we are now
 
-add tempo playback noteInWords
-
-if state=b, find all with class flat and re-render inner html with Gb, etc
+light up note if within x many frets, instead of absolute? Still doesn't fix the B problem
 
 
  ------------------------- THINKING  -------------------------
@@ -23,41 +21,48 @@ can this be done w/o scinotes? only using them to cancel doubles at the end. can
 search for frets where scinote matches letter AND numeral is same or higher
 ?? CAREFUL of cases where chord notes get mixup around C3
 
-getChordNotes --- use Tonal, return arr of strings
-buildChord --- switch into maj, min, etc. tonic + thirds, etc. does Tonal have something for this?
+
+----------- rough functions ------------
+
+[done] getChordNotes --- use Tonal, return arr of strings
+[????] buildChord --- switch into maj, min, etc. tonic + thirds, etc. does Tonal have something for this?
 findTonicSciNote(tonic) ---= "C4"
 
 
 - - - - return generic or sci notes
-getChordKey --- from redux state ... wait this is by default the tonic, right? so findTonic needs to find the SCINOTE
-findTonic --- use chordNote[0] --= "C". can Use result of FretList. return scinote. Put in reducer w/action
+[done] getChordKey --- from redux state ... wait this is by default the tonic, right? so findTonic needs to find the SCINOTE
+[??needed?] findTonic --- use chordNote[0] --= "C". can Use result of FretList. return scinote. Put in reducer w/action
 
 - - - - returns divs
-limitFrets --- by max fret
-limitString --- one per string (where best to use?)
-createFretList --- create sequential list. Find string6 fret3, then string6 then fret 2, ... string 5 fret 3... &etc. use limitFrets. Use nested for loops. Return IDs OR divs w/attributes
+[done within other] limitFrets --- by max fret
+[??] limitString --- one per string (where best to use?)
+[done] createFretList --- create sequential list. Find string6 fret3, then string6 then fret 2, ... string 5 fret 3... &etc. use limitFrets. Use nested for loops. Return IDs OR divs w/attributes
 
 
  
+
+----------------- LATER
+fix display: 
+if state=b, find all with class flat and re-render inner html with Gb, etc
+
+add tempo playback noteInWords
+
 
 
  
 -------------------- get div details --------------------
-frets[i].attributes.note       // note without sci
-frets[i].attributes.scinote      //note with sci
-frets[i].attributes.scinote     textContent) // as string
+frets[i].attributes.note
+frets[i].attributes.scinote
+frets[i].attributes.scinote.textContent
 
-frets[i].attributes.id.value  // ID strin
-frets[i].classList.value)      //gets all classes as a string with spaces
+frets[i].classList.value
+frets[i].attributes.id.value
+
+frets[i].attributes.fret
+frets[i].attributes.fret.value
 
 frets[i].attributes.class     
-frets[i].attributes.string       //name of string
-frets[i].attributes.fret       //name of fret
-frets[i].attributes.string       // all classes
-
-frets[i].attributes.fret.value
-frets[i].attributes.id.value
-frets[i].attributes.scinote.textContent
+frets[i].attributes.string
 
 
 
@@ -88,7 +93,7 @@ frets[i].attributes.scinote.textContent
 
 
 
-// // ---------------------------- IN PROGRESS --------------------
+// ---------------------------- relies on scinotes in class?
 
 //   // let testnote = "C4" // change to be incoming note. Need to split between scinote and normal notes
 //   let list = []

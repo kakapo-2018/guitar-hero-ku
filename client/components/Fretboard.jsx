@@ -1,3 +1,4 @@
+
 import React from "react"
 import {connect} from 'react-redux'
 
@@ -34,40 +35,79 @@ getChordKey() {
 
 
 getListOfAvailableFrets(maxFret) {
-// use this later for set position (into redux)
   let allowedFrets = []
-  let frets = document.getElementsByClassName("fret")
-    for (let i = 0; i < frets.length; i++) {
-      if (frets[i].attributes.fret.value < maxFret+1) {
-          allowedFrets.push(frets[i])
-      }
-  }
-  return allowedFrets.reverse()  //need to also reverse fret sequence WITHIN strings! ...tomorrow....
+  // let frets = document.getElementsByClassName("fret")
+  //   for (let i = 0; i < frets.length; i++) {
+  //     if (frets[i].attributes.fret.value < maxFret + 1) {
+  //         allowedFrets.push(frets[i])
+  //     }
+  // }
+
+// push frets to array in pitch order, lowerst to highest. 
+    let string1 = document.getElementsByClassName("string1")
+    let string2 = document.getElementsByClassName("string2")
+    let string3 = document.getElementsByClassName("string3")
+    let string4 = document.getElementsByClassName("string4")
+    let string5 = document.getElementsByClassName("string5")
+    let string6 = document.getElementsByClassName("string6")
+
+    for (let i = 0; i < string6.length; i++) {
+      // if (string1[i].attributes.fret.value < maxFret + 1) {
+      allowedFrets.push(string6[i])}
+      // }
+    for (let i = 0; i < string5.length; i++) {
+      // if (string2[i].attributes.fret.value < maxFret + 1) {
+      allowedFrets.push(string5[i])}
+      // }
+    for (let i = 0; i < string4.length; i++) {
+      // if (string3[i].attributes.fret.value < maxFret + 1) {
+      allowedFrets.push(string4[i])}
+      // }
+    for (let i = 0; i < string3.length; i++) {
+      // if (string4[i].attributes.fret.value < maxFret + 1) {
+      allowedFrets.push(string3[i])}
+      // }
+    for (let i = 0; i < string2.length; i++) {
+      // if (string5[i].attributes.fret.value < maxFret + 1) {
+      allowedFrets.push(string2[i])}
+      // }
+    for (let i = 0; i < string1.length; i++) {
+      // if (string6[i].attributes.fret.value < maxFret + 1) {
+      allowedFrets.push(string1[i])}
+      // }
+  // console.log(allowedFrets)
+  return allowedFrets
 }
 
 
 getAllFretsForChord() {
-  his.clearLitNotes()
 
+// clear any currently lit notes
+  this.clearLitNotes()
+
+// get chord details for current selected chord
   let chordKey = this.getChordKey()
   let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
-  // console.log(theseNotes)
-  // not yet working for sharps or flats. call a converstion function? Tonal has something, see notes
+  console.log(theseNotes)
+// ------------ not yet working for sharps or flats. call Tonal's Note.simplify converstion function
 
-  let maxFretsFilter = 3 //hardcode for now, change to button selection in stretch
+// Limit number of frets for this and return list of frets within range
+  let maxFretsFilter = 4 //hardcode for now, change to button selection in stretch
   let currentFrets = this.getListOfAvailableFrets(maxFretsFilter)
-  
-  let arrOfDivsThatMatchNote = []
+
+// Create array of divs that are both within range and contain one of the notes  
+  let noteArray = []
   for (let i = 0; i < currentFrets.length; i++) {
     for (let j = 0; j < theseNotes.length; j++) {
       if (currentFrets[i].attributes.note.textContent === theseNotes[j]) {
         // console.log(currentFrets[i].attributes.id.value)
-        arrOfDivsThatMatchNote.push(currentFrets[i])
-        this.lightUpNote(currentFrets[i].attributes.id.value) //move later when this function works properly
+        noteArray.push(currentFrets[i])
+        this.lightUpNote(currentFrets[i].attributes.id.value) //move later when maj/min is running
       }
     }
   }
-  // console.log(arrOfDivsThatMatchNote) // later return
+  // console.log(noteArray)
+  // return noteArray
 }
 
 

@@ -287,40 +287,85 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "getListOfAvailableFrets",
     value: function getListOfAvailableFrets(maxFret) {
-      // use this later for set position (into redux)
       var allowedFrets = [];
-      var frets = document.getElementsByClassName("fret");
-      for (var i = 0; i < frets.length; i++) {
-        if (frets[i].attributes.fret.value < maxFret + 1) {
-          allowedFrets.push(frets[i]);
-        }
+      // let frets = document.getElementsByClassName("fret")
+      //   for (let i = 0; i < frets.length; i++) {
+      //     if (frets[i].attributes.fret.value < maxFret + 1) {
+      //         allowedFrets.push(frets[i])
+      //     }
+      // }
+
+      // push frets to array in pitch order, lowerst to highest. 
+      var string1 = document.getElementsByClassName("string1");
+      var string2 = document.getElementsByClassName("string2");
+      var string3 = document.getElementsByClassName("string3");
+      var string4 = document.getElementsByClassName("string4");
+      var string5 = document.getElementsByClassName("string5");
+      var string6 = document.getElementsByClassName("string6");
+
+      for (var i = 0; i < string6.length; i++) {
+        // if (string1[i].attributes.fret.value < maxFret + 1) {
+        allowedFrets.push(string6[i]);
       }
-      return allowedFrets.reverse(); //need to also reverse fret sequence WITHIN strings! ...tomorrow....
+      // }
+      for (var _i = 0; _i < string5.length; _i++) {
+        // if (string2[i].attributes.fret.value < maxFret + 1) {
+        allowedFrets.push(string5[_i]);
+      }
+      // }
+      for (var _i2 = 0; _i2 < string4.length; _i2++) {
+        // if (string3[i].attributes.fret.value < maxFret + 1) {
+        allowedFrets.push(string4[_i2]);
+      }
+      // }
+      for (var _i3 = 0; _i3 < string3.length; _i3++) {
+        // if (string4[i].attributes.fret.value < maxFret + 1) {
+        allowedFrets.push(string3[_i3]);
+      }
+      // }
+      for (var _i4 = 0; _i4 < string2.length; _i4++) {
+        // if (string5[i].attributes.fret.value < maxFret + 1) {
+        allowedFrets.push(string2[_i4]);
+      }
+      // }
+      for (var _i5 = 0; _i5 < string1.length; _i5++) {
+        // if (string6[i].attributes.fret.value < maxFret + 1) {
+        allowedFrets.push(string1[_i5]);
+      }
+      // }
+      // console.log(allowedFrets)
+      return allowedFrets;
     }
   }, {
     key: "getAllFretsForChord",
     value: function getAllFretsForChord() {
-      his.clearLitNotes();
 
+      // clear any currently lit notes
+      this.clearLitNotes();
+
+      // get chord details for current selected chord
       var chordKey = this.getChordKey();
       var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
-      // console.log(theseNotes)
-      // not yet working for sharps or flats. call a converstion function? Tonal has something, see notes
+      console.log(theseNotes);
+      // ------------ not yet working for sharps or flats. call Tonal's Note.simplify converstion function
 
-      var maxFretsFilter = 3; //hardcode for now, change to button selection in stretch
+      // Limit number of frets for this and return list of frets within range
+      var maxFretsFilter = 4; //hardcode for now, change to button selection in stretch
       var currentFrets = this.getListOfAvailableFrets(maxFretsFilter);
 
-      var arrOfDivsThatMatchNote = [];
+      // Create array of divs that are both within range and contain one of the notes  
+      var noteArray = [];
       for (var i = 0; i < currentFrets.length; i++) {
         for (var j = 0; j < theseNotes.length; j++) {
           if (currentFrets[i].attributes.note.textContent === theseNotes[j]) {
             // console.log(currentFrets[i].attributes.id.value)
-            arrOfDivsThatMatchNote.push(currentFrets[i]);
-            this.lightUpNote(currentFrets[i].attributes.id.value); //move later when this function works properly
+            noteArray.push(currentFrets[i]);
+            this.lightUpNote(currentFrets[i].attributes.id.value); //move later when maj/min is running
           }
         }
       }
-      // console.log(arrOfDivsThatMatchNote) // later return
+      // console.log(noteArray)
+      // return noteArray
     }
   }, {
     key: "lightUpNote",
@@ -823,7 +868,7 @@ var KeyChordButtons = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      // Event listeners for all key letters and chord types to trigger display on click
+      // Event listeners for all key letters, tone (for lack of better word) and chord types to trigger redux action on click
       var keyClass = document.getElementsByClassName("key");
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
@@ -848,7 +893,6 @@ var KeyChordButtons = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-
       return _react2.default.createElement(
         "div",
         { className: "keyChordContainer" },

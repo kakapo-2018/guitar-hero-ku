@@ -5,11 +5,11 @@ import {keyToState, toneToState, chordTypeToState} from "../actions"
 class KeyChordButtons extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   componentDidMount(){
-// Event listeners for all key letters and chord types to trigger display on click
+
+// Event listeners for all key letters, tone (for lack of better word) and chord types to trigger redux action on click
     let keyClass = document.getElementsByClassName("key")
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
@@ -32,9 +32,7 @@ class KeyChordButtons extends React.Component {
     }
   }
 
-
   render() { 
-
     return (
       <div className="keyChordContainer">
 
