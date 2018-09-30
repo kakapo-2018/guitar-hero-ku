@@ -1,4 +1,7 @@
-- refresh active chord whenever any button is pressed, i.e. remove need for "find chord" button; split the action and use [...state]
+Lianna To-Do list
+
 - make lightup selection by string/fret grid instead of ID or class
+
 - make functionality for double sharps
-- maybe work the two above by selecting the tonic and then finding the rest of the chord by relative position
+
+-- maybe work the two above by selecting the tonic and then finding the rest of the chord by relative position

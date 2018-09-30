@@ -99,34 +99,32 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var getChord = exports.getChord = function getChord(key, tone, chordType) {
+var keyToState = exports.keyToState = function keyToState(key) {
   return {
-    type: "SELECT_CHORD",
+    type: "SELECT_KEY",
     chord: {
-      selectedKey: key,
-      selectedTone: tone,
-      selectedChordType: chordType
+      selectedKey: key
     }
   };
 };
 
-// export const keyToState = (key) => {
-//   return {
-//     type: "SELECT_KEY",
-//     chord: {
-//       selectedKey: key,
-//     }
-//   }
-// }
+var toneToState = exports.toneToState = function toneToState(tone) {
+  return {
+    type: "SELECT_TONE",
+    chord: {
+      selectedTone: tone
+    }
+  };
+};
 
-// export const chordTypeToState = (chordType) => {
-//   return {
-//     type: "SELECT_CHORDTYPE",
-//     chord: {
-//       selectedChordType: chordType
-//     }
-//   }
-// }
+var chordTypeToState = exports.chordTypeToState = function chordTypeToState(chordType) {
+  return {
+    type: "SELECT_CHORDTYPE",
+    chord: {
+      selectedChordType: chordType
+    }
+  };
+};
 
 /***/ }),
 
@@ -187,7 +185,7 @@ var App = function (_React$Component) {
         "div",
         null,
         _react2.default.createElement(
-          "p",
+          "h1",
           null,
           "Guitar HeroKu"
         ),
@@ -208,7 +206,7 @@ function mapStateToProps(state) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
-// Keep for testing when removing container
+// Use for testing when removing container:
 // export default App
 // // export {App}
 
@@ -332,7 +330,6 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      // console.log(Chord.notes(this.props.selectedChord.selectedKey, this.props.selectedChord.selectedChordType));
       this.getChordNotes();
 
       return _react2.default.createElement(
@@ -370,6 +367,41 @@ var Fretboard = function (_React$Component) {
             "div",
             { className: "fret string1 fret5 A A4", id: "fret5-string1" },
             "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret6 Asharp Bflat A4sharp B4flat", id: "fret6-string1" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret7 B B4", id: "fret7-string1" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret8 C C5", id: "fret8-string1" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret9 Csharp Dflat C5sharp D5flat", id: "fret9-string1" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret10 D D5", id: "fret10-string1" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret11 Dsharp Eflat D5sharp E5flat", id: "fret11-string1" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string1 fret12 E E5", id: "fret12-string1" },
+            "E"
           )
         ),
         _react2.default.createElement(
@@ -404,6 +436,41 @@ var Fretboard = function (_React$Component) {
             "div",
             { className: "fret string2 fret5 E E4", id: "fret5-string2" },
             "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret6 F F4", id: "fret6-string2" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret7 Fsharp Gflat F4sharp G4flat", id: "fret7-string2" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret8 G G4", id: "fret8-string2" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret9 Gsharp Aflat G4sharp A4flat", id: "fret9-string2" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret10 A A4", id: "fret10-string2" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret11 Asharp Bflat A4sharp B4flat", id: "fret11-string2" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string2 fret12 B B4", id: "fret12-string2" },
+            "B"
           )
         ),
         _react2.default.createElement(
@@ -438,6 +505,41 @@ var Fretboard = function (_React$Component) {
             "div",
             { className: "fret string3 fret5 C C4", id: "fret5-string3" },
             "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret6 Csharp Dflat C4sharp D4flat", id: "fret6-string3" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret7 D D4", id: "fret7-string3" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret8 Dsharp E4flat D4sharp E4flat", id: "fret8-string3" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret9 E E4", id: "fret9-string3" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret10 F F4", id: "fret10-string3" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret11 Fsharp Gflat F4sharp G4flat", id: "fret11-string3" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string3 fret12 G G4", id: "fret12-string3" },
+            "G"
           )
         ),
         _react2.default.createElement(
@@ -472,6 +574,41 @@ var Fretboard = function (_React$Component) {
             "div",
             { className: "fret string4 fret5 G G3", id: "fret5-string4" },
             "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret6 Gsharp Aflat G3sharp A3flat", id: "fret6-string4" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret7 A A3", id: "fret7-string4" },
+            "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret8 Asharp Bflat A3sharp B3flat", id: "fret8-string4" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret9 B B3", id: "fret9-string4" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret10 C C4", id: "fret10-string4" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret11 Csharp Dflat C4sharp D4flat", id: "fret11-string4" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string4 fret12 D D4", id: "fret12-string4" },
+            "D"
           )
         ),
         _react2.default.createElement(
@@ -506,6 +643,41 @@ var Fretboard = function (_React$Component) {
             "div",
             { className: "fret string5 fret5 D D3", id: "fret5-string5" },
             "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret6 Dsharp Eflat D3sharp E3flat", id: "fret6-string5" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret7 E E3", id: "fret7-string5" },
+            "E"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret8 F F3", id: "fret8-string5" },
+            "F"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret9 Fsharp Gflat F3sharp G3flat", id: "fret9-string5" },
+            "F#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret10 G G3", id: "fret10-string5" },
+            "G"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret11 Gsharp Aflat G3sharp A3flat", id: "fret11-string5" },
+            "G#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string5 fret12 A A3", id: "fret12-string5" },
+            "A"
           )
         ),
         _react2.default.createElement(
@@ -540,6 +712,41 @@ var Fretboard = function (_React$Component) {
             "div",
             { className: "fret string6 fret5 A A2", id: "fret5-string6" },
             "A"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret6 Asharp Bflat A2sharp B2flat", id: "fret6-string6" },
+            "A#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret7 B B2", id: "fret7-string6" },
+            "B"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret8 C C3", id: "fret8-string6" },
+            "C"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret9 Csharp Dflat C3sharp D3flat", id: "fret9-string6" },
+            "C#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret10 D D3", id: "fret10-string6" },
+            "D"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret11 Dsharp Eflat D3sharp E3flat", id: "fret11-string6" },
+            "D#"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string6 fret12 E E3", id: "fret12-string6" },
+            "E"
           )
         )
       );
@@ -597,16 +804,7 @@ var KeyChordButtons = function (_Component) {
   function KeyChordButtons(props) {
     _classCallCheck(this, KeyChordButtons);
 
-    var _this = _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
-
-    _this.state = {
-      inputKey: "",
-      inputTone: "",
-      inputChordType: ""
-    };
-
-    _this.fetchChord = _this.fetchChord.bind(_this);
-    return _this;
+    return _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
   }
 
   _createClass(KeyChordButtons, [{
@@ -619,6 +817,7 @@ var KeyChordButtons = function (_Component) {
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
           _this2.setState({ inputKey: x.target.value });
+          _this2.props.dispatch((0, _actions.keyToState)(x.target.value));
         });
       }
 
@@ -626,6 +825,7 @@ var KeyChordButtons = function (_Component) {
       for (var _i = 0; _i < toneClass.length; _i++) {
         toneClass[_i].addEventListener("click", function (x) {
           _this2.setState({ inputTone: x.target.value });
+          _this2.props.dispatch((0, _actions.toneToState)(x.target.value));
         });
       }
 
@@ -633,13 +833,9 @@ var KeyChordButtons = function (_Component) {
       for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
         chordTypeClass[_i2].addEventListener("click", function (x) {
           _this2.setState({ inputChordType: x.target.value });
+          _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
         });
       }
-    }
-  }, {
-    key: "fetchChord",
-    value: function fetchChord() {
-      this.props.dispatch((0, _actions.getChord)(this.state.inputKey, this.state.inputTone, this.state.inputChordType));
     }
   }, {
     key: "render",
@@ -655,17 +851,10 @@ var KeyChordButtons = function (_Component) {
             "p",
             null,
             "Selected Chord: ",
-            this.state.inputKey,
-            this.state.inputTone,
-            this.state.inputChordType
-          ),
-          _react2.default.createElement(
-            "button",
-            { onClick: this.fetchChord },
-            "Find Chord"
-          ),
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("br", null)
+            this.props.selectedChord.selectedKey,
+            this.props.selectedChord.selectedTone,
+            this.props.selectedChord.selectedChordType
+          )
         ),
         _react2.default.createElement(
           "div",
@@ -712,8 +901,6 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(KeyChordButtons);
-
-// export default KeyChordButtons;
 
 /***/ }),
 
@@ -816,16 +1003,27 @@ function selectedChord() {
   switch (action.type) {
     case "SELECT_CHORD":
       return action.chord;
-    // case "SELECT_KEY":
-    //   return {
-    //     selectedKey: action.chord,
-    //     selectedChordType: [...state]
-    //   }
-    // case "SELECT_CHORDTYPE":
-    //   return {
-    //     selectedKey: [...state],
-    //     selectedChordType: action.chord
-    //   }
+    case "SELECT_KEY":
+      return {
+        selectedKey: action.chord.selectedKey,
+        selectedTone: state.selectedTone,
+        selectedChordType: state.selectedChordType
+      };
+
+    case "SELECT_TONE":
+      return {
+        selectedKey: state.selectedKey,
+        selectedTone: action.chord.selectedTone,
+        selectedChordType: state.selectedChordType
+      };
+
+    case "SELECT_CHORDTYPE":
+      return {
+        selectedKey: state.selectedKey,
+        selectedTone: state.selectedTone,
+        selectedChordType: action.chord.selectedChordType
+      };
+
     default:
       return state;
   }

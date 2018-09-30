@@ -1,18 +1,11 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
-import {getChord} from "../actions"
+import {keyToState, toneToState, chordTypeToState} from "../actions"
 
 class KeyChordButtons extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      inputKey: "",
-      inputTone: "",
-      inputChordType: ""
-    }
-
-    this.fetchChord = this.fetchChord.bind(this)
   }
 
   componentDidMount(){
@@ -21,6 +14,7 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
         this.setState({inputKey: x.target.value})
+        this.props.dispatch(keyToState(x.target.value))
       })
     }
 
@@ -28,6 +22,7 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < toneClass.length; i++) {
       toneClass[i].addEventListener("click", (x) => {
         this.setState({inputTone: x.target.value})
+        this.props.dispatch(toneToState(x.target.value))
       })
     }
 
@@ -35,24 +30,19 @@ class KeyChordButtons extends Component {
     for (let i = 0; i < chordTypeClass.length; i++) {
       chordTypeClass[i].addEventListener("click", (x) => {
         this.setState({inputChordType: x.target.value})
+        this.props.dispatch(chordTypeToState(x.target.value))
       })
     }
   }
 
 
-
-
-fetchChord(){
-    this.props.dispatch(getChord(this.state.inputKey, this.state.inputTone, this.state.inputChordType))
-  }
   render() { 
 
     return (
       <div className="keyChordContainer">
 
         <div id="chord-display">
-        {<p>Selected Chord: {this.state.inputKey}{this.state.inputTone}{this.state.inputChordType}</p>}
-          <button onClick={this.fetchChord}>Find Chord</button><br /><br />
+        {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedChordType}</p>}
         </div>
 
         <div className="keys">
@@ -95,5 +85,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(KeyChordButtons)
-
-// export default KeyChordButtons;
