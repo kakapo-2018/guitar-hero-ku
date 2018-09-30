@@ -1,3 +1,40 @@
+ ------------------------- THINKING  -------------------------
+given arr CEG
+search fretsequence for tonic/ [0], then find all following? ugh.
+
+if scinote letter IS one of arr && scinote num = tonic number or higher, then return
+
+* get sci numbers with a lgnth-1 thing at first determiation of scinote
+* best use "Csharp4" and get length-1, OR "C4sharp" and get second character
+
+* move this out of this component and into...?
+* make chordtype default to major, put in redux initialState
+* change "#" to "sharp" & etc at first chance
+
+can this be done w/o scinotes? only using them to cancel doubles at the end. can if the fret sequence can filter just by note type
+
+search for frets where scinote matches letter AND numeral is same or higher
+?? CAREFUL of cases where chord notes get mixup around C3
+
+getChordNotes --- use Tonal, return arr of strings
+buildChord --- switch into maj, min, etc. tonic + thirds, etc. does Tonal have something for this?
+findTonicSciNote(tonic) ---= "C4"
+
+
+- - - - return generic or sci notes
+getChordKey --- from redux state ... wait this is by default the tonic, right? so findTonic needs to find the SCINOTE
+findTonic --- use chordNote[0] --= "C". can Use result of FretList. return scinote. Put in reducer w/action
+
+- - - - returns divs
+limitFrets --- by max fret
+limitString --- one per string (where best to use?)
+createFretList --- create sequential list. Find string6 fret3, then string6 then fret 2, ... string 5 fret 3... &etc. use limitFrets. Use nested for loops. Return IDs OR divs w/attributes
+
+
+ 
+
+
+
 -------------------- get div details --------------------
 frets[i].attributes.note       // note without sci
 frets[i].attributes.scinote      //note with sci

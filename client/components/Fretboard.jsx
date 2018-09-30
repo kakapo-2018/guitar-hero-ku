@@ -7,7 +7,6 @@ class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
-
     this.lightUpNote = this.lightUpNote.bind(this)
     this.restrictFrets = this.restrictFrets.bind(this)
     this.lightUpChord = this.lightUpChord.bind(this)
@@ -77,7 +76,7 @@ lightUpChord(incoming) {
     console.log("incoming is", incoming)
 
 // getAllFretsForChord()
-// use params? Is there any instance where this will need to be changed? when is best to convert sharps?
+// use params? Is there any instance where this will need to be changed? when is best to convert sharps
 
 // // ---------------------------- IN PROGRESS --------------------
 
