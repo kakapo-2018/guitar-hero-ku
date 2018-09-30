@@ -36,22 +36,19 @@ Super-stretch
 * C4 is middle C -->
 
 
-### Actions
-* ADD_CHORD
-* SET_BPM
-[more to come -- Lianna]
-
-### Reducers
-* 
-[more to come -- Lianna]
-
 ### Views
 * Main app page: Chord finder
 * Help: text guide for usage
 * Piano view (alternative to Guitar view)
 
 ### API Docs
-[will come when we use database for stretch goals]
+Dispatch from playback to change chords:
+`this.props.dispatch(entireChordToState(key, tone, chordType))`
+e.g.
+* key: "C"
+* tone: "#"
+* chordType: "m"
+
 
 
 ## Reference

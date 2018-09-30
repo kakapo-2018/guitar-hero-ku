@@ -4,6 +4,7 @@ function selectedChord(state = initialState, action) {
   switch (action.type) {
     case "SELECT_CHORD":
       return action.chord
+      
     case "SELECT_KEY" :
       return {
         selectedKey: action.chord.selectedKey,

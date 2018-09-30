@@ -99,6 +99,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, chordType) {
+  return {
+    type: "SELECT_CHORD",
+    chord: {
+      selectedKey: key,
+      selectedTone: tone,
+      selectedChordType: chordType
+    }
+  };
+};
+
 var keyToState = exports.keyToState = function keyToState(key) {
   return {
     type: "SELECT_KEY",
@@ -256,9 +267,10 @@ var Fretboard = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
 
+    _this.getChordKey = _this.getChordKey.bind(_this);
     _this.lightUpNote = _this.lightUpNote.bind(_this);
-    _this.lightUpChord = _this.lightUpChord.bind(_this);
-    _this.getChordNotes = _this.getChordNotes.bind(_this);
+    _this.clearLitNotes = _this.clearLitNotes.bind(_this);
+
     return _this;
   }
 
@@ -276,61 +288,30 @@ var Fretboard = function (_React$Component) {
       }
     }
   }, {
+    key: "getChordKey",
+    value: function getChordKey() {
+      //get key, depending on if # or b is included:
+      if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;else return this.props.selectedChord.selectedKey;
+    }
+  }, {
     key: "lightUpNote",
-    value: function lightUpNote(incomingNote) {
-      var selectedNote = document.getElementById(incomingNote);
+    value: function lightUpNote(incomingID) {
+      var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
     }
   }, {
-    key: "lightUpChord",
-    value: function lightUpChord(incomingNote) {
-      console.log("incomingNote is", incomingNote);
-
-      // ---------------------------- IN PROGRESS --------------------
-
-      // if (incomingNote.includes("#") )
-
-
-      // //for sharps
-      //     if (incomingNote.includes("#")) {
-      //       // change "#" to "sharp" to match class name
-      //       let arr = incomingNote.split("#")
-      //       arr.push("sharp")
-      //       let noteInWords = arr.join("")
-
-      //       // get all divs with that class and add lit class
-      //       let notesByClass = document.getElementsByClassName(noteInWords)
-      //       for (let i = 0; i < notesByClass.length; i++) {
-      //         notesByClass[i].classList.add("lit")
-      //       }
-      //     }
-      //     else {
-      //       let notesByClass = document.getElementsByClassName(incomingNote)
-      //       for (let i = 0; i < notesByClass.length; i++) {
-      //         notesByClass[i].classList.add("lit")
-      //       }
-      //     }
-      // // do the same for flats
-
-      // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
-      // add a check: If ##, take init letter and replace F## -> G, etc
-      // OR, and probably better, make the selection by relative place. Maybe
-    }
-  }, {
-    key: "getChordNotes",
-    value: function getChordNotes() {
-      var chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
-      var notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
-
-      for (var i = 0; i < notes.length; i++) {
-        var thisNote = String(notes[i]);
-        this.lightUpChord(thisNote);
+    key: "clearLitNotes",
+    value: function clearLitNotes() {
+      var litNotes = document.getElementsByClassName("lit");
+      while (litNotes.length > 0) {
+        for (var i = 0; i < litNotes.length; i++) {
+          litNotes[i].classList.remove("lit");
+        }
       }
     }
   }, {
     key: "render",
     value: function render() {
-      this.getChordNotes();
 
       return _react2.default.createElement(
         "div",
@@ -340,67 +321,67 @@ var Fretboard = function (_React$Component) {
           { className: "string", id: "first-string" },
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret0 E E4 open-note", id: "fret0-string1" },
+            { className: "fret string1 fret0", string: "1", fret: "0", note: "E", scinote: "E4", id: "fret0-string1" },
             "E"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret1 F F4", id: "fret1-string1" },
+            { className: "fret string1 fret1", string: "1", fret: "1", note: "F", scinote: "F4", id: "fret1-string1" },
             "F"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret2 Fsharp Gflat F4sharp G4flat sharp-or-flat", id: "fret2-string1" },
+            { className: "fret string1 fret2", string: "1", fret: "2", note: "Fsharp Gflat", scinote: "F4sharp G4flat", id: "fret2-string1" },
             "F#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret3 G G4", id: "fret3-string1" },
+            { className: "fret string1 fret3", string: "1", fret: "3", note: "G", scinote: "G4", id: "fret3-string1" },
             "G"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret4 Gsharp Aflat G4sharp A4flat sharp-or-flat", id: "fret4-string1" },
+            { className: "fret string1 fret4", string: "1", fret: "4", note: "Gsharp Aflat", scinote: "G4sharp A4flat", id: "fret4-string1" },
             "G#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret5 A A4", id: "fret5-string1" },
+            { className: "fret string1 fret5", string: "1", fret: "5", note: "A", scinote: "A4", id: "fret5-string1" },
             "A"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret6 Asharp Bflat A4sharp B4flat", id: "fret6-string1" },
+            { className: "fret string1 fret6", string: "1", fret: "6", note: "Asharp Bflat", scinote: "A4sharp B4flat", id: "fret6-string1" },
             "A#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret7 B B4", id: "fret7-string1" },
+            { className: "fret string1 fret7", string: "1", fret: "7", note: "B", scinote: "B4", id: "fret7-string1" },
             "B"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret8 C C5", id: "fret8-string1" },
+            { className: "fret string1 fret8", string: "1", fret: "8", note: "C", scinote: "C5", id: "fret8-string1" },
             "C"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret9 Csharp Dflat C5sharp D5flat", id: "fret9-string1" },
+            { className: "fret string1 fret9", string: "1", fret: "9", note: "Csharp Dflat", scinote: "C5sharp D5flat", id: "fret9-string1" },
             "C#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret10 D D5", id: "fret10-string1" },
+            { className: "fret string1 fret10", string: "1", fret: "10", note: "D", scinote: "D5", id: "fret10-string1" },
             "D"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret11 Dsharp Eflat D5sharp E5flat", id: "fret11-string1" },
+            { className: "fret string1 fret11", string: "1", fret: "11", note: "Dsharp Eflat", scinote: "D5sharp E5flat", id: "fret11-string1" },
             "D#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string1 fret12 E E5", id: "fret12-string1" },
+            { className: "fret string1 fret12", string: "1", fret: "12", note: "E", scinote: "E5", id: "fret12-string1" },
             "E"
           )
         ),
@@ -409,67 +390,67 @@ var Fretboard = function (_React$Component) {
           { className: "string", id: "second-string" },
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret0 B B3 open-note", id: "fret0-string2" },
+            { className: "fret string2 fret0", string: "2", fret: "0", note: "B", scinote: "B3", id: "fret0-string2" },
             "B"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret1 C C4", id: "fret1-string2" },
+            { className: "fret string2 fret1", string: "2", fret: "1", note: "C", scinote: "C4", id: "fret1-string2" },
             "C"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret2 Csharp Dflat C4sharp D4flat sharp-or-flat", id: "fret2-string2" },
+            { className: "fret string2 fret2", string: "2", fret: "2", note: "Csharp Dflat", scinote: "C4sharp D4flat", id: "fret2-string2" },
             "C#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret3 D D4", id: "fret3-string2" },
+            { className: "fret string2 fret3", string: "2", fret: "3", note: "D", scinote: "D4", id: "fret3-string2" },
             "D"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret4 Dsharp Eflat D4sharp E4flat sharp-or-flat", id: "fret4-string2" },
+            { className: "fret string2 fret4", string: "2", fret: "4", note: "Dsharp Eflat", scinote: "D4sharp E4flat", id: "fret4-string2" },
             "D#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret5 E E4", id: "fret5-string2" },
+            { className: "fret string2 fret5", string: "2", fret: "5", note: "E", scinote: "E4", id: "fret5-string2" },
             "E"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret6 F F4", id: "fret6-string2" },
+            { className: "fret string2 fret6", string: "2", fret: "6", note: "F", scinote: "F4", id: "fret6-string2" },
             "F"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret7 Fsharp Gflat F4sharp G4flat", id: "fret7-string2" },
+            { className: "fret string2 fret7", string: "2", fret: "7", note: "Fsharp Gflat", scinote: "F4sharp G4flat", id: "fret7-string2" },
             "F#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret8 G G4", id: "fret8-string2" },
+            { className: "fret string2 fret8", string: "2", fret: "8", note: "G", scinote: "G4", id: "fret8-string2" },
             "G"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret9 Gsharp Aflat G4sharp A4flat", id: "fret9-string2" },
+            { className: "fret string2 fret9", string: "2", fret: "9", note: "Gsharp Aflat", scinote: "G4sharp A4flat", id: "fret9-string2" },
             "G#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret10 A A4", id: "fret10-string2" },
+            { className: "fret string2 fret10", string: "2", fret: "10", note: "A", scinote: "A4", id: "fret10-string2" },
             "A"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret11 Asharp Bflat A4sharp B4flat", id: "fret11-string2" },
+            { className: "fret string2 fret11", string: "2", fret: "11", note: "Asharp Bflat", scinote: "A4sharp B4flat", id: "fret11-string2" },
             "A#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string2 fret12 B B4", id: "fret12-string2" },
+            { className: "fret string2 fret12", string: "2", fret: "12", note: "B", scinote: "B4", id: "fret12-string2" },
             "B"
           )
         ),
@@ -478,67 +459,67 @@ var Fretboard = function (_React$Component) {
           { className: "string", id: "third-string" },
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret0 G G3 open-note", id: "fret0-string3" },
+            { className: "fret string3 fret0", string: "3", fret: "0", note: "G", scinote: "G3", id: "fret0-string3" },
             "G"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret1 Gsharp Aflat G3sharp A3flat sharp-or-flat", id: "fret1-string3" },
+            { className: "fret string3 fret1", string: "3", fret: "1", note: "Gsharp Aflat", scinote: "G3sharp A3flat", id: "fret1-string3" },
             "G#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret2 A A3", id: "fret2-string3" },
+            { className: "fret string3 fret2", string: "3", fret: "2", note: "A", scinote: "A3", id: "fret2-string3" },
             "A"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret3 Asharp Bflat A3sharp B3flat sharp-or-flat", id: "fret3-string3" },
+            { className: "fret string3 fret3", string: "3", fret: "3", note: "Asharp Bflat", scinote: "A3sharp B3flat", id: "fret3-string3" },
             "A#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret4 B B3", id: "fret4-string3" },
+            { className: "fret string3 fret4", string: "3", fret: "4", note: "B", scinote: "B3", id: "fret4-string3" },
             "B"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret5 C C4", id: "fret5-string3" },
+            { className: "fret string3 fret5", string: "3", fret: "5", note: "C", scinote: "C4", id: "fret5-string3" },
             "C"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret6 Csharp Dflat C4sharp D4flat", id: "fret6-string3" },
+            { className: "fret string3 fret6", string: "3", fret: "6", note: "Csharp Dflat", scinote: "C4sharp D4flat", id: "fret6-string3" },
             "C#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret7 D D4", id: "fret7-string3" },
+            { className: "fret string3 fret7", string: "3", fret: "7", note: "D", scinote: "D4", id: "fret7-string3" },
             "D"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret8 Dsharp E4flat D4sharp E4flat", id: "fret8-string3" },
+            { className: "fret string3 fret8", string: "3", fret: "8", note: "Dsharp E4flat", scinote: "D4sharp E4flat", id: "fret8-string3" },
             "D#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret9 E E4", id: "fret9-string3" },
+            { className: "fret string3 fret9", string: "3", fret: "9", note: "E", scinote: "E4", id: "fret9-string3" },
             "E"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret10 F F4", id: "fret10-string3" },
+            { className: "fret string3 fret10", string: "3", fret: "10", note: "F", scinote: "F4", id: "fret10-string3" },
             "F"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret11 Fsharp Gflat F4sharp G4flat", id: "fret11-string3" },
+            { className: "fret string3 fret11", string: "3", fret: "11", note: "Fsharp Gflat", scinote: "F4sharp G4flat", id: "fret11-string3" },
             "F#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret12 G G4", id: "fret12-string3" },
+            { className: "fret string3 fret12", string: "3", fret: "12", note: "G", scinote: "G4", id: "fret12-string3" },
             "G"
           )
         ),
@@ -547,67 +528,67 @@ var Fretboard = function (_React$Component) {
           { className: "string", id: "fourth-string" },
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret0 D D3 open-note", id: "fret0-string4" },
+            { className: "fret string4 fret0", string: "4", fret: "0", note: "D", scinote: "D3", id: "fret0-string4" },
             "D"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret1 Dsharp Eflat D3sharp E3flat sharp-or-flat", id: "fret1-string4" },
+            { className: "fret string4 fret1", string: "4", fret: "1", note: "Dsharp Eflat", scinote: "D3sharp E3flat", id: "fret1-string4" },
             "D#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret2 E E3", id: "fret2-string4" },
+            { className: "fret string4 fret2", string: "4", fret: "2", note: "E", scinote: "E3", id: "fret2-string4" },
             "E"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret3 F F3", id: "fret3-string4" },
+            { className: "fret string4 fret3", string: "4", fret: "3", note: "F", scinote: "F3", id: "fret3-string4" },
             "F"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret4 Fsharp Gflat F3sharp G3flat sharp-or-flat", id: "fret4-string4" },
+            { className: "fret string4 fret4", string: "4", fret: "4", note: "Fsharp Gflat", scinote: "F3sharp G3flat", id: "fret4-string4" },
             "F#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret5 G G3", id: "fret5-string4" },
+            { className: "fret string4 fret5", string: "4", fret: "5", note: "G", scinote: "G3", id: "fret5-string4" },
             "G"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret6 Gsharp Aflat G3sharp A3flat", id: "fret6-string4" },
+            { className: "fret string4 fret6", string: "4", fret: "6", note: "Gsharp Aflat", scinote: "G3sharp A3flat", id: "fret6-string4" },
             "G#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret7 A A3", id: "fret7-string4" },
+            { className: "fret string4 fret7", string: "4", fret: "7", note: "A", scinote: "A3", id: "fret7-string4" },
             "A"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret8 Asharp Bflat A3sharp B3flat", id: "fret8-string4" },
+            { className: "fret string4 fret8", string: "4", fret: "8", note: "Asharp Bflat", scinote: "A3sharp B3flat", id: "fret8-string4" },
             "A#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret9 B B3", id: "fret9-string4" },
+            { className: "fret string4 fret9", string: "4", fret: "9", note: "B", scinote: "B3", id: "fret9-string4" },
             "B"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret10 C C4", id: "fret10-string4" },
+            { className: "fret string4 fret10", string: "4", fret: "10", note: "C", scinote: "C4", id: "fret10-string4" },
             "C"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret11 Csharp Dflat C4sharp D4flat", id: "fret11-string4" },
+            { className: "fret string4 fret11", string: "4", fret: "11", note: "Csharp Dflat", scinote: "C4sharp D4flat", id: "fret11-string4" },
             "C#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string4 fret12 D D4", id: "fret12-string4" },
+            { className: "fret string4 fret12", string: "4", fret: "12", note: "D", scinote: "D4", id: "fret12-string4" },
             "D"
           )
         ),
@@ -616,67 +597,67 @@ var Fretboard = function (_React$Component) {
           { className: "string", id: "fifth-string" },
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret0 A A2 open-note", id: "fret0-string5" },
+            { className: "fret string5 fret0", string: "5", fret: "0", note: "A", scinote: "A2", id: "fret0-string5" },
             "A"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret1 Asharp Bflat A2sharp B2flat sharp-or-flat", id: "fret1-string5" },
+            { className: "fret string5 fret1", string: "5", fret: "1", note: "Asharp Bflat", scinote: "A2sharp B2flat", id: "fret1-string5" },
             "A#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret2 B B2", id: "fret2-string5" },
+            { className: "fret string5 fret2", string: "5", fret: "2", note: "B", scinote: "B2", id: "fret2-string5" },
             "B"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret3 C C3", id: "fret3-string5" },
+            { className: "fret string5 fret3", string: "5", fret: "3", note: "C", scinote: "C3", id: "fret3-string5" },
             "C"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret4 Csharp Dflat C3sharp D3flat sharp-or-flat", id: "fret4-string5" },
+            { className: "fret string5 fret4", string: "5", fret: "4", note: "Csharp Dflat", scinote: "C3sharp D3flat", id: "fret4-string5" },
             "C#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret5 D D3", id: "fret5-string5" },
+            { className: "fret string5 fret5", string: "5", fret: "5", note: "D", scinote: "D3", id: "fret5-string5" },
             "D"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret6 Dsharp Eflat D3sharp E3flat", id: "fret6-string5" },
+            { className: "fret string5 fret6", string: "5", fret: "6", note: "Dsharp Eflat", scinote: "D3sharp E3flat", id: "fret6-string5" },
             "D#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret7 E E3", id: "fret7-string5" },
+            { className: "fret string5 fret7", string: "5", fret: "7", note: "E", scinote: "E3", id: "fret7-string5" },
             "E"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret8 F F3", id: "fret8-string5" },
+            { className: "fret string5 fret8", string: "5", fret: "8", note: "F", scinote: "F3", id: "fret8-string5" },
             "F"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret9 Fsharp Gflat F3sharp G3flat", id: "fret9-string5" },
+            { className: "fret string5 fret9", string: "5", fret: "9", note: "Fsharp Gflat", scinote: "F3sharp G3flat", id: "fret9-string5" },
             "F#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret10 G G3", id: "fret10-string5" },
+            { className: "fret string5 fret10", string: "5", fret: "10", note: "G", scinote: "G3", id: "fret10-string5" },
             "G"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret11 Gsharp Aflat G3sharp A3flat", id: "fret11-string5" },
+            { className: "fret string5 fret11", string: "5", fret: "11", note: "Gsharp Aflat", scinote: "G3sharp A3flat", id: "fret11-string5" },
             "G#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string5 fret12 A A3", id: "fret12-string5" },
+            { className: "fret string5 fret12", string: "5", fret: "12", note: "A", scinote: "A3", id: "fret12-string5" },
             "A"
           )
         ),
@@ -685,67 +666,67 @@ var Fretboard = function (_React$Component) {
           { className: "string", id: "sixth-string" },
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret0 E E2 open-note", id: "fret0-string6" },
+            { className: "fret string6 fret0", string: "6", fret: "0", note: "E", scinote: "E2", id: "fret0-string6" },
             "E"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret1 F F2", id: "fret1-string6" },
+            { className: "fret string6 fret1", string: "6", fret: "1", note: "F", scinote: "F2", id: "fret1-string6" },
             "F"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret2 Fsharp Gflat F2sharp G2flat sharp-or-flat", id: "fret2-string6" },
+            { className: "fret string6 fret2", string: "6", fret: "2", note: "Fsharp Gflat", scinote: "F2sharp G2flat", id: "fret2-string6" },
             "F#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret3 G G2", id: "fret3-string6" },
+            { className: "fret string6 fret3", string: "6", fret: "3", note: "G", scinote: "G2", id: "fret3-string6" },
             "G"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret4 Gsharp Aflat G2sharp A2flat sharp-or-flat", id: "fret4-string6" },
+            { className: "fret string6 fret4", string: "6", fret: "4", note: "Gsharp Aflat", scinote: "G2sharp A2flat", id: "fret4-string6" },
             "G#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret5 A A2", id: "fret5-string6" },
+            { className: "fret string6 fret5", string: "6", fret: "5", note: "A", scinote: "A2", id: "fret5-string6" },
             "A"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret6 Asharp Bflat A2sharp B2flat", id: "fret6-string6" },
+            { className: "fret string6 fret6", string: "6", fret: "6", note: "Asharp Bflat", scinote: "A2sharp B2flat", id: "fret6-string6" },
             "A#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret7 B B2", id: "fret7-string6" },
+            { className: "fret string6 fret7", string: "6", fret: "7", note: "B", scinote: "B2", id: "fret7-string6" },
             "B"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret8 C C3", id: "fret8-string6" },
+            { className: "fret string6 fret8", string: "6", fret: "8", note: "C", scinote: "C3", id: "fret8-string6" },
             "C"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret9 Csharp Dflat C3sharp D3flat", id: "fret9-string6" },
+            { className: "fret string6 fret9", string: "6", fret: "9", note: "Csharp Dflat", scinote: "C3sharp D3flat", id: "fret9-string6" },
             "C#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret10 D D3", id: "fret10-string6" },
+            { className: "fret string6 fret10", string: "6", fret: "10", note: "D", scinote: "D3", id: "fret10-string6" },
             "D"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret11 Dsharp Eflat D3sharp E3flat", id: "fret11-string6" },
+            { className: "fret string6 fret11", string: "6", fret: "11", note: "Dsharp Eflat", scinote: "D3sharp E3flat", id: "fret11-string6" },
             "D#"
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string6 fret12 E E3", id: "fret12-string6" },
+            { className: "fret string6 fret12", string: "6", fret: "12", note: "E", scinote: "E3", id: "fret12-string6" },
             "E"
           )
         )
@@ -798,8 +779,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var KeyChordButtons = function (_Component) {
-  _inherits(KeyChordButtons, _Component);
+var KeyChordButtons = function (_React$Component) {
+  _inherits(KeyChordButtons, _React$Component);
 
   function KeyChordButtons(props) {
     _classCallCheck(this, KeyChordButtons);
@@ -812,11 +793,10 @@ var KeyChordButtons = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      // Event listeners for all key letters and chord types to trigger display on click
+      // Event listeners for all key letters, tone (for lack of better word) and chord types to trigger redux action on click
       var keyClass = document.getElementsByClassName("key");
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
-          _this2.setState({ inputKey: x.target.value });
           _this2.props.dispatch((0, _actions.keyToState)(x.target.value));
         });
       }
@@ -824,7 +804,6 @@ var KeyChordButtons = function (_Component) {
       var toneClass = document.getElementsByClassName("tone");
       for (var _i = 0; _i < toneClass.length; _i++) {
         toneClass[_i].addEventListener("click", function (x) {
-          _this2.setState({ inputTone: x.target.value });
           _this2.props.dispatch((0, _actions.toneToState)(x.target.value));
         });
       }
@@ -832,7 +811,6 @@ var KeyChordButtons = function (_Component) {
       var chordTypeClass = document.getElementsByClassName("chord-type");
       for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
         chordTypeClass[_i2].addEventListener("click", function (x) {
-          _this2.setState({ inputChordType: x.target.value });
           _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
         });
       }
@@ -840,7 +818,6 @@ var KeyChordButtons = function (_Component) {
   }, {
     key: "render",
     value: function render() {
-
       return _react2.default.createElement(
         "div",
         { className: "keyChordContainer" },
@@ -862,19 +839,60 @@ var KeyChordButtons = function (_Component) {
           _react2.default.createElement(
             "div",
             { className: "keyRow" },
-            _react2.default.createElement("input", { className: "key", type: "button", value: "C" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "D" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "E" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "F" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "G" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "A" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "B" })
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "C" },
+              "C"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "D" },
+              "D"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "E" },
+              "E"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "F" },
+              "F"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "G" },
+              "G"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "A" },
+              "A"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "B" },
+              "B"
+            )
           ),
           _react2.default.createElement(
             "div",
             { className: "toneRow" },
-            _react2.default.createElement("input", { className: "tone", type: "button", value: "#" }),
-            _react2.default.createElement("input", { className: "tone", type: "button", value: "b" })
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "#" },
+              "#"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "b" },
+              "b"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "" },
+              "clear"
+            )
           )
         ),
         _react2.default.createElement(
@@ -883,8 +901,16 @@ var KeyChordButtons = function (_Component) {
           _react2.default.createElement(
             "div",
             { className: "chordRow" },
-            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "M" }),
-            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "m" })
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "M" },
+              "Major"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "m" },
+              "minor"
+            )
           )
         )
       );
@@ -892,7 +918,7 @@ var KeyChordButtons = function (_Component) {
   }]);
 
   return KeyChordButtons;
-}(_react.Component);
+}(_react2.default.Component);
 
 function mapStateToProps(state) {
   return {
@@ -1003,6 +1029,7 @@ function selectedChord() {
   switch (action.type) {
     case "SELECT_CHORD":
       return action.chord;
+
     case "SELECT_KEY":
       return {
         selectedKey: action.chord.selectedKey,
