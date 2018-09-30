@@ -1,4 +1,4 @@
-approach it as a piano, would easily get the triads built. How to translate, again? Basically where we are now
+ approach it as a piano, would easily get the triads built. How to translate, again? Basically where we are now
 
 light up note if within x many frets, instead of absolute? Still doesn't fix the B problem
 
