@@ -259,6 +259,7 @@ var Fretboard = function (_React$Component) {
     _this.getChordKey = _this.getChordKey.bind(_this);
     _this.getListOfAvailableFrets = _this.getListOfAvailableFrets.bind(_this);
     _this.lightUpNote = _this.lightUpNote.bind(_this);
+    _this.clearLitNotes = _this.clearLitNotes.bind(_this);
 
     _this.getAllFretsForChord = _this.getAllFretsForChord.bind(_this);
     return _this;
@@ -299,11 +300,11 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "getAllFretsForChord",
     value: function getAllFretsForChord() {
-      // add function to clear lit class 
+      his.clearLitNotes();
 
       var chordKey = this.getChordKey();
       var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
-      console.log(theseNotes);
+      // console.log(theseNotes)
       // not yet working for sharps or flats. call a converstion function? Tonal has something, see notes
 
       var maxFretsFilter = 3; //hardcode for now, change to button selection in stretch
@@ -319,13 +320,23 @@ var Fretboard = function (_React$Component) {
           }
         }
       }
-      console.log(arrOfDivsThatMatchNote); // later return
+      // console.log(arrOfDivsThatMatchNote) // later return
     }
   }, {
     key: "lightUpNote",
     value: function lightUpNote(incomingID) {
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
+    }
+  }, {
+    key: "clearLitNotes",
+    value: function clearLitNotes() {
+      var litNotes = document.getElementsByClassName("lit");
+      while (litNotes.length > 0) {
+        for (var i = 0; i < litNotes.length; i++) {
+          litNotes[i].classList.remove("lit");
+        }
+      }
     }
   }, {
     key: "render",
@@ -798,8 +809,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var KeyChordButtons = function (_Component) {
-  _inherits(KeyChordButtons, _Component);
+var KeyChordButtons = function (_React$Component) {
+  _inherits(KeyChordButtons, _React$Component);
 
   function KeyChordButtons(props) {
     _classCallCheck(this, KeyChordButtons);
@@ -816,7 +827,6 @@ var KeyChordButtons = function (_Component) {
       var keyClass = document.getElementsByClassName("key");
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
-          _this2.setState({ inputKey: x.target.value });
           _this2.props.dispatch((0, _actions.keyToState)(x.target.value));
         });
       }
@@ -824,7 +834,6 @@ var KeyChordButtons = function (_Component) {
       var toneClass = document.getElementsByClassName("tone");
       for (var _i = 0; _i < toneClass.length; _i++) {
         toneClass[_i].addEventListener("click", function (x) {
-          _this2.setState({ inputTone: x.target.value });
           _this2.props.dispatch((0, _actions.toneToState)(x.target.value));
         });
       }
@@ -832,7 +841,6 @@ var KeyChordButtons = function (_Component) {
       var chordTypeClass = document.getElementsByClassName("chord-type");
       for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
         chordTypeClass[_i2].addEventListener("click", function (x) {
-          _this2.setState({ inputChordType: x.target.value });
           _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
         });
       }
@@ -941,7 +949,7 @@ var KeyChordButtons = function (_Component) {
   }]);
 
   return KeyChordButtons;
-}(_react.Component);
+}(_react2.default.Component);
 
 function mapStateToProps(state) {
   return {

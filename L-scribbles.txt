@@ -1,3 +1,10 @@
+get everything in class by string and call in reverse order manually. Or reverse each fret. whatever's easier
+
+add tempo playback noteInWords
+
+if state=b, find all with class flat and re-render inner html with Gb, etc
+
+
  ------------------------- THINKING  -------------------------
 given arr CEG
 search fretsequence for tonic/ [0], then find all following? ugh.

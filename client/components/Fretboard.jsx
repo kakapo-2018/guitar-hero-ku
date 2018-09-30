@@ -10,6 +10,7 @@ class Fretboard extends React.Component {
     this.getChordKey = this.getChordKey.bind(this)
     this.getListOfAvailableFrets = this.getListOfAvailableFrets.bind(this)
     this.lightUpNote = this.lightUpNote.bind(this)
+    this.clearLitNotes = this.clearLitNotes.bind(this)
     
     this.getAllFretsForChord = this.getAllFretsForChord.bind(this)
   }
@@ -46,11 +47,11 @@ getListOfAvailableFrets(maxFret) {
 
 
 getAllFretsForChord() {
-// add function to clear lit class 
+  his.clearLitNotes()
 
   let chordKey = this.getChordKey()
   let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
-  console.log(theseNotes)
+  // console.log(theseNotes)
   // not yet working for sharps or flats. call a converstion function? Tonal has something, see notes
 
   let maxFretsFilter = 3 //hardcode for now, change to button selection in stretch
@@ -66,14 +67,25 @@ getAllFretsForChord() {
       }
     }
   }
-  console.log(arrOfDivsThatMatchNote) // later return
+  // console.log(arrOfDivsThatMatchNote) // later return
 }
 
 
 lightUpNote(incomingID) {
     let selectedNote = document.getElementById(incomingID)
     selectedNote.classList.add("lit")
+  }
+
+
+clearLitNotes() {
+  let litNotes = document.getElementsByClassName("lit")
+  while (litNotes.length > 0) {
+  for (let i = 0; i < litNotes.length; i++) {
+      litNotes[i].classList.remove("lit")
+    }
+  }
 }
+
 
 render() {
 this.getAllFretsForChord()
@@ -81,7 +93,7 @@ this.getAllFretsForChord()
 
   return (
     <div className="fretboard">
-
+    
       <div className="string" id="first-string">
         <div className="fret string1 fret0" string="1" fret="0" note="E" scinote="E4" id="fret0-string1">E</div>
         <div className="fret string1 fret1" string="1" fret="1" note="F" scinote="F4" id="fret1-string1">F</div>

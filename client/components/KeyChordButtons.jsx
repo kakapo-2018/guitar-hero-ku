@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import {connect} from 'react-redux'
 import {keyToState, toneToState, chordTypeToState} from "../actions"
 
-class KeyChordButtons extends Component {
+class KeyChordButtons extends React.Component {
   constructor(props) {
     super(props);
 
@@ -13,7 +13,6 @@ class KeyChordButtons extends Component {
     let keyClass = document.getElementsByClassName("key")
     for (let i = 0; i < keyClass.length; i++) {
       keyClass[i].addEventListener("click", (x) => {
-        this.setState({inputKey: x.target.value})
         this.props.dispatch(keyToState(x.target.value))
       })
     }
@@ -21,7 +20,6 @@ class KeyChordButtons extends Component {
     let toneClass = document.getElementsByClassName("tone")
     for (let i = 0; i < toneClass.length; i++) {
       toneClass[i].addEventListener("click", (x) => {
-        this.setState({inputTone: x.target.value})
         this.props.dispatch(toneToState(x.target.value))
       })
     }
@@ -29,7 +27,6 @@ class KeyChordButtons extends Component {
     let chordTypeClass = document.getElementsByClassName("chord-type")
     for (let i = 0; i < chordTypeClass.length; i++) {
       chordTypeClass[i].addEventListener("click", (x) => {
-        this.setState({inputChordType: x.target.value})
         this.props.dispatch(chordTypeToState(x.target.value))
       })
     }
