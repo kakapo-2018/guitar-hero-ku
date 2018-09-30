@@ -257,9 +257,9 @@ var Fretboard = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
 
     _this.lightUpNote = _this.lightUpNote.bind(_this);
-    _this.lightUpChord = _this.lightUpChord.bind(_this);
     _this.restrictFrets = _this.restrictFrets.bind(_this);
-    _this.getChordNotes = _this.getChordNotes.bind(_this);
+    _this.lightUpChord = _this.lightUpChord.bind(_this);
+    _this.getAllFretsForChord = _this.getAllFretsForChord.bind(_this);
     _this.getChordKey = _this.getChordKey.bind(_this);
     return _this;
   }
@@ -280,7 +280,6 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "lightUpNote",
     value: function lightUpNote(incomingID) {
-
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
     }
@@ -295,7 +294,6 @@ var Fretboard = function (_React$Component) {
           allowedFrets.push(frets[i]);
         }
       }
-      // console.log(allowedFrets)
       return allowedFrets;
     }
   }, {
@@ -304,15 +302,15 @@ var Fretboard = function (_React$Component) {
       //get key, depending on if # or b is included:
       if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;else return this.props.selectedChord.selectedKey;
     }
-
-    // function to clear lit class
-
   }, {
-    key: "getChordNotes",
-    value: function getChordNotes() {
+    key: "getAllFretsForChord",
+    value: function getAllFretsForChord() {
+      // function to clear lit class 
+
       var chordKey = this.getChordKey();
       var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
       console.log(theseNotes);
+      // not yet working for sharps or flats. call a converstion function?
 
       var maxFretsFilter = 3;
       var currentFrets = this.restrictFrets(maxFretsFilter);
@@ -321,73 +319,41 @@ var Fretboard = function (_React$Component) {
         for (var j = 0; j < theseNotes.length; j++) {
           if (currentFrets[i].attributes.note.textContent === theseNotes[j]) {
             console.log(currentFrets[i].attributes.id.value);
-            this.lightUpNote(currentFrets[i].attributes.id.value);
-            // return currentFrets[i].attributes.id.value
+            // this.lightUpNote(currentFrets[i].attributes.id.value)
           }
         }
       }
-      /*
-      loop through current frets(wntire div)
-      where note name matches note of chord, return
-      need to loop through theseNotes too
-      
-      
-      - whose note.textcontent matches ONE of the chord notes
-      
-      */
-
-      // console.log(frets[i].attributes.note.textContent)
-
-      // if (frets[i].attributes.fret.value < ) {
-      //   allowedFrets.push(frets[i].attributes.id.value)
-      //   // this.lightUpNote(frets[i].attributes.id.value)
-      // }
-
-
-      // currentFrets.map(thisFretID => {
-      //   console.log(thisFretID)
-      // })
-
-
-      // loop frets return where match a note
-      // for (let i = 0; i < currentFrets.length; i++) {
-      //   // const element = currentFrets[i];
-      //   for (let j = 0; j < theseNotes.length; j++) {
-      //     // const element = theseNotes[j];
-      //   }
-      // }
-
-      // console.log(theseNotes)
-
-      // for (let i = 0; i < notes.length; i++) {
-      //   let thisNote = String(notes[i])
-      //   // this.lightUpChord(thisNote)
-      // }
     }
   }, {
     key: "lightUpChord",
     value: function lightUpChord(incoming) {
       console.log("incoming is", incoming);
 
-      // ---------------------------- IN PROGRESS --------------------
+      // getAllFretsForChord()
+      // use params? Is there any instance where this will need to be changed? when is best to convert sharps
 
-      var testnote = "C4"; // change to be incoming note. Need to split between scinote and normal notes
-      var list = [];
-      var frets = document.getElementsByClassName("fret");
+      // // ---------------------------- IN PROGRESS --------------------
 
-      for (var i = 0; i < frets.length; i++) {
-        if (frets[i].attributes.scinote.textContent === testnote) {
-          console.log(frets[i].attributes.id.value);
-          // console.log(frets[i].attributes.scinote.textContent)
-          this.lightUpNote(frets[i].attributes.id.value);
-        }
-      }
-      console.log(list);
+      //   // let testnote = "C4" // change to be incoming note. Need to split between scinote and normal notes
+      //   let list = []
+      //   let frets = document.getElementsByClassName("fret")
+
+      //     for (let i = 0; i < frets.length; i++) {
+      //       if (frets[i].attributes.scinote.textContent === testnote) {
+      //         console.log(frets[i].attributes.id.value)
+      //         // console.log(frets[i].attributes.scinote.textContent)
+      //         this.lightUpNote(frets[i].attributes.id.value)
+      //       }
+
+
+      //     }
+      //   console.log(list)
     }
   }, {
     key: "render",
     value: function render() {
-      this.getChordNotes();
+      // this.lightUpChord()
+      this.getAllFretsForChord();
 
       return _react2.default.createElement(
         "div",
