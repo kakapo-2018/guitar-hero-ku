@@ -5,14 +5,14 @@ A visual guide to playing guitar.
 
 ## User Stories
 
-### MVP
+MVP
 * As a user I want to see the strings and fretboard (up to 5th fret) and the letters of the notes for each.
 * As a user I want to be able to select a note on the fretboard and see the note light up on the fretboard.
 * As a user I want to be able to select a chord (in any key, in major or minor) from a list and see the notes lit up on the fretboard.
 * As a user I want the app to be mobile-friendly / responsive so I can see the fretboard on my phone.
 
 
-### Stretch
+Stretch
 * As a user I want to select different notes on the fretboard and see what chords they make. If the notes do not make up a chord (are too many or too random, or are impossible to play (e.g. two notes on one string)), I want nothing to light up.
 * As a user I want to use the entire fretboard (down to 12th fret) and see the notes in different positions. 
 * As a user I want to choose whether or not to include open strings.
@@ -25,25 +25,32 @@ A visual guide to playing guitar.
 * As a user I want to access a database of well-known (public domain) songs which I can select and play along with..
 
 
-### Super-stretch
+Super-stretch
+
 * As a user I want to be able to enter a melody and have the app play it back the same way as chords.
 
-## Actions
-### Strech
-* ADD_CHORD
-* SET_BPM
-[more to come -- Lianna]
+## Documentation
 
-## Reducers
-* 
-[more to come -- Lianna]
+<!-- ### Note and chord references
+* C# is C^
+* C4 is middle C -->
 
-## Views
+
+### Views
 * Main app page: Chord finder
 * Help: text guide for usage
-
-### Super-stretch
 * Piano view (alternative to Guitar view)
 
-## API Docs
-[will come when we use database for stretch goals]
+### API Docs
+Dispatch from playback to change chords:
+`this.props.dispatch(entireChordToState(key, tone, chordType))`
+e.g.
+* key: "C"
+* tone: "#"
+* chordType: "min"
+
+
+
+## Reference
+
+* Tonal module docs: https://www.npmjs.com/package/tonal
