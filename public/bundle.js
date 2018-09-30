@@ -99,6 +99,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, chordType) {
+  return {
+    type: "SELECT_CHORD",
+    chord: {
+      selectedKey: key,
+      selectedTone: tone,
+      selectedChordType: chordType
+    }
+  };
+};
+
 var keyToState = exports.keyToState = function keyToState(key) {
   return {
     type: "SELECT_KEY",
@@ -1105,6 +1116,7 @@ function selectedChord() {
   switch (action.type) {
     case "SELECT_CHORD":
       return action.chord;
+
     case "SELECT_KEY":
       return {
         selectedKey: action.chord.selectedKey,
