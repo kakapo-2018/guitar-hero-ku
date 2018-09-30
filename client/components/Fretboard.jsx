@@ -50,7 +50,8 @@ render() {
 
   return (
     <div className="fretboard">
-    
+
+
       <div className="string" id="first-string">
         <div className="fret string1 fret0" string="1" fret="0" note="E" scinote="E4" id="fret0-string1">E</div>
         <div className="fret string1 fret1" string="1" fret="1" note="F" scinote="F4" id="fret1-string1">F</div>
