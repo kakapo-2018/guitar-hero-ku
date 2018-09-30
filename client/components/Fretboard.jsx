@@ -7,42 +7,23 @@ class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
-    this.lightUpNote = this.lightUpNote.bind(this)
-    this.restrictFrets = this.restrictFrets.bind(this)
-    this.lightUpChord = this.lightUpChord.bind(this)
-    this.getAllFretsForChord = this.getAllFretsForChord.bind(this)
     this.getChordKey = this.getChordKey.bind(this)
+    this.getListOfAvailableFrets = this.getListOfAvailableFrets.bind(this)
+    this.lightUpNote = this.lightUpNote.bind(this)
+    
+    this.getAllFretsForChord = this.getAllFretsForChord.bind(this)
   }
 
-  componentDidMount(){
-
+componentDidMount() {
 // Add event listener to all frets to trigger lightUpNote on click
-    let frets = document.getElementsByClassName("fret")
-    for (let i = 0; i < frets.length; i++) {
-      frets[i].addEventListener("click", (x) => {
-        this.lightUpNote(x.target.id)
-      })
-    }
-
-  }
-
-
-lightUpNote(incomingID) {
-    let selectedNote = document.getElementById(incomingID)
-    selectedNote.classList.add("lit")
-}
-
-restrictFrets(maxFret) {
-// use this later for set position (into redux)
-  let allowedFrets = []
   let frets = document.getElementsByClassName("fret")
-    for (let i = 0; i < frets.length; i++) {
-      if (frets[i].attributes.fret.value < maxFret+1) {
-          allowedFrets.push(frets[i])
-      }
+  for (let i = 0; i < frets.length; i++) {
+    frets[i].addEventListener("click", (x) => {
+      this.lightUpNote(x.target.id)
+    })
   }
-  return allowedFrets
 }
+
 
 getChordKey() {
 //get key, depending on if # or b is included:
@@ -51,54 +32,50 @@ getChordKey() {
 }
 
 
+getListOfAvailableFrets(maxFret) {
+// use this later for set position (into redux)
+  let allowedFrets = []
+  let frets = document.getElementsByClassName("fret")
+    for (let i = 0; i < frets.length; i++) {
+      if (frets[i].attributes.fret.value < maxFret+1) {
+          allowedFrets.push(frets[i])
+      }
+  }
+  return allowedFrets.reverse()  //need to also reverse fret sequence WITHIN strings! ...tomorrow....
+}
+
+
 getAllFretsForChord() {
-// function to clear lit class 
+// add function to clear lit class 
 
   let chordKey = this.getChordKey()
   let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
   console.log(theseNotes)
-  // not yet working for sharps or flats. call a converstion function?
+  // not yet working for sharps or flats. call a converstion function? Tonal has something, see notes
 
-  let maxFretsFilter = 3
-  let currentFrets = this.restrictFrets(maxFretsFilter)
+  let maxFretsFilter = 3 //hardcode for now, change to button selection in stretch
+  let currentFrets = this.getListOfAvailableFrets(maxFretsFilter)
   
+  let arrOfDivsThatMatchNote = []
   for (let i = 0; i < currentFrets.length; i++) {
     for (let j = 0; j < theseNotes.length; j++) {
       if (currentFrets[i].attributes.note.textContent === theseNotes[j]) {
-        console.log(currentFrets[i].attributes.id.value)
-        // this.lightUpNote(currentFrets[i].attributes.id.value)
+        // console.log(currentFrets[i].attributes.id.value)
+        arrOfDivsThatMatchNote.push(currentFrets[i])
+        this.lightUpNote(currentFrets[i].attributes.id.value) //move later when this function works properly
       }
     }
   }
+  console.log(arrOfDivsThatMatchNote) // later return
 }
 
-lightUpChord(incoming) {
-    console.log("incoming is", incoming)
 
-// getAllFretsForChord()
-// use params? Is there any instance where this will need to be changed? when is best to convert sharps
-
-// // ---------------------------- IN PROGRESS --------------------
-
-//   // let testnote = "C4" // change to be incoming note. Need to split between scinote and normal notes
-//   let list = []
-//   let frets = document.getElementsByClassName("fret")
-
-//     for (let i = 0; i < frets.length; i++) {
-//       if (frets[i].attributes.scinote.textContent === testnote) {
-//         console.log(frets[i].attributes.id.value)
-//         // console.log(frets[i].attributes.scinote.textContent)
-//         this.lightUpNote(frets[i].attributes.id.value)
-//       }
-
-
-//     }
-//   console.log(list)
+lightUpNote(incomingID) {
+    let selectedNote = document.getElementById(incomingID)
+    selectedNote.classList.add("lit")
 }
-
 
 render() {
-// this.lightUpChord()
 this.getAllFretsForChord()
 
 

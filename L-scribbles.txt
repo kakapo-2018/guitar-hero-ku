@@ -34,7 +34,7 @@ createFretList --- create sequential list. Find string6 fret3, then string6 then
  
 
 
-
+ 
 -------------------- get div details --------------------
 frets[i].attributes.note       // note without sci
 frets[i].attributes.scinote      //note with sci
@@ -75,3 +75,25 @@ frets[i].attributes.scinote.textContent
 //       }
 //     }
 // // DOESN'T WORK FOR DOUBLE SHARPS. SIGH
+
+
+
+
+
+
+// // ---------------------------- IN PROGRESS --------------------
+
+//   // let testnote = "C4" // change to be incoming note. Need to split between scinote and normal notes
+//   let list = []
+//   let frets = document.getElementsByClassName("fret")
+
+//     for (let i = 0; i < frets.length; i++) {
+//       if (frets[i].attributes.scinote.textContent === testnote) {
+//         console.log(frets[i].attributes.id.value)
+//         // console.log(frets[i].attributes.scinote.textContent)
+//         this.lightUpNote(frets[i].attributes.id.value)
+//       }
+
+
+//     }
+//   console.log(list)
