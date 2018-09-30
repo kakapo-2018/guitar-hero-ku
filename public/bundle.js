@@ -288,6 +288,8 @@ var Fretboard = function (_React$Component) {
     value: function lightUpChord(incomingNote) {
       console.log("incomingNote is", incomingNote);
 
+      // ---------------------------- IN PROGRESS --------------------
+
       // if (incomingNote.includes("#") )
 
 
