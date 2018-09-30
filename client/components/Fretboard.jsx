@@ -7,6 +7,7 @@ class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
+
     this.lightUpNote = this.lightUpNote.bind(this)
     this.lightUpChord = this.lightUpChord.bind(this)
     this.restrictFrets = this.restrictFrets.bind(this)
@@ -27,8 +28,9 @@ class Fretboard extends React.Component {
   }
 
 
-lightUpNote(incomingNote) {
-    let selectedNote = document.getElementById(incomingNote)
+lightUpNote(incomingID) {
+
+    let selectedNote = document.getElementById(incomingID)
     selectedNote.classList.add("lit")
 }
 
@@ -38,8 +40,7 @@ restrictFrets(maxFret) {
   let frets = document.getElementsByClassName("fret")
     for (let i = 0; i < frets.length; i++) {
       if (frets[i].attributes.fret.value < maxFret+1) {
-          allowedFrets.push(frets[i].attributes.id.value)
-          // this.lightUpNote(frets[i].attributes.id.value)
+          allowedFrets.push(frets[i])
       }
   }
   // console.log(allowedFrets)
@@ -52,18 +53,49 @@ getChordKey() {
   else return this.props.selectedChord.selectedKey
 }
 
+// function to clear lit class
+
 getChordNotes() {
   let chordKey = this.getChordKey()
-
   let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+  console.log(theseNotes)
 
   let maxFretsFilter = 3
   let currentFrets = this.restrictFrets(maxFretsFilter)
-  // console.log(currentFrets)
+  
+  for (let i = 0; i < currentFrets.length; i++) {
+    for (let j = 0; j < theseNotes.length; j++) {
+      if (currentFrets[i].attributes.note.textContent === theseNotes[j]) {
+        console.log(currentFrets[i].attributes.id.value)
+        this.lightUpNote(currentFrets[i].attributes.id.value)
+        // return currentFrets[i].attributes.id.value
+      }
+    }
+  }
+/*
+loop through current frets(wntire div)
+where note name matches note of chord, return
+need to loop through theseNotes too
 
-// use currentFret IDs, get attribute, for now just note
+
+- whose note.textcontent matches ONE of the chord notes
+
+*/
 
 
+
+
+    // console.log(frets[i].attributes.note.textContent)
+
+    // if (frets[i].attributes.fret.value < ) {
+    //   allowedFrets.push(frets[i].attributes.id.value)
+    //   // this.lightUpNote(frets[i].attributes.id.value)
+    // }
+
+
+// currentFrets.map(thisFretID => {
+//   console.log(thisFretID)
+// })
 
 
 
@@ -107,7 +139,7 @@ lightUpChord(incoming) {
 
 render() {
 this.getChordNotes()
-// this.restrictFrets() // temp
+
 
   return (
     <div className="fretboard">
