@@ -287,13 +287,21 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "getChordNotes",
     value: function getChordNotes() {
-      var chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
-      var notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
-
-      for (var i = 0; i < notes.length; i++) {
-        var thisNote = String(notes[i]);
-        this.lightUpChord(thisNote);
+      if (this.props.selectedChord.selectedTone) {
+        var chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
+        console.log(chordKey);
+      } else {
+        var _chordKey = this.props.selectedChord.selectedKey;
+        console.log(_chordKey);
       }
+
+      // let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+
+
+      // for (let i = 0; i < notes.length; i++) {
+      //   let thisNote = String(notes[i])
+      //   // this.lightUpChord(thisNote)
+      // }
     }
   }, {
     key: "lightUpChord",
@@ -306,6 +314,9 @@ var Fretboard = function (_React$Component) {
       // limit to 1 note per string and not above fret 5
       // translate sharps and flats.... somehow. Each "#" + 1, each "b" -1 ?
       // need to select tonic without sharp/flat interference
+      // start with thicketst/highest-numbered string, look into first five frets for instance of note. THEN build
+      // do a test run with selecting any fret and getting it to print off all higher frets in sequential order, ignoring any that are past the fret limit
+      // still would be nicer if tonal had a way to build by scientific notation
 
 
       // add a check: If ##, take init letter and replace F## -> G, etc
@@ -870,19 +881,60 @@ var KeyChordButtons = function (_Component) {
           _react2.default.createElement(
             "div",
             { className: "keyRow" },
-            _react2.default.createElement("input", { className: "key", type: "button", value: "C" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "D" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "E" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "F" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "G" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "A" }),
-            _react2.default.createElement("input", { className: "key", type: "button", value: "B" })
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "C" },
+              "C"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "D" },
+              "D"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "E" },
+              "E"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "F" },
+              "F"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "G" },
+              "G"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "A" },
+              "A"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "B" },
+              "B"
+            )
           ),
           _react2.default.createElement(
             "div",
             { className: "toneRow" },
-            _react2.default.createElement("input", { className: "tone", type: "button", value: "#" }),
-            _react2.default.createElement("input", { className: "tone", type: "button", value: "b" })
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "#" },
+              "#"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "b" },
+              "b"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "" },
+              "clear"
+            )
           )
         ),
         _react2.default.createElement(
@@ -891,8 +943,16 @@ var KeyChordButtons = function (_Component) {
           _react2.default.createElement(
             "div",
             { className: "chordRow" },
-            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "M" }),
-            _react2.default.createElement("input", { className: "chord-type", type: "button", value: "m" })
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "M" },
+              "Major"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "m" },
+              "minor"
+            )
           )
         )
       );

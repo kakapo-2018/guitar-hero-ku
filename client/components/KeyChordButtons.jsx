@@ -47,29 +47,31 @@ class KeyChordButtons extends Component {
 
         <div className="keys">
           <div className="keyRow">
-            <input className="key" type="button" value="C"></input>
-            <input className="key" type="button" value="D"></input>
-            <input className="key" type="button" value="E"></input>
-            <input className="key" type="button" value="F"></input>
-            <input className="key" type="button" value="G"></input>
-            <input className="key" type="button" value="A"></input>
-            <input className="key" type="button" value="B"></input>
+            <button className="key" type="button" value="C">C</button>
+            <button className="key" type="button" value="D">D</button>
+            <button className="key" type="button" value="E">E</button>
+            <button className="key" type="button" value="F">F</button>
+            <button className="key" type="button" value="G">G</button>
+            <button className="key" type="button" value="A">A</button>
+            <button className="key" type="button" value="B">B</button>
 
           </div>
           <div className="toneRow">
-            <input className="tone" type="button" value="#"></input>
-            <input className="tone" type="button" value="b"></input>
+            <button className="tone" type="button" value="#">#</button>
+            <button className="tone" type="button" value="b">b</button>
+            <button className="tone" type="button" value="">clear</button>
+            {/* <button className="tone" type="button" value=""></button> */}
 
           </div>
         </div>
         <div className="chords">
           <div className="chordRow">
-            <input className="chord-type" type="button" value="M"></input>
-            <input className="chord-type" type="button" value="m"></input>
+            <button className="chord-type" type="button" value="M">Major</button>
+            <button className="chord-type" type="button" value="m">minor</button>
 
-            {/* <input className="chord-type" type="button" value="Dom"></input>
-            <input className="chord-type" type="button" value="Dim"></input>
-            <input className="chord-type" type="button" value="Half-Dim"></input> */}
+            {/* <button className="chord-type" type="button" value="Dom"></button>
+            <button className="chord-type" type="button" value="Dim"></button>
+            <button className="chord-type" type="button" value="Half-Dim"></button> */}
 
           </div>
         </div>

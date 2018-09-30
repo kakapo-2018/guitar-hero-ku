@@ -32,17 +32,27 @@ lightUpNote(incomingNote) {
 
 // maybe need to do this differently, IE need the full chord info when lighting up so to actually get chords rather than a jumble of notes that could make a chord if sorted
 getChordNotes() {
-  let chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
-  let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
-
-  for (let i = 0; i < notes.length; i++) {
-    let thisNote = String(notes[i])
-    this.lightUpChord(thisNote)
+  if (this.props.selectedChord.selectedTone) {
+    let chordKey = this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
+    console.log(chordKey)
   }
+  else {
+    let chordKey = this.props.selectedChord.selectedKey
+    console.log(chordKey)
+  }
+
+  // let notes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+
+
+  // for (let i = 0; i < notes.length; i++) {
+  //   let thisNote = String(notes[i])
+  //   // this.lightUpChord(thisNote)
+  // }
 }
 
 lightUpChord(incoming) {
     console.log("incoming is", incoming)
+
 
 // ---------------------------- IN PROGRESS --------------------
 
@@ -50,6 +60,9 @@ lightUpChord(incoming) {
 // limit to 1 note per string and not above fret 5
 // translate sharps and flats.... somehow. Each "#" + 1, each "b" -1 ?
 // need to select tonic without sharp/flat interference
+// start with thicketst/highest-numbered string, look into first five frets for instance of note. THEN build
+// do a test run with selecting any fret and getting it to print off all higher frets in sequential order, ignoring any that are past the fret limit
+// still would be nicer if tonal had a way to build by scientific notation
 
 
 // add a check: If ##, take init letter and replace F## -> G, etc
