@@ -1,0 +1,37 @@
+-------------------- get div details --------------------
+frets[i].attributes.note       // note without sci
+frets[i].attributes.scinote      //note with sci
+frets[i].attributes.scinote     textContent) // as string
+
+frets[i].attributes.id.value  // ID strin
+frets[i].classList.value)      //gets all classes as a string with spaces
+
+frets[i].attributes.class     
+frets[i].attributes.string       //name of string
+frets[i].attributes.fret       //name of fret
+frets[i].attributes.string       // all classes
+
+
+
+
+// ------------------ OLD but working functionality for single sharps
+// //for sharps
+//     if (incoming.includes("#")) {
+//       // change "#" to "sharp" to match class name
+//       let arr = incoming.split("#")
+//       arr.push("sharp")
+//       let noteInWords = arr.join("")
+
+//       // get all divs with that class and add lit class
+//       let notesByClass = document.getElementsByClassName(noteInWords)
+//       for (let i = 0; i < notesByClass.length; i++) {
+//         notesByClass[i].classList.add("lit")
+//       }
+//     }
+//     else {
+//       let notesByClass = document.getElementsByClassName(incoming)
+//       for (let i = 0; i < notesByClass.length; i++) {
+//         notesByClass[i].classList.add("lit")
+//       }
+//     }
+// // DOESN'T WORK FOR DOUBLE SHARPS. SIGH

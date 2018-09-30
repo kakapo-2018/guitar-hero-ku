@@ -1,0 +1,46 @@
+--------------------------- Lianna To-Do list  ---------------------------
+
+-------------- misc -------------- 
+- make functionality for double sharps
+
+
+-------------- Build chords with triads --------------
+Write function to build a major/minor chord given a tonic and the triad structures. 
+
+
+// Build a major chord given a tonic
+// limit to 1 note per string and not above fret 5
+// translate sharps and flats.... somehow. Each "#" + 1, each "b" -1 ?
+// need to select tonic without sharp/flat interference
+// start with thicketst/highest-numbered string, look into first five frets for instance of note. THEN build
+// do a test run with selecting any fret and getting it to print off all higher frets in sequential order, ignoring any that are past the fret limit
+// still would be nicer if tonal had a way to build by scientific notation
+// add a check: If ##, take init letter and replace F## -> G, etc
+// OR, and probably better, make the selection by relative place. Maybe
+
+
+
+Cmajor has CEG - fine. Start with C3 on string5, add E3 on string 4, G3 on string 3(open), C4 on string 2 and E4 on string 1.
+
+major chord is major triad + minor triad,
+a minor chord is a minor triad + a maj triad,
+dimimnished is two minor triads,
+augmented is 2 major triads,
+sus skips the third
+etc
+
+Concerns: 
+* if I build a function to create a Major chord given a tonic, whether it will actually spit out the notes we play for standard position-1 guitar chords.
+* The computer has no idea how far fingers can stretch and I don't know if standard finger positions have lots of exceptions to accomodate that.
+
+
+-------------- compile fretlist with conditions --------------
+
+* use a conditional that won't allow any notes above a certain fret to play (e.g. position one = fret5 or below), add functionality for other positions later
+* use a conditional that won't allow two notes on the same sting (maybe defaulting to the lowest-numbered fret)
+
+select the tonic and then find the rest of the chord by relative position
+
+
+
+
