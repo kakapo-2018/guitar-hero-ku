@@ -33,14 +33,15 @@ lightUpNote(incomingNote) {
 
 // maybe need to do this differently, IE need the full chord info when lighting up so to actually get chords rather than a jumble of notes that could make a chord if sorted
 getFretList() {
-  let testnote = "C"
+  let testnote = "C4" // change to be incoming note. Need to split between scinote and normal notes
   let list = []
   let frets = document.getElementsByClassName("fret")
     for (let i = 0; i < frets.length; i++) {
-      if (frets[i].attributes.note.textContent === testnote) {
-        console.log(frets[i].attributes.scinote.textContent)
+      if (frets[i].attributes.scinote.textContent === testnote) {
+        console.log(frets[i].attributes.id.value)
+        // console.log(frets[i].attributes.scinote.textContent)
+        this.lightUpNote(frets[i].attributes.id.value)
       }
-// console.log(frets[i].attributes)
 
       // console.log(frets[i].attributes.note) // note without sci
       // console.log(frets[i].attributes.scinote) //note with sci
@@ -51,15 +52,8 @@ getFretList() {
     }
   console.log(list)
 
-
-  //       if (frets[i].classList.value.includes(testnote)) {
-  //         this.lightUpNote(frets[i].attributes.id.nodeValue)
-  //       console.log(frets[i].classList.value)
-
-// list.push(frets[i])
-// list.push(frets[i].textContent) //get printed note
-// list.push(frets[i].attributes.id.nodeValue) or value //get fretID
-// list.push(frets[i].classList.value) //gets all classes as a string with spaces
+// frets[i].attributes.id.nodeValue // or value //get fretID
+// frets[i].classList.value)//gets all classes as a string with spaces
 }
 
 

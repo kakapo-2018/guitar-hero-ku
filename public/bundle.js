@@ -288,14 +288,15 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "getFretList",
     value: function getFretList() {
-      var testnote = "C";
+      var testnote = "C4"; // change to be incoming note. Need to split between scinote and normal notes
       var list = [];
       var frets = document.getElementsByClassName("fret");
       for (var i = 0; i < frets.length; i++) {
-        if (frets[i].attributes.note.textContent === testnote) {
-          console.log(frets[i].attributes.scinote.textContent);
+        if (frets[i].attributes.scinote.textContent === testnote) {
+          console.log(frets[i].attributes.id.value);
+          // console.log(frets[i].attributes.scinote.textContent)
+          this.lightUpNote(frets[i].attributes.id.value);
         }
-        // console.log(frets[i].attributes)
 
         // console.log(frets[i].attributes.note) // note without sci
         // console.log(frets[i].attributes.scinote) //note with sci
@@ -306,14 +307,8 @@ var Fretboard = function (_React$Component) {
       }
       console.log(list);
 
-      //       if (frets[i].classList.value.includes(testnote)) {
-      //         this.lightUpNote(frets[i].attributes.id.nodeValue)
-      //       console.log(frets[i].classList.value)
-
-      // list.push(frets[i])
-      // list.push(frets[i].textContent) //get printed note
-      // list.push(frets[i].attributes.id.nodeValue) or value //get fretID
-      // list.push(frets[i].classList.value) //gets all classes as a string with spaces
+      // frets[i].attributes.id.nodeValue // or value //get fretID
+      // frets[i].classList.value)//gets all classes as a string with spaces
     }
   }, {
     key: "getChordNotes",
