@@ -8,8 +8,7 @@ class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
-  // this.getAPIChordFrets = this.getAPIChordFrets.bind(this)
-  
+
     this.getChordKey = this.getChordKey.bind(this)
     this.getListOfAvailableFrets = this.getListOfAvailableFrets.bind(this)
     this.lightUpNote = this.lightUpNote.bind(this)
@@ -18,6 +17,7 @@ class Fretboard extends React.Component {
     this.translateFretArrayToStrings = this.translateFretArrayToStrings.bind(this)
     this.displayChordNotes = this.displayChordNotes.bind(this)
     this.getFretsForChord = this.getFretsForChord.bind(this)
+    this.getURLforAPI = this.getURLforAPI.bind(this)
   }
 
 componentDidMount() {
@@ -127,37 +127,46 @@ this.lightUpNote(testString5)
 this.lightUpNote(testString6)
 }
 
+getURLforAPI(chordKeyForAPI, chordType) {
+console.log("in get url function")
+console.log("chordKeyForAPI", chordKeyForAPI)
+console.log("chordType", chordType)
+
+  switch(chordType) {
+    case "maj" :
+      return chordKeyForAPI
+      break;
+    case "min" :
+      return chordKeyForAPI + "_m"
+      break;
+    case "maj7" :
+      return chordKeyForAPI + "_maj7"
+      break;
+    case "min7" :
+      return chordKeyForAPI + "_m7"
+      break;
+    case "dim" :
+      return chordKeyForAPI + "_dim"
+      break;
+    default: 
+      return chordKeyForAPI
+  }
+
+}
+
 
 getFretsForChord() {
 // --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
   this.clearLitNotes()
 
   let chordKey = this.getChordKey()
-  let chordType = this.props.selectedChord.selectedChordType || "maj"
+  let chordKeyForAPI = this.translateEnharmonics(chordKey)
 
-  let chordForAPI = this.translateEnharmonics(chordKey) + chordType
-console.log(chordForAPI, "------------ NOT DONE! Need to account for url structure for min, etc")
-  // will need to translate the minors & etc into their format for URL, include _ and all that
+  let chordType = this.props.selectedChord.selectedChordType || ""
 
-  /*
-MAJOR
- X
- Xb
+  let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType)
 
-MINOR
-  X_m
-  Xb_m
-
-7ths
-  X_maj7
-  X_m7
-
-DIM
-  X_dim
-
-*/
-
-  getAPIChordFrets(chordKey)
+  getAPIChordFrets(URLforAPI)
   .then(res => {
     let fretAsString = res.body[0].strings
     let fretAsArray = fretAsString.split(" ")

@@ -301,8 +301,6 @@ var Fretboard = function (_React$Component) {
   function Fretboard(props) {
     _classCallCheck(this, Fretboard);
 
-    // this.getAPIChordFrets = this.getAPIChordFrets.bind(this)
-
     var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
 
     _this.getChordKey = _this.getChordKey.bind(_this);
@@ -313,6 +311,7 @@ var Fretboard = function (_React$Component) {
     _this.translateFretArrayToStrings = _this.translateFretArrayToStrings.bind(_this);
     _this.displayChordNotes = _this.displayChordNotes.bind(_this);
     _this.getFretsForChord = _this.getFretsForChord.bind(_this);
+    _this.getURLforAPI = _this.getURLforAPI.bind(_this);
     return _this;
   }
 
@@ -433,6 +432,33 @@ var Fretboard = function (_React$Component) {
       this.lightUpNote(testString6);
     }
   }, {
+    key: "getURLforAPI",
+    value: function getURLforAPI(chordKeyForAPI, chordType) {
+      console.log("in get url function");
+      console.log("chordKeyForAPI", chordKeyForAPI);
+      console.log("chordType", chordType);
+
+      switch (chordType) {
+        case "maj":
+          return chordKeyForAPI;
+          break;
+        case "min":
+          return chordKeyForAPI + "_m";
+          break;
+        case "maj7":
+          return chordKeyForAPI + "_maj7";
+          break;
+        case "min7":
+          return chordKeyForAPI + "_m7";
+          break;
+        case "dim":
+          return chordKeyForAPI + "_dim";
+          break;
+        default:
+          return chordKeyForAPI;
+      }
+    }
+  }, {
     key: "getFretsForChord",
     value: function getFretsForChord() {
       var _this3 = this;
@@ -441,27 +467,13 @@ var Fretboard = function (_React$Component) {
       this.clearLitNotes();
 
       var chordKey = this.getChordKey();
-      var chordType = this.props.selectedChord.selectedChordType || "maj";
+      var chordKeyForAPI = this.translateEnharmonics(chordKey);
 
-      var chordForAPI = this.translateEnharmonics(chordKey) + chordType;
-      console.log(chordForAPI, "------------ NOT DONE! Need to account for url structure for min, etc");
-      // will need to translate the minors & etc into their format for URL, include _ and all that
+      var chordType = this.props.selectedChord.selectedChordType || "";
 
-      /*
-      MAJOR
-      X
-      Xb
-      MINOR
-      X_m
-      Xb_m
-      7ths
-      X_maj7
-      X_m7
-      DIM
-      X_dim
-      */
+      var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType);
 
-      (0, _chordAPI.getAPIChordFrets)(chordKey).then(function (res) {
+      (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
         var fretAsString = res.body[0].strings;
         var fretAsArray = fretAsString.split(" ");
         _this3.translateFretArrayToStrings(fretAsArray);
