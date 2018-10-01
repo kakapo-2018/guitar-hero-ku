@@ -1,0 +1,34 @@
+
+# https://api.uberchord.com/#chords-searching
+
+# https://www.npmjs.com/package/react-chord
+
+# https://www.npmjs.com/package/guitar-js
+
+
+# https://www.npmjs.com/package/react-guitar-chord
+
+# http://pargitaru.id.lv/api/
+
+# http://musiqlab.alexrulkens.com/docs/Guitar.js.html
+
+
+
+# Tonal:
+## tonal-note
+### Note.simplify => String
+    Note.simplify("C##") // => "D"
+    Note.simplify("C###") // => "D#"
+
+### Note.enharmonic => String
+    Note.enharmonic("Db") // => "C#"
+
+### Scale.props(name) ⇒ Object
+
+## tonal-pcset
+### PcSet.isSupersetOf(set, notes) => boolean
+### PcSet.includes(set, note) => Boolean
+Test if a given pitch class set includes a note
+### PcSet.filter(set, notes) => Array
+
+
