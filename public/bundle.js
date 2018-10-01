@@ -401,6 +401,9 @@ var Fretboard = function (_React$Component) {
     key: "translateFretArrayToStrings",
     value: function translateFretArrayToStrings(fretArray) {
       // ---- For capturing the fret numbers to light up each chord
+
+
+      // ow ow my eyes change to a loop
       var string6Fret = fretArray[0];
       var string5Fret = fretArray[1];
       var string4Fret = fretArray[2];

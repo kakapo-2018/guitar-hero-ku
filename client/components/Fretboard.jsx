@@ -95,6 +95,10 @@ translateEnharmonics(chordKey) {
 
 translateFretArrayToStrings(fretArray) {
 // ---- For capturing the fret numbers to light up each chord
+
+
+
+// ow ow my eyes change to a loop
   let string6Fret = fretArray[0]
   let string5Fret = fretArray[1]
   let string4Fret = fretArray[2]
