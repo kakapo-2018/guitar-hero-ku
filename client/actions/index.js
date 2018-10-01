@@ -1,13 +1,14 @@
-export const entireChordToState = (key, tone, quality) => {
+export const entireChordToState = (key, tone, chordType) => {
   return {
     type: "SELECT_CHORD",
     chord: {
       selectedKey: key,
       selectedTone: tone,
-      selectedQuality: quality
+      selectedChordType: chordType
     }
   }
 }
+
 
 export const keyToState = (key) => {
   return {
@@ -27,12 +28,11 @@ export const toneToState = (tone) => {
   }
 }
 
-export const qualityToState = (quality) => {
+export const chordTypeToState = (chordType) => {
   return {
-    type: "SELECT_QUALITY",
+    type: "SELECT_CHORDTYPE",
     chord: {
-      selectedQuality: quality
+      selectedChordType: chordType
     }
   }
 }
-

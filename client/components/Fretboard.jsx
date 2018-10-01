@@ -95,8 +95,14 @@ translateEnharmonics(chordKey) {
 
 translateFretArrayToStrings(fretArray) {
 // ---- For capturing the fret numbers to light up each chord
+  console.log(fretArray)
 
+  // for (let i = 0; i < fretArray.length; i++) {
+  //   const thisFret = fretArray[i];
+  // }
 
+// TO DO:
+// if fret listing is X, return a thing to show muted string, e.g. X in open fret
 
 // ow ow my eyes change to a loop
   let string6Fret = fretArray[0]
@@ -105,7 +111,6 @@ translateFretArrayToStrings(fretArray) {
   let string3Fret = fretArray[3]
   let string2Fret = fretArray[4]
   let string1Fret = fretArray[5]
-  // console.log(string1Fret)
 
 let testString1 = "fret" + string1Fret + "-string1"
 let testString2 = "fret" + string2Fret + "-string2"
@@ -122,18 +127,35 @@ this.lightUpNote(testString5)
 this.lightUpNote(testString6)
 }
 
+
 getFretsForChord() {
 // --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
   this.clearLitNotes()
 
   let chordKey = this.getChordKey()
-  let chordQuality = this.props.selectedChord.selectedQuality || "maj"
-  this.displayChordNotes(chordKey)
+  let chordType = this.props.selectedChord.selectedChordType || "maj"
 
-  let chordForAPI = this.translateEnharmonics(chordKey) + chordQuality
+  let chordForAPI = this.translateEnharmonics(chordKey) + chordType
 console.log(chordForAPI, "------------ NOT DONE! Need to account for url structure for min, etc")
   // will need to translate the minors & etc into their format for URL, include _ and all that
 
+  /*
+MAJOR
+ X
+ Xb
+
+MINOR
+  X_m
+  Xb_m
+
+7ths
+  X_maj7
+  X_m7
+
+DIM
+  X_dim
+
+*/
 
   getAPIChordFrets(chordKey)
   .then(res => {
@@ -144,16 +166,17 @@ console.log(chordForAPI, "------------ NOT DONE! Need to account for url structu
 
 }
 
-displayChordNotes(chordKey) {
+displayChordNotes() {
 // ---- For later use if we want to display the chord letters on screen
-  let chordNotes = Chord.notes(chordKey)
+  let chordNotes = Chord.notes(this.getChordKey())
   console.log(chordNotes)
 }
 
 lightUpNote(incomingID) {
 // --- To add the "lit" CSS class to selected fret divs
-    let selectedNote = document.getElementById(incomingID)
-    selectedNote.classList.add("lit")
+  let selectedNote = document.getElementById(incomingID)
+  selectedNote.classList.add("lit")
+  // Note: this produces an error "Cannot read property 'classList' of null" but it's fine, ignore it.
   }
 
 
@@ -170,6 +193,7 @@ clearLitNotes() {
 
 render() {
 this.getFretsForChord()
+this.displayChordNotes()
 
   return (
     <div className="fretboard">

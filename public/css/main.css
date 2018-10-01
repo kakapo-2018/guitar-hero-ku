@@ -2,11 +2,14 @@
 
 /* ---------------------- Fretboard ----------------------  */
 
+/* .row {
+    justify-content: flex;
+    align-content: center;
+} */
+
 .string {
     display: flex;
     align-content: space-around;
-    /* justify-content: flex-start;
-    align-content: center; */
 }
 
 .string1 {
@@ -57,13 +60,13 @@
 
 .key,
 .tone,
-.quality {
+.chord-type {
   width: 100%;
 } 
 
-.keyRow,
-.toneRow,
-.chordRow {
+.key-row,
+.tone-row,
+.chord-type-row {
   display: flex;
   align-content: space-between;
 }

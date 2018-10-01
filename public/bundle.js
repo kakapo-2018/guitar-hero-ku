@@ -99,13 +99,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, quality) {
+var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, chordType) {
   return {
     type: "SELECT_CHORD",
     chord: {
       selectedKey: key,
       selectedTone: tone,
-      selectedQuality: quality
+      selectedChordType: chordType
     }
   };
 };
@@ -128,11 +128,11 @@ var toneToState = exports.toneToState = function toneToState(tone) {
   };
 };
 
-var qualityToState = exports.qualityToState = function qualityToState(quality) {
+var chordTypeToState = exports.chordTypeToState = function chordTypeToState(chordType) {
   return {
-    type: "SELECT_QUALITY",
+    type: "SELECT_CHORDTYPE",
     chord: {
-      selectedQuality: quality
+      selectedChordType: chordType
     }
   };
 };
@@ -401,7 +401,14 @@ var Fretboard = function (_React$Component) {
     key: "translateFretArrayToStrings",
     value: function translateFretArrayToStrings(fretArray) {
       // ---- For capturing the fret numbers to light up each chord
+      console.log(fretArray);
 
+      // for (let i = 0; i < fretArray.length; i++) {
+      //   const thisFret = fretArray[i];
+      // }
+
+      // TO DO:
+      // if fret listing is X, return a thing to show muted string, e.g. X in open fret
 
       // ow ow my eyes change to a loop
       var string6Fret = fretArray[0];
@@ -410,7 +417,6 @@ var Fretboard = function (_React$Component) {
       var string3Fret = fretArray[3];
       var string2Fret = fretArray[4];
       var string1Fret = fretArray[5];
-      // console.log(string1Fret)
 
       var testString1 = "fret" + string1Fret + "-string1";
       var testString2 = "fret" + string2Fret + "-string2";
@@ -435,13 +441,25 @@ var Fretboard = function (_React$Component) {
       this.clearLitNotes();
 
       var chordKey = this.getChordKey();
-      var chordQuality = this.props.selectedChord.selectedQuality || "maj";
-      this.displayChordNotes(chordKey);
+      var chordType = this.props.selectedChord.selectedChordType || "maj";
 
-      var chordForAPI = this.translateEnharmonics(chordKey) + chordQuality;
+      var chordForAPI = this.translateEnharmonics(chordKey) + chordType;
       console.log(chordForAPI, "------------ NOT DONE! Need to account for url structure for min, etc");
       // will need to translate the minors & etc into their format for URL, include _ and all that
 
+      /*
+      MAJOR
+      X
+      Xb
+      MINOR
+      X_m
+      Xb_m
+      7ths
+      X_maj7
+      X_m7
+      DIM
+      X_dim
+      */
 
       (0, _chordAPI.getAPIChordFrets)(chordKey).then(function (res) {
         var fretAsString = res.body[0].strings;
@@ -451,9 +469,9 @@ var Fretboard = function (_React$Component) {
     }
   }, {
     key: "displayChordNotes",
-    value: function displayChordNotes(chordKey) {
+    value: function displayChordNotes() {
       // ---- For later use if we want to display the chord letters on screen
-      var chordNotes = Chord.notes(chordKey);
+      var chordNotes = Chord.notes(this.getChordKey());
       console.log(chordNotes);
     }
   }, {
@@ -462,6 +480,7 @@ var Fretboard = function (_React$Component) {
       // --- To add the "lit" CSS class to selected fret divs
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
+      // Note: this produces an error "Cannot read property 'classList' of null" but it's fine, ignore it.
     }
   }, {
     key: "clearLitNotes",
@@ -478,6 +497,7 @@ var Fretboard = function (_React$Component) {
     key: "render",
     value: function render() {
       this.getFretsForChord();
+      this.displayChordNotes();
 
       return _react2.default.createElement(
         "div",
@@ -944,8 +964,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// import * as Chord from "tonal-chord"
 
-// import getFretsForChord from "./Fretboard"
 
 var KeyChordButtons = function (_React$Component) {
   _inherits(KeyChordButtons, _React$Component);
@@ -976,10 +996,10 @@ var KeyChordButtons = function (_React$Component) {
         });
       }
 
-      var qualityClass = document.getElementsByClassName("quality");
-      for (var _i2 = 0; _i2 < qualityClass.length; _i2++) {
-        qualityClass[_i2].addEventListener("click", function (x) {
-          _this2.props.dispatch((0, _actions.qualityToState)(x.target.value));
+      var chordTypeClass = document.getElementsByClassName("chord-type");
+      for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
+        chordTypeClass[_i2].addEventListener("click", function (x) {
+          _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
         });
       }
     }
@@ -991,22 +1011,35 @@ var KeyChordButtons = function (_React$Component) {
         { className: "keyChordContainer" },
         _react2.default.createElement(
           "div",
-          { id: "chord-display" },
+          { className: "row" },
           _react2.default.createElement(
-            "p",
-            null,
-            "Selected Chord: ",
-            this.props.selectedChord.selectedKey,
-            this.props.selectedChord.selectedTone,
-            this.props.selectedChord.selectedQuality
+            "div",
+            { id: "chord-display" },
+            _react2.default.createElement(
+              "p",
+              null,
+              "Selected Chord: ",
+              this.props.selectedChord.selectedKey,
+              this.props.selectedChord.selectedTone,
+              this.props.selectedChord.selectedChordType
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { id: "note-display" },
+            _react2.default.createElement(
+              "p",
+              null,
+              "Chord Notes:"
+            )
           )
         ),
         _react2.default.createElement(
           "div",
-          { className: "keys" },
+          { className: "row" },
           _react2.default.createElement(
             "div",
-            { className: "keyRow" },
+            { className: "key-row" },
             _react2.default.createElement(
               "button",
               { className: "key", type: "button", value: "C" },
@@ -1045,7 +1078,7 @@ var KeyChordButtons = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "toneRow" },
+            { className: "tone-row" },
             _react2.default.createElement(
               "button",
               { className: "tone", type: "button", value: "#" },
@@ -1061,22 +1094,18 @@ var KeyChordButtons = function (_React$Component) {
               { className: "tone", type: "button", value: "" },
               "clear"
             )
-          )
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "chords" },
+          ),
           _react2.default.createElement(
             "div",
-            { className: "chordRow" },
+            { className: "chord-type-row" },
             _react2.default.createElement(
               "button",
-              { className: "quality", type: "button", value: "maj" },
+              { className: "chord-type", type: "button", value: "maj" },
               "Major"
             ),
             _react2.default.createElement(
               "button",
-              { className: "quality", type: "button", value: "m" },
+              { className: "chord-type", type: "button", value: "m" },
               "minor"
             )
           )
@@ -1202,21 +1231,21 @@ function selectedChord() {
       return {
         selectedKey: action.chord.selectedKey,
         selectedTone: state.selectedTone,
-        selectedQuality: state.selectedQuality
+        selectedChordType: state.selectedChordType
       };
 
     case "SELECT_TONE":
       return {
         selectedKey: state.selectedKey,
         selectedTone: action.chord.selectedTone,
-        selectedQuality: state.selectedQuality
+        selectedChordType: state.selectedChordType
       };
 
-    case "SELECT_QUALITY":
+    case "SELECT_CHORDTYPE":
       return {
         selectedKey: state.selectedKey,
         selectedTone: state.selectedTone,
-        selectedQuality: action.chord.selectedQuality
+        selectedChordType: action.chord.selectedChordType
       };
 
     default:

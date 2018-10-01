@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux'
-import {keyToState, toneToState, qualityToState} from "../actions"
-// import getFretsForChord from "./Fretboard"
+// import * as Chord from "tonal-chord"
+import {keyToState, toneToState, chordTypeToState} from "../actions"
 
 class KeyChordButtons extends React.Component {
   constructor(props) {
@@ -25,54 +25,60 @@ class KeyChordButtons extends React.Component {
       })
     }
 
-    let qualityClass = document.getElementsByClassName("quality")
-    for (let i = 0; i < qualityClass.length; i++) {
-      qualityClass[i].addEventListener("click", (x) => {
-        this.props.dispatch(qualityToState(x.target.value))
+    let chordTypeClass = document.getElementsByClassName("chord-type")
+    for (let i = 0; i < chordTypeClass.length; i++) {
+      chordTypeClass[i].addEventListener("click", (x) => {
+        this.props.dispatch(chordTypeToState(x.target.value))
       })
     }
   }
 
+
   render() { 
     return (
-      <div className="keyChordContainer">
+<div className="keyChordContainer">
 
-        <div id="chord-display">
-        {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedQuality}</p>}
-        </div>
+<div className="row">
+  <div id="chord-display">
+    {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedChordType}</p>}
+  </div>
 
-        <div className="keys">
-          <div className="keyRow">
-            <button className="key" type="button" value="C">C</button>
-            <button className="key" type="button" value="D">D</button>
-            <button className="key" type="button" value="E">E</button>
-            <button className="key" type="button" value="F">F</button>
-            <button className="key" type="button" value="G">G</button>
-            <button className="key" type="button" value="A">A</button>
-            <button className="key" type="button" value="B">B</button>
+  <div id="note-display">
+    {<p>
+      Chord Notes: 
+      {/* placeholder so we can display chord notes on screen */}
+    </p>}
+  </div>
+</div>
 
-          </div>
-          <div className="toneRow">
-            <button className="tone" type="button" value="#">#</button>
-            <button className="tone" type="button" value="b">b</button>
-            <button className="tone" type="button" value="">clear</button>
-            {/* <button className="tone" type="button" value=""></button> */}
+<div className="row">
+  <div className="key-row">
+    <button className="key" type="button" value="C">C</button>
+    <button className="key" type="button" value="D">D</button>
+    <button className="key" type="button" value="E">E</button>
+    <button className="key" type="button" value="F">F</button>
+    <button className="key" type="button" value="G">G</button>
+    <button className="key" type="button" value="A">A</button>
+    <button className="key" type="button" value="B">B</button>
+  </div>
 
-          </div>
-        </div>
-        <div className="chords">
-          <div className="chordRow">
-            <button className="quality" type="button" value="maj">Major</button>
-            <button className="quality" type="button" value="m">minor</button>
+  <div className="tone-row">
+    <button className="tone" type="button" value="#">#</button>
+    <button className="tone" type="button" value="b">b</button>
+    <button className="tone" type="button" value="">clear</button>
+    {/* <button className="tone" type="button" value=""></button> */}
+  </div>
 
-            {/* <button className="quality" type="button" value="Dom"></button>
-            <button className="quality" type="button" value="Dim"></button>
-            <button className="quality" type="button" value="Half-Dim"></button> */}
-
-          </div>
-        </div>
-      </div>
-      );
+  <div className="chord-type-row">
+    <button className="chord-type" type="button" value="maj">Major</button>
+    <button className="chord-type" type="button" value="m">minor</button>
+    {/* <button className="chord-type" type="button" value="Dom"></button>
+    <button className="chord-type" type="button" value="Dim"></button>
+    <button className="chord-type" type="button" value="Half-Dim"></button> */}
+    </div>
+  </div>
+</div>
+      )
   }
 }
 
