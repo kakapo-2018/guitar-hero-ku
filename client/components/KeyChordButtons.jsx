@@ -24,7 +24,7 @@ class KeyChordButtons extends React.Component {
       })
     }
 
-    let qualityClass = document.getElementsByClassName("chord-quality")
+    let qualityClass = document.getElementsByClassName("quality")
     for (let i = 0; i < qualityClass.length; i++) {
       qualityClass[i].addEventListener("click", (x) => {
         this.props.dispatch(qualityToState(x.target.value))
@@ -61,12 +61,12 @@ class KeyChordButtons extends React.Component {
         </div>
         <div className="chords">
           <div className="chordRow">
-            <button className="chord-quality" type="button" value="M">Major</button>
-            <button className="chord-quality" type="button" value="m">minor</button>
+            <button className="quality" type="button" value="maj">Major</button>
+            <button className="quality" type="button" value="m">minor</button>
 
-            {/* <button className="chord-quality" type="button" value="Dom"></button>
-            <button className="chord-quality" type="button" value="Dim"></button>
-            <button className="chord-quality" type="button" value="Half-Dim"></button> */}
+            {/* <button className="quality" type="button" value="Dom"></button>
+            <button className="quality" type="button" value="Dim"></button>
+            <button className="quality" type="button" value="Half-Dim"></button> */}
 
           </div>
         </div>

@@ -89,7 +89,16 @@ getAllFretsForChord() {
 
 // get chord details for current selected chord
   let chordKey = this.getChordKey()
-  let chordForAPI = chordKey + this.props.selectedChord.selectedQuality
+  let chordQuality = this.props.selectedChord.selectedQuality || "maj" //default to major
+
+  if (chordKey != undefined && chordKey.includes("#")) {
+    console.log("it defined!")
+    console.log("and sharpie!")
+  }
+  else console.log("it undefined or not sharp :(")
+
+
+  let chordForAPI = chordKey + chordQuality
   console.log(chordForAPI)
   // will need to translate sharps
 

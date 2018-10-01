@@ -391,7 +391,14 @@ var Fretboard = function (_React$Component) {
 
       // get chord details for current selected chord
       var chordKey = this.getChordKey();
-      var chordForAPI = chordKey + this.props.selectedChord.selectedQuality;
+      var chordQuality = this.props.selectedChord.selectedQuality || "maj"; //default to major
+
+      if (chordKey != undefined && chordKey.includes("#")) {
+        console.log("it defined!");
+        console.log("and sharpie!");
+      } else console.log("it undefined or not sharp :(");
+
+      var chordForAPI = chordKey + chordQuality;
       console.log(chordForAPI);
       // will need to translate sharps
 
@@ -956,7 +963,7 @@ var KeyChordButtons = function (_React$Component) {
         });
       }
 
-      var qualityClass = document.getElementsByClassName("chord-quality");
+      var qualityClass = document.getElementsByClassName("quality");
       for (var _i2 = 0; _i2 < qualityClass.length; _i2++) {
         qualityClass[_i2].addEventListener("click", function (x) {
           _this2.props.dispatch((0, _actions.qualityToState)(x.target.value));
@@ -1051,12 +1058,12 @@ var KeyChordButtons = function (_React$Component) {
             { className: "chordRow" },
             _react2.default.createElement(
               "button",
-              { className: "chord-quality", type: "button", value: "M" },
+              { className: "quality", type: "button", value: "maj" },
               "Major"
             ),
             _react2.default.createElement(
               "button",
-              { className: "chord-quality", type: "button", value: "m" },
+              { className: "quality", type: "button", value: "m" },
               "minor"
             )
           )
