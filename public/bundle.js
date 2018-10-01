@@ -311,7 +311,6 @@ var Fretboard = function (_React$Component) {
     _this.translateFretArrayToStrings = _this.translateFretArrayToStrings.bind(_this);
     _this.displayChordNotes = _this.displayChordNotes.bind(_this);
     _this.getFretsForChord = _this.getFretsForChord.bind(_this);
-    _this.getURLforAPI = _this.getURLforAPI.bind(_this);
     return _this;
   }
 
@@ -432,33 +431,6 @@ var Fretboard = function (_React$Component) {
       this.lightUpNote(testString6);
     }
   }, {
-    key: "getURLforAPI",
-    value: function getURLforAPI(chordKeyForAPI, chordType) {
-      console.log("in get url function");
-      console.log("chordKeyForAPI", chordKeyForAPI);
-      console.log("chordType", chordType);
-
-      switch (chordType) {
-        case "maj":
-          return chordKeyForAPI;
-          break;
-        case "min":
-          return chordKeyForAPI + "_m";
-          break;
-        case "maj7":
-          return chordKeyForAPI + "_maj7";
-          break;
-        case "min7":
-          return chordKeyForAPI + "_m7";
-          break;
-        case "dim":
-          return chordKeyForAPI + "_dim";
-          break;
-        default:
-          return chordKeyForAPI;
-      }
-    }
-  }, {
     key: "getFretsForChord",
     value: function getFretsForChord() {
       var _this3 = this;
@@ -471,7 +443,8 @@ var Fretboard = function (_React$Component) {
 
       var chordType = this.props.selectedChord.selectedChordType || "";
 
-      var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType);
+      var URLforAPI = chordKeyForAPI + "_" + chordType;
+      console.log(URLforAPI);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
         var fretAsString = res.body[0].strings;
@@ -1119,6 +1092,26 @@ var KeyChordButtons = function (_React$Component) {
               "button",
               { className: "chord-type", type: "button", value: "m" },
               "minor"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "7" },
+              "7th"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "maj7" },
+              "Major7"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "m7" },
+              "minor7"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "chord-type", type: "button", value: "dim" },
+              "diminished"
             )
           )
         )

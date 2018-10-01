@@ -72,9 +72,10 @@ class KeyChordButtons extends React.Component {
   <div className="chord-type-row">
     <button className="chord-type" type="button" value="maj">Major</button>
     <button className="chord-type" type="button" value="m">minor</button>
-    {/* <button className="chord-type" type="button" value="Dom"></button>
-    <button className="chord-type" type="button" value="Dim"></button>
-    <button className="chord-type" type="button" value="Half-Dim"></button> */}
+    <button className="chord-type" type="button" value="7">7th</button>
+    <button className="chord-type" type="button" value="maj7">Major7</button>
+    <button className="chord-type" type="button" value="m7">minor7</button>
+    <button className="chord-type" type="button" value="dim">diminished</button>
     </div>
   </div>
 </div>
