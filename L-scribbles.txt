@@ -126,3 +126,27 @@ frets[i].attributes.string
 
 //     }
 //   console.log(list)
+
+
+
+
+
+// // ------ PRE-API, NOT DELETING YET
+
+// // Limit number of frets for this and return list of frets within range
+//   let maxFretsFilter = 4 //hardcode for now, change to button selection in stretch
+//   let currentFrets = this.getListOfAvailableFrets(maxFretsFilter)
+
+// // Create array of divs that are both within range and contain one of the notes  
+//   let noteArray = []
+//   for (let i = 0; i < currentFrets.length; i++) {
+//     for (let j = 0; j < chordNotes.length; j++) {
+//       if (currentFrets[i].attributes.note.textContent === chordNotes[j]) {
+//         // console.log(currentFrets[i].attributes.id.value)
+//         noteArray.push(currentFrets[i])
+//         this.lightUpNote(currentFrets[i].attributes.id.value) //move later when maj/min is running
+//       }
+//     }
+//   }
+//   // console.log(noteArray)
+//   // return noteArray

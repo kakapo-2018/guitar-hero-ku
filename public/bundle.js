@@ -152,7 +152,7 @@ var qualityToState = exports.qualityToState = function qualityToState(quality) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getChordFrets = getChordFrets;
+exports.getAPIChordFrets = getAPIChordFrets;
 
 var _superagent = __webpack_require__(/*! superagent */ "./node_modules/superagent/lib/client.js");
 
@@ -162,7 +162,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var APIendpoint = "https://api.uberchord.com/v1/chords/";
 
-function getChordFrets(chord) {
+function getAPIChordFrets(chord) {
   console.log(APIendpoint + chord);
   return _superagent2.default.get(APIendpoint + chord);
 }
@@ -279,6 +279,10 @@ var _tonalChord = __webpack_require__(/*! tonal-chord */ "./node_modules/tonal-c
 
 var Chord = _interopRequireWildcard(_tonalChord);
 
+var _tonalNote = __webpack_require__(/*! tonal-note */ "./node_modules/tonal-note/build/es6.js");
+
+var Note = _interopRequireWildcard(_tonalNote);
+
 var _chordAPI = __webpack_require__(/*! ../chordAPI */ "./client/chordAPI.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -297,7 +301,7 @@ var Fretboard = function (_React$Component) {
   function Fretboard(props) {
     _classCallCheck(this, Fretboard);
 
-    // this.getChordFrets = this.getChordFrets.bind(this)
+    // this.getAPIChordFrets = this.getAPIChordFrets.bind(this)
 
     var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
 
@@ -306,8 +310,8 @@ var Fretboard = function (_React$Component) {
     _this.lightUpNote = _this.lightUpNote.bind(_this);
     _this.clearLitNotes = _this.clearLitNotes.bind(_this);
 
-    _this.getAllFretsForChord = _this.getAllFretsForChord.bind(_this);
-
+    _this.getFretsForChord = _this.getFretsForChord.bind(_this);
+    _this.translateEnharmonics = _this.translateEnharmonics.bind(_this);
     return _this;
   }
 
@@ -316,7 +320,7 @@ var Fretboard = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      // Add event listener to all frets to trigger lightUpNote on click
+      // --- Event listener for all frets to trigger lightUpNote on direct click
       var frets = document.getElementsByClassName("fret");
       for (var i = 0; i < frets.length; i++) {
         frets[i].addEventListener("click", function (x) {
@@ -327,12 +331,14 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "getChordKey",
     value: function getChordKey() {
-      //get key, depending on if # or b is included:
+      // --- For getting the key, depending on if the tone is included:
       if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;else return this.props.selectedChord.selectedKey;
     }
   }, {
     key: "getListOfAvailableFrets",
     value: function getListOfAvailableFrets(maxFret) {
+      // --- For limiting the number of frets allowed and returning an array in pitch order. May be scrapped once API is working
+
       var allowedFrets = [];
       // let frets = document.getElementsByClassName("fret")
       //   for (let i = 0; i < frets.length; i++) {
@@ -383,79 +389,46 @@ var Fretboard = function (_React$Component) {
       return allowedFrets;
     }
   }, {
-    key: "getAllFretsForChord",
-    value: function getAllFretsForChord() {
-
-      // clear any currently lit notes
+    key: "translateEnharmonics",
+    value: function translateEnharmonics(chordKey) {
+      // ---- To convert keys with sharps to flats so they work for API
+      if (chordKey != undefined && chordKey.includes("#")) {
+        return Note.enharmonic(chordKey);
+      } else return chordKey;
+    }
+  }, {
+    key: "getFretsForChord",
+    value: function getFretsForChord() {
+      // --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
       this.clearLitNotes();
 
-      // get chord details for current selected chord
       var chordKey = this.getChordKey();
-      var chordQuality = this.props.selectedChord.selectedQuality || "maj"; //default to major
+      var chordQuality = this.props.selectedChord.selectedQuality || "maj";
 
-      if (chordKey != undefined && chordKey.includes("#")) {
-        console.log("it defined!");
-        console.log("and sharpie!");
-      } else console.log("it undefined or not sharp :(");
-
-      var chordForAPI = chordKey + chordQuality;
+      var chordForAPI = this.translateEnharmonics(chordKey) + chordQuality;
       console.log(chordForAPI);
-      // will need to translate sharps
-
-
       // will need to translate the minors & etc into their format for URL, include _
 
-      /*
-      ones that work:
-      https://api.uberchord.com/v1/chords/C
-      https://api.uberchord.com/v1/chords/Bb
-      https://api.uberchord.com/v1/chords/F_m
-      https://api.uberchord.com/v1/chords/Ab_m
-      https://api.uberchord.com/v1/chords/F_maj7
-      https://api.uberchord.com/v1/chords/F_m7
-      https://api.uberchord.com/v1/chords/F_dim
-      */
+      (0, _chordAPI.getAPIChordFrets)(chordKey);
+      // .then(res => {
+      //   let fretAsString = res.body[0].strings
+      //   // console.log(fretAsString)
+      // })
 
-      var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedQuality);
-      console.log(theseNotes);
-
-      (0, _chordAPI.getChordFrets)(chordKey).then(function (res) {
-        var fretAsString = res.body[0].strings;
-        console.log(fretAsString);
-      });
-
-      // ------------ not yet working for sharps or flats. call Tonal's Note.simplify converstion function.
-      // But then triad steps??
-
-      // // ------ PRE-API, NOT DELETING YET
-
-      // // Limit number of frets for this and return list of frets within range
-      //   let maxFretsFilter = 4 //hardcode for now, change to button selection in stretch
-      //   let currentFrets = this.getListOfAvailableFrets(maxFretsFilter)
-
-      // // Create array of divs that are both within range and contain one of the notes  
-      //   let noteArray = []
-      //   for (let i = 0; i < currentFrets.length; i++) {
-      //     for (let j = 0; j < theseNotes.length; j++) {
-      //       if (currentFrets[i].attributes.note.textContent === theseNotes[j]) {
-      //         // console.log(currentFrets[i].attributes.id.value)
-      //         noteArray.push(currentFrets[i])
-      //         this.lightUpNote(currentFrets[i].attributes.id.value) //move later when maj/min is running
-      //       }
-      //     }
-      //   }
-      //   // console.log(noteArray)
-      //   // return noteArray
+      var chordNotes = Chord.notes(chordKey, chordQuality);
+      console.log(chordNotes);
     }
   }, {
     key: "lightUpNote",
     value: function lightUpNote(incomingID) {
+      // --- To add the "lit" CSS class to selected fret divs
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
     }
   }, {
     key: "clearLitNotes",
     value: function clearLitNotes() {
+      // --- To clear all currently-lit divs when a new chord is selected
       var litNotes = document.getElementsByClassName("lit");
       while (litNotes.length > 0) {
         for (var i = 0; i < litNotes.length; i++) {
@@ -466,7 +439,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      this.getAllFretsForChord();
+      this.getFretsForChord();
 
       return _react2.default.createElement(
         "div",

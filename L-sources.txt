@@ -1,14 +1,19 @@
 
 # https://api.uberchord.com/#chords-searching
 
-# http://pargitaru.id.lv/api/
+  /*
+ones that work:
+https://api.uberchord.com/v1/chords/C
+https://api.uberchord.com/v1/chords/Bb
+https://api.uberchord.com/v1/chords/F_m
+https://api.uberchord.com/v1/chords/Ab_m
 
-# http://musiqlab.alexrulkens.com/docs/Guitar.js.html
+https://api.uberchord.com/v1/chords/F_maj7
+https://api.uberchord.com/v1/chords/F_m7
 
+https://api.uberchord.com/v1/chords/F_dim
+  */
 
-X https://www.npmjs.com/package/react-chord
-X https://www.npmjs.com/package/guitar-js
-X https://www.npmjs.com/package/react-guitar-chord
 
 # Tonal:
 ## tonal-note
