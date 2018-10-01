@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux'
 import {keyToState, toneToState, qualityToState} from "../actions"
+// import getFretsForChord from "./Fretboard"
 
 class KeyChordButtons extends React.Component {
   constructor(props) {

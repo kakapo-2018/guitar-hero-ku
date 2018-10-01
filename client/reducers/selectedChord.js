@@ -26,7 +26,6 @@ function selectedChord(state = initialState, action) {
         selectedQuality: action.chord.selectedQuality
       }
 
-
     default:
       return state
   }

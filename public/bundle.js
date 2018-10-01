@@ -309,9 +309,10 @@ var Fretboard = function (_React$Component) {
     _this.getListOfAvailableFrets = _this.getListOfAvailableFrets.bind(_this);
     _this.lightUpNote = _this.lightUpNote.bind(_this);
     _this.clearLitNotes = _this.clearLitNotes.bind(_this);
-
-    _this.getFretsForChord = _this.getFretsForChord.bind(_this);
     _this.translateEnharmonics = _this.translateEnharmonics.bind(_this);
+    _this.translateFretArrayToStrings = _this.translateFretArrayToStrings.bind(_this);
+    _this.displayChordNotes = _this.displayChordNotes.bind(_this);
+    _this.getFretsForChord = _this.getFretsForChord.bind(_this);
     return _this;
   }
 
@@ -397,25 +398,59 @@ var Fretboard = function (_React$Component) {
       } else return chordKey;
     }
   }, {
+    key: "translateFretArrayToStrings",
+    value: function translateFretArrayToStrings(fretArray) {
+      // ---- For capturing the fret numbers to light up each chord
+      var string6Fret = fretArray[0];
+      var string5Fret = fretArray[1];
+      var string4Fret = fretArray[2];
+      var string3Fret = fretArray[3];
+      var string2Fret = fretArray[4];
+      var string1Fret = fretArray[5];
+      // console.log(string1Fret)
+
+      var testString1 = "fret" + string1Fret + "-string1";
+      var testString2 = "fret" + string2Fret + "-string2";
+      var testString3 = "fret" + string3Fret + "-string3";
+      var testString4 = "fret" + string4Fret + "-string4";
+      var testString5 = "fret" + string5Fret + "-string5";
+      var testString6 = "fret" + string6Fret + "-string6";
+
+      this.lightUpNote(testString1);
+      this.lightUpNote(testString2);
+      this.lightUpNote(testString3);
+      this.lightUpNote(testString4);
+      this.lightUpNote(testString5);
+      this.lightUpNote(testString6);
+    }
+  }, {
     key: "getFretsForChord",
     value: function getFretsForChord() {
+      var _this3 = this;
+
       // --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
       this.clearLitNotes();
 
       var chordKey = this.getChordKey();
       var chordQuality = this.props.selectedChord.selectedQuality || "maj";
+      this.displayChordNotes(chordKey);
 
       var chordForAPI = this.translateEnharmonics(chordKey) + chordQuality;
-      console.log(chordForAPI);
-      // will need to translate the minors & etc into their format for URL, include _
+      console.log(chordForAPI, "------------ NOT DONE! Need to account for url structure for min, etc");
+      // will need to translate the minors & etc into their format for URL, include _ and all that
 
-      (0, _chordAPI.getAPIChordFrets)(chordKey);
-      // .then(res => {
-      //   let fretAsString = res.body[0].strings
-      //   // console.log(fretAsString)
-      // })
 
-      var chordNotes = Chord.notes(chordKey, chordQuality);
+      (0, _chordAPI.getAPIChordFrets)(chordKey).then(function (res) {
+        var fretAsString = res.body[0].strings;
+        var fretAsArray = fretAsString.split(" ");
+        _this3.translateFretArrayToStrings(fretAsArray);
+      });
+    }
+  }, {
+    key: "displayChordNotes",
+    value: function displayChordNotes(chordKey) {
+      // ---- For later use if we want to display the chord letters on screen
+      var chordNotes = Chord.notes(chordKey);
       console.log(chordNotes);
     }
   }, {
@@ -906,6 +941,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// import getFretsForChord from "./Fretboard"
 
 var KeyChordButtons = function (_React$Component) {
   _inherits(KeyChordButtons, _React$Component);

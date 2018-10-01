@@ -14,9 +14,10 @@ class Fretboard extends React.Component {
     this.getListOfAvailableFrets = this.getListOfAvailableFrets.bind(this)
     this.lightUpNote = this.lightUpNote.bind(this)
     this.clearLitNotes = this.clearLitNotes.bind(this)
-    
-    this.getFretsForChord = this.getFretsForChord.bind(this)
     this.translateEnharmonics = this.translateEnharmonics.bind(this)
+    this.translateFretArrayToStrings = this.translateFretArrayToStrings.bind(this)
+    this.displayChordNotes = this.displayChordNotes.bind(this)
+    this.getFretsForChord = this.getFretsForChord.bind(this)
   }
 
 componentDidMount() {
@@ -92,6 +93,30 @@ translateEnharmonics(chordKey) {
   else return chordKey
 }
 
+translateFretArrayToStrings(fretArray) {
+// ---- For capturing the fret numbers to light up each chord
+  let string6Fret = fretArray[0]
+  let string5Fret = fretArray[1]
+  let string4Fret = fretArray[2]
+  let string3Fret = fretArray[3]
+  let string2Fret = fretArray[4]
+  let string1Fret = fretArray[5]
+  // console.log(string1Fret)
+
+let testString1 = "fret" + string1Fret + "-string1"
+let testString2 = "fret" + string2Fret + "-string2"
+let testString3 = "fret" + string3Fret + "-string3"
+let testString4 = "fret" + string4Fret + "-string4"
+let testString5 = "fret" + string5Fret + "-string5"
+let testString6 = "fret" + string6Fret + "-string6"
+
+this.lightUpNote(testString1)
+this.lightUpNote(testString2)
+this.lightUpNote(testString3)
+this.lightUpNote(testString4)
+this.lightUpNote(testString5)
+this.lightUpNote(testString6)
+}
 
 getFretsForChord() {
 // --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
@@ -99,21 +124,27 @@ getFretsForChord() {
 
   let chordKey = this.getChordKey()
   let chordQuality = this.props.selectedChord.selectedQuality || "maj"
+  this.displayChordNotes(chordKey)
 
   let chordForAPI = this.translateEnharmonics(chordKey) + chordQuality
-console.log(chordForAPI)
-  // will need to translate the minors & etc into their format for URL, include _
+console.log(chordForAPI, "------------ NOT DONE! Need to account for url structure for min, etc")
+  // will need to translate the minors & etc into their format for URL, include _ and all that
+
 
   getAPIChordFrets(chordKey)
-  // .then(res => {
-  //   let fretAsString = res.body[0].strings
-  //   // console.log(fretAsString)
-  // })
+  .then(res => {
+    let fretAsString = res.body[0].strings
+    let fretAsArray = fretAsString.split(" ")
+    this.translateFretArrayToStrings(fretAsArray)
+  })
 
-  let chordNotes = Chord.notes(chordKey, chordQuality)
-  console.log(chordNotes)
 }
 
+displayChordNotes(chordKey) {
+// ---- For later use if we want to display the chord letters on screen
+  let chordNotes = Chord.notes(chordKey)
+  console.log(chordNotes)
+}
 
 lightUpNote(incomingID) {
 // --- To add the "lit" CSS class to selected fret divs
@@ -134,7 +165,7 @@ clearLitNotes() {
 
 
 render() {
-this.getFretsForChord() 
+this.getFretsForChord()
 
   return (
     <div className="fretboard">

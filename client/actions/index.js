@@ -9,7 +9,6 @@ export const entireChordToState = (key, tone, quality) => {
   }
 }
 
-
 export const keyToState = (key) => {
   return {
     type: "SELECT_KEY",
@@ -36,3 +35,4 @@ export const qualityToState = (quality) => {
     }
   }
 }
+
