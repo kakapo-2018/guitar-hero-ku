@@ -12,6 +12,8 @@ class Fretboard extends React.Component {
     this.clearLitNotes = this.clearLitNotes.bind(this)
     
     this.getAllFretsForChord = this.getAllFretsForChord.bind(this)
+
+  this.moduleTesting = this.moduleTesting.bind(this)
   }
 
 componentDidMount() {
@@ -23,6 +25,11 @@ componentDidMount() {
     })
   }
 }
+
+moduleTesting() {
+
+}
+
 
 
 getChordKey() {
@@ -128,7 +135,7 @@ clearLitNotes() {
 
 render() {
 this.getAllFretsForChord()
-
+this.moduleTesting()
 
   return (
     <div className="fretboard">

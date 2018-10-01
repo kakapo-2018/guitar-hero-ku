@@ -1,18 +1,14 @@
 
 # https://api.uberchord.com/#chords-searching
 
-# https://www.npmjs.com/package/react-chord
-
-# https://www.npmjs.com/package/guitar-js
-
-
-# https://www.npmjs.com/package/react-guitar-chord
-
 # http://pargitaru.id.lv/api/
 
 # http://musiqlab.alexrulkens.com/docs/Guitar.js.html
 
 
+X https://www.npmjs.com/package/react-chord
+X https://www.npmjs.com/package/guitar-js
+X https://www.npmjs.com/package/react-guitar-chord
 
 # Tonal:
 ## tonal-note

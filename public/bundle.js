@@ -273,6 +273,8 @@ var Fretboard = function (_React$Component) {
     _this.clearLitNotes = _this.clearLitNotes.bind(_this);
 
     _this.getAllFretsForChord = _this.getAllFretsForChord.bind(_this);
+
+    _this.moduleTesting = _this.moduleTesting.bind(_this);
     return _this;
   }
 
@@ -289,6 +291,9 @@ var Fretboard = function (_React$Component) {
         });
       }
     }
+  }, {
+    key: "moduleTesting",
+    value: function moduleTesting() {}
   }, {
     key: "getChordKey",
     value: function getChordKey() {
@@ -399,6 +404,7 @@ var Fretboard = function (_React$Component) {
     key: "render",
     value: function render() {
       this.getAllFretsForChord();
+      this.moduleTesting();
 
       return _react2.default.createElement(
         "div",
