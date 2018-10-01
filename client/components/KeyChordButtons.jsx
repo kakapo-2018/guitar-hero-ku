@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux'
-import {keyToState, toneToState, chordTypeToState} from "../actions"
+import {keyToState, toneToState, qualityToState} from "../actions"
 
 class KeyChordButtons extends React.Component {
   constructor(props) {
@@ -24,10 +24,10 @@ class KeyChordButtons extends React.Component {
       })
     }
 
-    let chordTypeClass = document.getElementsByClassName("chord-type")
-    for (let i = 0; i < chordTypeClass.length; i++) {
-      chordTypeClass[i].addEventListener("click", (x) => {
-        this.props.dispatch(chordTypeToState(x.target.value))
+    let qualityClass = document.getElementsByClassName("chord-quality")
+    for (let i = 0; i < qualityClass.length; i++) {
+      qualityClass[i].addEventListener("click", (x) => {
+        this.props.dispatch(qualityToState(x.target.value))
       })
     }
   }
@@ -37,7 +37,7 @@ class KeyChordButtons extends React.Component {
       <div className="keyChordContainer">
 
         <div id="chord-display">
-        {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedChordType}</p>}
+        {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedQuality}</p>}
         </div>
 
         <div className="keys">
@@ -61,12 +61,12 @@ class KeyChordButtons extends React.Component {
         </div>
         <div className="chords">
           <div className="chordRow">
-            <button className="chord-type" type="button" value="M">Major</button>
-            <button className="chord-type" type="button" value="m">minor</button>
+            <button className="chord-quality" type="button" value="M">Major</button>
+            <button className="chord-quality" type="button" value="m">minor</button>
 
-            {/* <button className="chord-type" type="button" value="Dom"></button>
-            <button className="chord-type" type="button" value="Dim"></button>
-            <button className="chord-type" type="button" value="Half-Dim"></button> */}
+            {/* <button className="chord-quality" type="button" value="Dom"></button>
+            <button className="chord-quality" type="button" value="Dim"></button>
+            <button className="chord-quality" type="button" value="Half-Dim"></button> */}
 
           </div>
         </div>

@@ -6,10 +6,4 @@ const server = express()
 server.use(express.json())
 server.use(express.static(path.join(__dirname, "..", "public"))) 
 
-
-
-// const exampleRoutes = require("./routes/routeName");
-// server.use("/api/v1/route", exampleRoutes)
-
-
 module.exports = server

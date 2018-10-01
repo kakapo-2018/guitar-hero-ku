@@ -99,13 +99,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, chordType) {
+var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, quality) {
   return {
     type: "SELECT_CHORD",
     chord: {
       selectedKey: key,
       selectedTone: tone,
-      selectedChordType: chordType
+      selectedQuality: quality
     }
   };
 };
@@ -128,11 +128,11 @@ var toneToState = exports.toneToState = function toneToState(tone) {
   };
 };
 
-var chordTypeToState = exports.chordTypeToState = function chordTypeToState(chordType) {
+var qualityToState = exports.qualityToState = function qualityToState(quality) {
   return {
-    type: "SELECT_CHORDTYPE",
+    type: "SELECT_QUALITY",
     chord: {
-      selectedChordType: chordType
+      selectedQuality: quality
     }
   };
 };
@@ -163,14 +163,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var APIendpoint = "https://api.uberchord.com/v1/chords/";
 
 function getChordFrets(chord) {
-  console.log("in getChordFrets");
   console.log(APIendpoint + chord);
   return _superagent2.default.get(APIendpoint + chord);
 }
-
-// export function getSatellite(satId) {
-//   return request.get(APIendpoint + 'chord/' + satId)
-// }
 
 /***/ }),
 
@@ -396,12 +391,25 @@ var Fretboard = function (_React$Component) {
 
       // get chord details for current selected chord
       var chordKey = this.getChordKey();
-      var chordForAPI = chordKey + this.props.selectedChord.selectedChordType;
+      var chordForAPI = chordKey + this.props.selectedChord.selectedQuality;
       console.log(chordForAPI);
       // will need to translate sharps
-      // will need to translate the minors & etc into their format for URL
 
-      var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType);
+
+      // will need to translate the minors & etc into their format for URL, include _
+
+      /*
+      ones that work:
+      https://api.uberchord.com/v1/chords/C
+      https://api.uberchord.com/v1/chords/Bb
+      https://api.uberchord.com/v1/chords/F_m
+      https://api.uberchord.com/v1/chords/Ab_m
+      https://api.uberchord.com/v1/chords/F_maj7
+      https://api.uberchord.com/v1/chords/F_m7
+      https://api.uberchord.com/v1/chords/F_dim
+      */
+
+      var theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedQuality);
       console.log(theseNotes);
 
       (0, _chordAPI.getChordFrets)(chordKey).then(function (res) {
@@ -948,10 +956,10 @@ var KeyChordButtons = function (_React$Component) {
         });
       }
 
-      var chordTypeClass = document.getElementsByClassName("chord-type");
-      for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
-        chordTypeClass[_i2].addEventListener("click", function (x) {
-          _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
+      var qualityClass = document.getElementsByClassName("chord-quality");
+      for (var _i2 = 0; _i2 < qualityClass.length; _i2++) {
+        qualityClass[_i2].addEventListener("click", function (x) {
+          _this2.props.dispatch((0, _actions.qualityToState)(x.target.value));
         });
       }
     }
@@ -970,7 +978,7 @@ var KeyChordButtons = function (_React$Component) {
             "Selected Chord: ",
             this.props.selectedChord.selectedKey,
             this.props.selectedChord.selectedTone,
-            this.props.selectedChord.selectedChordType
+            this.props.selectedChord.selectedQuality
           )
         ),
         _react2.default.createElement(
@@ -1043,12 +1051,12 @@ var KeyChordButtons = function (_React$Component) {
             { className: "chordRow" },
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "M" },
+              { className: "chord-quality", type: "button", value: "M" },
               "Major"
             ),
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "m" },
+              { className: "chord-quality", type: "button", value: "m" },
               "minor"
             )
           )
@@ -1174,21 +1182,21 @@ function selectedChord() {
       return {
         selectedKey: action.chord.selectedKey,
         selectedTone: state.selectedTone,
-        selectedChordType: state.selectedChordType
+        selectedQuality: state.selectedQuality
       };
 
     case "SELECT_TONE":
       return {
         selectedKey: state.selectedKey,
         selectedTone: action.chord.selectedTone,
-        selectedChordType: state.selectedChordType
+        selectedQuality: state.selectedQuality
       };
 
-    case "SELECT_CHORDTYPE":
+    case "SELECT_QUALITY":
       return {
         selectedKey: state.selectedKey,
         selectedTone: state.selectedTone,
-        selectedChordType: action.chord.selectedChordType
+        selectedQuality: action.chord.selectedQuality
       };
 
     default:

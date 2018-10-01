@@ -89,12 +89,27 @@ getAllFretsForChord() {
 
 // get chord details for current selected chord
   let chordKey = this.getChordKey()
-  let chordForAPI = chordKey + this.props.selectedChord.selectedChordType
-  console.log(chordForAPI) 
+  let chordForAPI = chordKey + this.props.selectedChord.selectedQuality
+  console.log(chordForAPI)
   // will need to translate sharps
-  // will need to translate the minors & etc into their format for URL
 
-  let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedChordType)
+
+  // will need to translate the minors & etc into their format for URL, include _
+
+  /*
+ones that work:
+https://api.uberchord.com/v1/chords/C
+https://api.uberchord.com/v1/chords/Bb
+https://api.uberchord.com/v1/chords/F_m
+https://api.uberchord.com/v1/chords/Ab_m
+
+https://api.uberchord.com/v1/chords/F_maj7
+https://api.uberchord.com/v1/chords/F_m7
+
+https://api.uberchord.com/v1/chords/F_dim
+  */
+
+  let theseNotes = Chord.notes(chordKey, this.props.selectedChord.selectedQuality)
   console.log(theseNotes)
 
 

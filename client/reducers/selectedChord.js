@@ -9,21 +9,21 @@ function selectedChord(state = initialState, action) {
       return {
         selectedKey: action.chord.selectedKey,
         selectedTone: state.selectedTone,
-        selectedChordType: state.selectedChordType
+        selectedQuality: state.selectedQuality
       }
 
     case "SELECT_TONE" :
       return {
         selectedKey: state.selectedKey,
         selectedTone: action.chord.selectedTone,
-        selectedChordType: state.selectedChordType
+        selectedQuality: state.selectedQuality
       }
 
-    case "SELECT_CHORDTYPE" :
+    case "SELECT_QUALITY" :
       return {
         selectedKey: state.selectedKey,
         selectedTone: state.selectedTone,
-        selectedChordType: action.chord.selectedChordType
+        selectedQuality: action.chord.selectedQuality
       }
 
 
