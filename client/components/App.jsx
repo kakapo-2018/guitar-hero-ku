@@ -2,6 +2,7 @@ import React from "react"
 import {connect} from 'react-redux'
 import Fretboard from "./Fretboard"
 import KeyChordButtons from "./KeyChordButtons"
+import Player from "./Player"
 
 class App extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class App extends React.Component {
         <h1>Guitar HeroKu</h1>
         <Fretboard />
         <KeyChordButtons />
+        <Player/>
       </div>
     )
   }

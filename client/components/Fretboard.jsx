@@ -13,7 +13,6 @@ class Fretboard extends React.Component {
   }
 
   componentDidMount(){
-
 // Add event listener to all frets to trigger lightUpNote on click
     let frets = document.getElementsByClassName("fret")
     for (let i = 0; i < frets.length; i++) {
@@ -21,7 +20,6 @@ class Fretboard extends React.Component {
         this.lightUpNote(x.target.id)
       })
     }
-
   }
 
 
@@ -83,11 +81,11 @@ this.getChordNotes()
 
   return(
     <div className="fretboard">
-
-
       <div className="string" id="first-string">
-        <div className="fret string1 fret0 E E4 open-note" id="fret0-string1">E</div>
+        <div className="fret string1 fret0 E E4 open-note" id="fret0-string1">E
+        </div>
         <div className="fret string1 fret1 F F4" id="fret1-string1">F</div>
+
         <div className="fret string1 fret2 Fsharp Gflat F4sharp G4flat sharp-or-flat" id="fret2-string1">F#</div>
         <div className="fret string1 fret3 G G4" id="fret3-string1">G</div>
         <div className="fret string1 fret4 Gsharp Aflat G4sharp A4flat sharp-or-flat" id="fret4-string1">G#</div>
