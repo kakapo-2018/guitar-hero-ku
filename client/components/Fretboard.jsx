@@ -17,6 +17,7 @@ class Fretboard extends React.Component {
     this.translateFretArrayToStrings = this.translateFretArrayToStrings.bind(this)
     this.displayChordNotes = this.displayChordNotes.bind(this)
     this.getFretsForChord = this.getFretsForChord.bind(this)
+    this.getURLforAPI = this.getURLforAPI.bind(this)
   }
 
 componentDidMount() {
@@ -126,6 +127,22 @@ this.lightUpNote(testString5)
 this.lightUpNote(testString6)
 }
 
+
+getURLforAPI(chordKeyForAPI, chordType) {
+
+  if (chordType === "maj") {
+    let URLforAPI = chordKeyForAPI
+console.log(URLforAPI)
+    return URLforAPI
+    }
+  else {
+    let URLforAPI = chordKeyForAPI + "_" + chordType
+console.log(URLforAPI)
+    return URLforAPI
+  }
+
+}
+
 getFretsForChord() {
 // --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
   this.clearLitNotes()
@@ -135,8 +152,7 @@ getFretsForChord() {
 
   let chordType = this.props.selectedChord.selectedChordType || ""
 
-  let URLforAPI = chordKeyForAPI + "_" + chordType
-console.log(URLforAPI)
+  let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType)
 
   getAPIChordFrets(URLforAPI)
   .then(res => {

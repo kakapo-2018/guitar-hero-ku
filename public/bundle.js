@@ -311,6 +311,7 @@ var Fretboard = function (_React$Component) {
     _this.translateFretArrayToStrings = _this.translateFretArrayToStrings.bind(_this);
     _this.displayChordNotes = _this.displayChordNotes.bind(_this);
     _this.getFretsForChord = _this.getFretsForChord.bind(_this);
+    _this.getURLforAPI = _this.getURLforAPI.bind(_this);
     return _this;
   }
 
@@ -431,6 +432,20 @@ var Fretboard = function (_React$Component) {
       this.lightUpNote(testString6);
     }
   }, {
+    key: "getURLforAPI",
+    value: function getURLforAPI(chordKeyForAPI, chordType) {
+
+      if (chordType === "maj") {
+        var URLforAPI = chordKeyForAPI;
+        console.log(URLforAPI);
+        return URLforAPI;
+      } else {
+        var _URLforAPI = chordKeyForAPI + "_" + chordType;
+        console.log(_URLforAPI);
+        return _URLforAPI;
+      }
+    }
+  }, {
     key: "getFretsForChord",
     value: function getFretsForChord() {
       var _this3 = this;
@@ -443,8 +458,7 @@ var Fretboard = function (_React$Component) {
 
       var chordType = this.props.selectedChord.selectedChordType || "";
 
-      var URLforAPI = chordKeyForAPI + "_" + chordType;
-      console.log(URLforAPI);
+      var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
         var fretAsString = res.body[0].strings;
