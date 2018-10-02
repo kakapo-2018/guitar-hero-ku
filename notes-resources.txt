@@ -1,0 +1,22 @@
+Resources
+
+API:
+https://api.uberchord.com/#chords-searching
+
+
+Tonal:
+
+tonal-note
+Note.simplify => String
+    Note.simplify("C##") // => "D"
+    Note.simplify("C###") // => "D#"
+
+Scale.props(name) => Object
+
+tonal-pcset
+PcSet.isSupersetOf(set, notes) => boolean
+
+PcSet.includes(set, note) => Boolean
+Test if a given pitch class set includes a note
+
+PcSet.filter(set, notes) => Array

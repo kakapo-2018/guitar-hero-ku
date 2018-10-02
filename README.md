@@ -2,29 +2,25 @@
 
 A visual guide to playing guitar. 
 
-
 ## User Stories
 
 MVP
-* [done] As a user I want to see the strings and fretboard (up to 5th fret) and the letters of the notes for each.
-* [done] As a user I want to be able to select a note on the fretboard and see the note light up on the fretboard.
-* [done] As a user I want to be able to select a chord (in any key, in major or minor) from a list and see the notes light up on the fretboard.
+* As a user I want to see the strings and fretboard (up to 5th fret) and the letters of the notes for each.
+* As a user I want to be able to select a note on the fretboard and see the note light up on the fretboard.
+* As a user I want to be able to select a chord (in any key, in major or minor) from a list and see the notes lit up on the fretboard.
 * As a user I want the app to be mobile-friendly / responsive so I can see the fretboard on my phone.
-
 
 Stretch
 * As a user I want to select different notes on the fretboard and see what chords they make. If the notes do not make up a chord (are too many or too random, or are impossible to play (e.g. two notes on one string)), I want nothing to light up.
-* [done] As a user I want to use the entire fretboard (down to 12th fret) and see the notes in different positions. 
+* As a user I want to use the entire fretboard (down to 12th fret) and see the notes in different positions. 
 * As a user I want to choose whether or not to include open strings.
-* [wip] As a user I want to see a sample of well-known songs that I can try to play along with. The chord names should be clickable divs that will light up the correct chord on the fretboard/
-
-* [wip] As a user I want to be able to enter a sequence of chords or notes and have the app play them back (by lighting up on the fretboard, not sound) so I can play along/practice.
+* As a user I want to be able to enter a sequence of chords or notes and have the app play them back (by lighting up on the fretboard, not sound) so I can play along/practice.
 * As a user I want to set the tempo in BPM at which playback runs.
 * As a user I want to be able to select time (e.g. 4/4, 3/4) for the chord sequence I have entered for playback.
 * As a user I want to see the notes in my guitar chord on a piano view and a music staff view.
 * As a user I want to see the chords which are related to the chord I've selected in a circle of fifths.
 * As a user I want this to be a mobile app built with React Native.
-* As a user I want to access a database of well-known (public domain) songs which I can select and play along with.
+* As a user I want to access a database of well-known (public domain) songs which I can select and play along with..
 
 
 Super-stretch
@@ -49,7 +45,7 @@ Dispatch from playback to change chords:
 e.g.
 * key: "C"
 * tone: "#"
-* chordType: "min"
+* chordType: "m"
 
 
 
