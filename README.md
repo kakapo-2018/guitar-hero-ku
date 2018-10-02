@@ -11,7 +11,6 @@ MVP
 * As a user I want to be able to select a chord (in any key, in major or minor) from a list and see the notes lit up on the fretboard.
 * As a user I want the app to be mobile-friendly / responsive so I can see the fretboard on my phone.
 
-
 Stretch
 * As a user I want to select different notes on the fretboard and see what chords they make. If the notes do not make up a chord (are too many or too random, or are impossible to play (e.g. two notes on one string)), I want nothing to light up.
 * As a user I want to use the entire fretboard (down to 12th fret) and see the notes in different positions. 
@@ -36,22 +35,19 @@ Super-stretch
 * C4 is middle C -->
 
 
-### Actions
-* ADD_CHORD
-* SET_BPM
-[more to come -- Lianna]
-
-### Reducers
-* 
-[more to come -- Lianna]
-
 ### Views
 * Main app page: Chord finder
 * Help: text guide for usage
 * Piano view (alternative to Guitar view)
 
 ### API Docs
-[will come when we use database for stretch goals]
+Dispatch from playback to change chords:
+`this.props.dispatch(entireChordToState(key, tone, chordType))`
+e.g.
+* key: "C"
+* tone: "#"
+* chordType: "m"
+
 
 
 ## Reference
