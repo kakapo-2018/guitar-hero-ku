@@ -33,33 +33,21 @@ stateOfSharpFlats() {
   if (this.props.selectedChord.selectedTone !== undefined && this.props.selectedChord.selectedTone !== "") {
     let sharpsAndFlats = document.getElementsByClassName("sharp-or-flat")
     for (let i = 0; i < sharpsAndFlats.length; i++) {
-
-    console.log(sharpsAndFlats[i].attributes.note)
-/*
-if (sharpsAndFlats[i].attributes.note === "Asharp-Bflat")
-if (sharpsAndFlats[i].attributes.note === "Csharp-Dflat")
-if (sharpsAndFlats[i].attributes.note === "Dsharp-Eflat")
-if (sharpsAndFlats[i].attributes.note === "Fsharp-Gflat")
-if (sharpsAndFlats[i].attributes.note === "Gsharp-Aflat")
-*/ 
-
-// if (this.props.selectedChord.selectedTone === "#")
-// sharpsAndFlats[i].innerHTML = "A#"
-// sharpsAndFlats[i].innerHTML = "C#"
-// sharpsAndFlats[i].innerHTML = "D#"
-// sharpsAndFlats[i].innerHTML = "F#"
-// sharpsAndFlats[i].innerHTML = "G#"
-
-// if (this.props.selectedChord.selectedTone === "b")
-// sharpsAndFlats[i].innerHTML = "Bb"
-// sharpsAndFlats[i].innerHTML = "Db"
-// sharpsAndFlats[i].innerHTML = "Eb"
-// sharpsAndFlats[i].innerHTML = "Gb"
-// sharpsAndFlats[i].innerHTML = "Ab"
-
-
+      if (this.props.selectedChord.selectedTone === "#") {
+        if (sharpsAndFlats[i].attributes.note.value === "Asharp-Bflat") {sharpsAndFlats[i].innerHTML = "A#"}
+        if (sharpsAndFlats[i].attributes.note.value === "Csharp-Dflat") {sharpsAndFlats[i].innerHTML = "C#"}
+        if (sharpsAndFlats[i].attributes.note.value === "Dsharp-Eflat") {sharpsAndFlats[i].innerHTML = "D#"}
+        if (sharpsAndFlats[i].attributes.note.value === "Fsharp-Gflat") {sharpsAndFlats[i].innerHTML = "F#"}
+        if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {sharpsAndFlats[i].innerHTML = "G#"}
+      }
+      else if (this.props.selectedChord.selectedTone === "b") {
+        if (sharpsAndFlats[i].attributes.note.value === "Asharp-Bflat") {sharpsAndFlats[i].innerHTML = "Bb"}
+        if (sharpsAndFlats[i].attributes.note.value === "Csharp-Dflat") {sharpsAndFlats[i].innerHTML = "Db"}
+        if (sharpsAndFlats[i].attributes.note.value === "Dsharp-Eflat") {sharpsAndFlats[i].innerHTML = "Eb"}
+        if (sharpsAndFlats[i].attributes.note.value === "Fsharp-Gflat") {sharpsAndFlats[i].innerHTML = "Gb"}
+        if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {sharpsAndFlats[i].innerHTML = "Ab"}
+      }
     }
-
   }
 }
 
