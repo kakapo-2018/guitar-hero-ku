@@ -202,6 +202,11 @@ background-color: rgb(87, 62, 38);
 background-color: #80dfff;
 }
 
+.sharp-or-flat {
+  /* background-color: greenyellow */
+}
+
+
 /* ---------------------- Chord buttons ----------------------  */
 
 .keyChordContainer {
@@ -226,7 +231,7 @@ background-color: #80dfff;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 5px;
+  margin: 8px;
 }
 
 .key-row {
