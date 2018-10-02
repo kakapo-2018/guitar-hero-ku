@@ -360,6 +360,8 @@ var Fretboard = function (_React$Component) {
             }
           }
           if (this.props.selectedChord.selectedTone === "") {
+            // AND class does not include lit
+            console.log(sharpsAndFlats[i].classList);
             sharpsAndFlats[i].innerHTML = "";
           }
         }
@@ -958,32 +960,32 @@ var KeyChordButtons = function (_React$Component) {
             _react2.default.createElement(
               "button",
               { className: "quality", type: "button", value: "maj" },
-              "Major"
+              "M / maj"
             ),
             _react2.default.createElement(
               "button",
               { className: "quality", type: "button", value: "m" },
-              "minor"
+              "m / min"
             ),
             _react2.default.createElement(
               "button",
               { className: "quality", type: "button", value: "7" },
-              "7th"
+              "7"
             ),
             _react2.default.createElement(
               "button",
               { className: "quality", type: "button", value: "maj7" },
-              "Major7"
+              "M7 / maj7"
             ),
             _react2.default.createElement(
               "button",
               { className: "quality", type: "button", value: "m7" },
-              "minor7"
+              "m7 / min7"
             ),
             _react2.default.createElement(
               "button",
               { className: "quality", type: "button", value: "dim" },
-              "diminished"
+              "dim"
             )
           )
         )

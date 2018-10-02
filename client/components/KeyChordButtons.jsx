@@ -66,12 +66,12 @@ render() {
 
     <div className="chord-buttons-row">
       <div className="quality-row">
-        <button className="quality" type="button" value="maj">Major</button>
-        <button className="quality" type="button" value="m">minor</button>
-        <button className="quality" type="button" value="7">7th</button>
-        <button className="quality" type="button" value="maj7">Major7</button>
-        <button className="quality" type="button" value="m7">minor7</button>
-        <button className="quality" type="button" value="dim">diminished</button>
+        <button className="quality" type="button" value="maj">M / maj</button>
+        <button className="quality" type="button" value="m">m / min</button>
+        <button className="quality" type="button" value="7">7</button>
+        <button className="quality" type="button" value="maj7">M7 / maj7</button>
+        <button className="quality" type="button" value="m7">m7 / min7</button>
+        <button className="quality" type="button" value="dim">dim</button>
       </div>
 
     </div>

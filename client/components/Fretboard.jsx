@@ -47,7 +47,8 @@ stateOfSharpFlats() {
         if (sharpsAndFlats[i].attributes.note.value === "Fsharp-Gflat") {sharpsAndFlats[i].innerHTML = "Gb"}
         if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {sharpsAndFlats[i].innerHTML = "Ab"}
       }
-      if (this.props.selectedChord.selectedTone === "") {
+      if (this.props.selectedChord.selectedTone === "") { // AND class does not include lit
+        console.log(sharpsAndFlats[i].classList)
         sharpsAndFlats[i].innerHTML = ""
       }
     }
