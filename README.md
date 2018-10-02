@@ -11,7 +11,6 @@ MVP
 * As a user I want to be able to select a chord (in any key, in major or minor) from a list and see the notes lit up on the fretboard.
 * As a user I want the app to be mobile-friendly / responsive so I can see the fretboard on my phone.
 
-
 Stretch
 * As a user I want to select different notes on the fretboard and see what chords they make. If the notes do not make up a chord (are too many or too random, or are impossible to play (e.g. two notes on one string)), I want nothing to light up.
 * As a user I want to use the entire fretboard (down to 12th fret) and see the notes in different positions. 

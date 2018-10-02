@@ -1,19 +1,25 @@
 import React from "react"
 import {connect} from 'react-redux'
 import * as Chord from "tonal-chord"
+import * as Note from "tonal-note"
+import {getAPIChordFrets} from "../chordAPI"
 
 class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
+    this.getFretsForChord = this.getFretsForChord.bind(this)
     this.getChordKey = this.getChordKey.bind(this)
-    this.lightUpNote = this.lightUpNote.bind(this)
+    this.translateEnharmonics = this.translateEnharmonics.bind(this)
+    this.getURLforAPI = this.getURLforAPI.bind(this)
+    this.translateFretArrayToStrings = this.translateFretArrayToStrings.bind(this)
     this.clearLitNotes = this.clearLitNotes.bind(this)
-    
+    this.displayChordNotes = this.displayChordNotes.bind(this)
+    this.lightUpNote = this.lightUpNote.bind(this)
   }
 
 componentDidMount() {
-// Add event listener to all frets to trigger lightUpNote on click
+// --- Event listener for all frets to trigger lightUpNote on direct click
   let frets = document.getElementsByClassName("fret")
   for (let i = 0; i < frets.length; i++) {
     frets[i].addEventListener("click", (x) => {
@@ -22,21 +28,69 @@ componentDidMount() {
   }
 }
 
+getFretsForChord() {
+// --- For fetching the fret positions to light up each chord.
+  this.clearLitNotes()
+
+  let chordKey = this.getChordKey()
+  let chordKeyForAPI = this.translateEnharmonics(chordKey) // e.g. C3 -> Db as API does not deal in sharps
+
+  let chordType = this.props.selectedChord.selectedQuality || ""
+
+  let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType)
+
+  getAPIChordFrets(URLforAPI)
+  .then(res => {
+    let fretData = res.body[0].strings.split(" ")
+    this.translateFretArrayToStrings(fretData)
+  })
+}
 
 getChordKey() {
-//get key, depending on if # or b is included:
+// --- For getting the key, depending on if the tone is included:
   if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
   else return this.props.selectedChord.selectedKey
 }
 
-
-lightUpNote(incomingID) {
-    let selectedNote = document.getElementById(incomingID)
-    selectedNote.classList.add("lit")
+translateEnharmonics(chordKey) {
+// ---- To convert keys with sharps to flats so they work for API
+  if (chordKey != undefined && chordKey.includes("#") || chordKey != undefined && chordKey.includes("Cb") || chordKey != undefined && chordKey.includes("Fb")) {
+    return Note.enharmonic(chordKey)
   }
+  else return chordKey
+}
 
+getURLforAPI(chordKeyForAPI, chordType) {
+  if (chordType === "maj" || chordType === "") {
+    let URLforAPI = chordKeyForAPI
+    return URLforAPI
+    }
+  else {
+    let URLforAPI = chordKeyForAPI + "_" + chordType
+    return URLforAPI
+  }
+}
+
+translateFretArrayToStrings(fretArray) {
+// ---- For capturing the fret numbers to light up each chord
+
+  this.displayChordNotes() // Here because there isn't any obviously better place to trigger it
+
+  let thickToThinArray = fretArray.reverse()
+  for (let i = 0; i < thickToThinArray.length; i++) {
+    const thisFret = thickToThinArray[i];
+    if (!isNaN(thisFret)) {
+      let thisID = "fret" + thisFret + "-string" + (i+1)
+      this.lightUpNote(thisID)
+    }
+    else {
+      // Placeholder additional function for muted strings
+    }
+  }
+}
 
 clearLitNotes() {
+// --- To clear all currently-lit divs when a new chord is selected
   let litNotes = document.getElementsByClassName("lit")
   while (litNotes.length > 0) {
   for (let i = 0; i < litNotes.length; i++) {
@@ -45,8 +99,21 @@ clearLitNotes() {
   }
 }
 
+displayChordNotes() {
+// ---- For later use if we want to display the chord letters on screen
+  let chordNotes = Chord.notes(this.getChordKey()).join(" ")
+  document.getElementById("note-display-text").innerHTML = "Notes: " + chordNotes
+}
+
+lightUpNote(incomingID) {
+// --- To add the "lit" CSS class to selected fret divs
+  let selectedNote = document.getElementById(incomingID)
+  selectedNote.classList.add("lit")
+}
+
 
 render() {
+this.getFretsForChord()
 
   return (
     <div className="fretboard">
