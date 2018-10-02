@@ -1,10 +1,13 @@
-
-
-/* ---------------------- Fretboard ----------------------  */
+body {
+  font-family: serif;
+}
 
 /* .row {
   display: flex;
 } */
+
+/* ---------------------- Fretboard ----------------------  */
+
 
 .string {
     display: flex;
@@ -33,9 +36,8 @@
 .fret {
   border-left: 1px burlywood solid;
   border-right: 1px burlywood solid;
-  
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
   text-align: center;
   vertical-align: middle;
   line-height: 80px;
@@ -46,29 +48,42 @@
 }
 
 
-.lit {
+.lit { /* just playing */
   background-color: aquamarine;
-  font-size: 2em; /* just playing */
+  font-size: 2em; 
 }
 
 /* ---------------------- Chord buttons ----------------------  */
 
 .keyChordContainer {
-  width: 50%;
+  background-color: yellow;
+  border: solid red 1px;
+  padding: 5px;
+
+}
+
+.chord-buttons-row {
+  background-color: pink;
+  display: flex;
+}
+
+.key-row,
+.tone-row,
+.quality-row {
+  background-color: lightcoral;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+  margin: 5px;
+  width: 100%;
 }
 
 .key,
 .tone,
 .quality {
-  width: 100%;
+  background-color: lightblue;
+  /* width: 100px; */
 } 
-
-.key-row,
-.tone-row,
-.quality-row {
-  display: flex;
-  align-content: space-between;
-}
 
 /* ---------------------- Song display ----------------------  */
 

@@ -954,7 +954,7 @@ var KeyChordButtons = function (_React$Component) {
         ),
         _react2.default.createElement(
           "div",
-          { className: "row" },
+          { className: "chord-buttons-row" },
           _react2.default.createElement(
             "div",
             { className: "key-row" },
@@ -1030,11 +1030,7 @@ var KeyChordButtons = function (_React$Component) {
               "button",
               { className: "quality", type: "button", value: "7" },
               "7th"
-            )
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "quality-row" },
+            ),
             _react2.default.createElement(
               "button",
               { className: "quality", type: "button", value: "maj7" },

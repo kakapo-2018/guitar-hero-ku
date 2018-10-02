@@ -46,7 +46,7 @@ render() {
     </div>
   </div>
 
-    <div className="row">
+    <div className="chord-buttons-row">
       <div className="key-row">
         <button className="key" type="button" value="C">C</button>
         <button className="key" type="button" value="D">D</button>
@@ -67,8 +67,6 @@ render() {
         <button className="quality" type="button" value="maj">Major</button>
         <button className="quality" type="button" value="m">minor</button>
         <button className="quality" type="button" value="7">7th</button>
-      </div>
-      <div className="quality-row">
         <button className="quality" type="button" value="maj7">Major7</button>
         <button className="quality" type="button" value="m7">minor7</button>
         <button className="quality" type="button" value="dim">diminished</button>
