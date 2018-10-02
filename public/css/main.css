@@ -3,8 +3,7 @@
 /* ---------------------- Fretboard ----------------------  */
 
 /* .row {
-    justify-content: flex;
-    align-content: center;
+  display: flex;
 } */
 
 .string {
@@ -71,5 +70,13 @@
   align-content: space-between;
 }
 
+/* ---------------------- Song display ----------------------  */
 
+#song-display-wrapper {
+  margin-top: 20px;
+  border: 1px solid black;
+}
 
+#song-display {
+  white-space: pre;
+}

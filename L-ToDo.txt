@@ -1,0 +1,68 @@
+--------------------------- Lianna To-Do list  ---------------------------
+
+---------------- Essential ----------------
+
+*! innerHTML change sharps vs flats depending on selected chord
+e.g. if state=b, find all with class flat and re-render inner html with Gb, etc
+
+* Rearrange chord key buttons to be in better sub-row collections for screen space arrangement
+
+* Check what dependencies are still actually needed
+
+
+---------------- Should Have ----------------
+
+* more chord types urls/buttons
+e.g. A/C#
+* DO NOT ADD PLAYDISPLAY SONGS WE DON'T HAVE CHORDS TO
+
+
+
+---------------- Would Be Nice ----------------
+
+* if fret listing is X, return a thing to show muted string, e.g. X in open fret
+* refactor most functions into a different file (?)
+
+
+
+---------------- Maybe eventually ----------------
+
+* ?? hidden class for #/b divs to be removed only when lit - stretch button to toggle
+
+
+
+
+
+
+---------------- Old and/or requires structural changes ----------------
+
+*  ditch API and manually build chords with triads
+Write function to build a major/minor chord given a tonic and the triad structures. 
+
+Rule set:
+1. lowest note must be tonic
+2. array restricted on each string (b-1) highest index
+3. one note per string
+
+// Build a major chord given a tonic
+// limit to 1 note per string and not above fret 5
+// translate sharps and flats
+// need to select tonic without sharp/flat interference
+// start with thicketst/highest-numbered string, look into first five frets for instance of note. THEN build
+// do a test run with selecting any fret and getting it to print off all higher frets in sequential order, ignoring any that are past the fret limit
+// still would be nicer if tonal had a way to build by scientific notation
+
+* use a conditional that won't allow any notes above a certain fret to play (e.g. position one = fret5 or below)* add functionality for other positions later
+* use a conditional that won't allow two notes on the same sting (maybe defaulting to the lowest-numbered fret)
+
+select the tonic and then find the rest of the chord by relative position
+
+Cmajor has CEG - fine. Start with C3 on string5, add E3 on string 4, G3 on string 3(open), C4 on string 2 and E4 on string 1.
+
+major chord is major triad + minor triad,
+a minor chord is a minor triad + a maj triad,
+dimimnished is two minor triads,
+augmented is 2 major triads,
+sus skips the third
+etc
+
