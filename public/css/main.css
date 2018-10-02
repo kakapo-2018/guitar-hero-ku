@@ -1,12 +1,13 @@
-/* h4 { 
+/* .guitarnote { 
 
-  font-size: 1.5em;
+  font-size: 1em;
     color: black;
     position: absolute;
-    bottom: -39px;
+    bottom: 0px;
     width: 155px;
     text-align: center;
-    background-color: rgb(139, 92, 22);
+    background-color: rgb(143, 116, 76);
+    padding-bottom: -20px;
     left: 45%;
     z-index: 50;
     border-radius: 50%;
@@ -36,42 +37,51 @@
   
 }
 
-#first-string, #seventh-string {
+/* #first-string, #seventh-string {
   height: 30px;
-}
+} */
 
 .string1 {
 border-bottom: 1px rgb(165, 165, 165) solid;
+height: 20px;
 /* vertical-align: center; */
 }
 .string2 {
 border-bottom: 2px rgb(165, 165, 165) solid;
+bottom: -10px;
+height: 20px;
 }
 .string3 {
 border-bottom: 3px rgb(165, 165, 165) solid;
+height: 20px;
 }
 .string4 {
 border-bottom: 4px rgb(255, 177, 31) solid;
+height: 20px;
 }
 .string5 {
 border-bottom: 5px rgb(255, 177, 31) solid;
+height: 20px;
 }
 .string6 {
 border-bottom: 6px rgb(255, 177, 31) solid;
+height: 20px;
 }
 .string7 {
   border-bottom: 1px rgb(0, 0, 0) solid;
+  min-height: 12px;
   }
 
 
-/* .guitarnote {
-  position: absolute;
-  top: 15px;
-  left: 0;
+/* .guitarnote { */
+  /* position: absolute; */
+  /* top: 15px; */
+  /* left: 0;
   right: 0;
   bottom: -40px;
-  z-index: 50;
-} */
+  z-index: 50; */
+  /* padding-bottom: -10px; */
+/* } */
 
 /* .guitarnote.active {
   color: red;
@@ -87,102 +97,102 @@ vertical-align: middle;
 background-color: rgb(143, 116, 76);
 font-family: 'Courier New', Courier, monospace;
 font-weight: 900;
-font-size: 1.5em;
+font-size: 1em;
 }
 
 .fret0 {
 border-right: 15px rgb(233, 233, 233) solid;
 width: 50px;
 background-color: rgb(87, 62, 38);
-display: inline-block;
+/* display: inline-block; */
 /* position: relative; */
 }
 
 .fret1 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 160px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
 }
 
 .fret2 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 155px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
 }
 
 .fret3 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 150px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
 }  
 
 .fret4 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 145px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
   }  
 
 .fret5 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 140px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
   } 
 
 .fret6 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 135px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
   } 
 
 .fret7 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 130px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
   } 
 
 .fret8 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 125px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
   } 
 
 .fret9 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 120px;
-  display: inline-block;
+  /* display: inline-block; */
   /* position: relative; */
   } 
 
 .fret10 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 115px;
-  display: inline-block;
+  /* display: inline-block; */
   } 
 
 .fret11 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 110px;
-  display: inline-block;
+  /* display: inline-block; */
   } 
 
 .fret12 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 105px;
-  display: inline-block;
+  /* display: inline-block; */
   } 
 
 
 .lit {
 background-color: aquamarine;
-font-size: 2em; /* just playing */
+font-size: 1em; /* just playing */
 }
 
 /* ---------------------- Chord buttons ----------------------  */
@@ -215,7 +225,7 @@ z-index: -1;
 } */
 
 
-.half-box str1 {
+/* .half-box str1 {
   height: 15px;
 
 }
@@ -223,4 +233,4 @@ z-index: -1;
 .half-box {
   height: 15px;
 
-}
+} */
