@@ -218,6 +218,7 @@ this.getFretsForChord()
     
   )
 }
+}
 
 function mapStateToProps(state) {
   return {

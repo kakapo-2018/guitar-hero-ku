@@ -8,7 +8,7 @@
     "dev": "nodemon server",
     "webpack": "webpack --watch",
     "test": "jest --watchAll",
-    "postinstall": "webpack && knex migrate:latest"
+    "postinstall": "webpack"
   },
   "babel": {
     "presets": [

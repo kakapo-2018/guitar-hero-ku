@@ -101,7 +101,8 @@ vertical-align: middle;
 background-color: rgb(143, 116, 76);
 font-family: 'Courier New', Courier, monospace;
 font-weight: 900;
-font-size: 1em;
+font-size: 1.4em;
+padding-top: 15px;
 }
 
 .fret0 {
@@ -195,8 +196,7 @@ background-color: rgb(87, 62, 38);
 
 
 .lit {
-background-color: aquamarine;
-font-size: 1em; /* just playing */
+background-color:lightblue;
 }
 
 /* ---------------------- Chord buttons ----------------------  */
