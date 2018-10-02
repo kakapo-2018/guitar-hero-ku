@@ -102,7 +102,7 @@ clearLitNotes() {
 displayChordNotes() {
 // ---- For later use if we want to display the chord letters on screen
   let chordNotes = Chord.notes(this.getChordKey()).join(" ")
-  document.getElementById("note-display-text").innerHTML = "Notes: " + chordNotes
+  document.getElementById("note-display-text").innerHTML = chordNotes
 }
 
 lightUpNote(incomingID) {

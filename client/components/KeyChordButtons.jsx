@@ -38,11 +38,11 @@ render() {
 
   <div className="row">
     <div id="chord-display">
-      {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedQuality}</p>}
+      {<p><strong>Selected Chord:</strong> {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedQuality}</p>}
     </div>
 
     <div id="note-display">
-      <p id="note-display-text">Notes: </p>
+      <p><strong>Notes:</strong> <span id="note-display-text"></span></p>
     </div>
   </div>
 
@@ -60,9 +60,11 @@ render() {
       <div className="tone-row">
         <button className="tone" type="button" value="#">#</button>
         <button className="tone" type="button" value="b">b</button>
-        <button className="tone" type="button" value="">clear # or b</button>
+        <button className="tone" type="button" value="">clear</button>
       </div>
+    </div>
 
+    <div className="chord-buttons-row">
       <div className="quality-row">
         <button className="quality" type="button" value="maj">Major</button>
         <button className="quality" type="button" value="m">minor</button>
