@@ -118,6 +118,29 @@ this.getFretsForChord()
   return (
     <div className="fretboard">
 
+    {/* <img src="css/guitar4.jpg" alt="Guitar" height="42" width="42"></img>
+    
+    <div className="wholething"> */}
+
+    {/* <div className="string" id="first-string">
+      <div className="half-box str1"></div>
+      <div className="half-box"></div>
+      <div className="frets">
+        <div className="fret string1 fret0">E</div>
+        <div className="fret string1 fret1">F</div>
+        <div className="fret string1 fret2">F#</div>
+        <div className="fret string1 fret3">G</div>
+        <div className="fret string1 fret4">G#</div>
+        <div className="fret string1 fret5">A</div>
+        <div className="fret string1 fret6">A#</div>
+        <div className="fret string1 fret7">B</div>
+        <div className="fret string1 fret8">C</div>
+        <div className="fret string1 fret9">C#</div>
+        <div className="fret string1 fret10">D</div>
+        <div className="fret string1 fret11">D#</div>
+        <div className="fret string1 fret12">E</div>
+      </div>
+    </div> */}
 
       <div className="string" id="first-string">
         <div className="fret string1 fret0" string="1" fret="0" note="E" scinote="E4" id="fret0-string1">E</div>
@@ -216,7 +239,7 @@ this.getFretsForChord()
 
       </div>
 
-    </div>
+    
   )
 }
 }
