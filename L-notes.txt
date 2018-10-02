@@ -1,0 +1,13 @@
+For getting divs by the note or scinote :
+    frets[i].attributes.note
+    frets[i].attributes.scinote
+    frets[i].attributes.scinote.textContent
+
+    frets[i].classList.value
+    frets[i].attributes.id.value
+
+    frets[i].attributes.fret
+    frets[i].attributes.fret.value
+
+    frets[i].attributes.class     
+    frets[i].attributes.string

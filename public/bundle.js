@@ -230,7 +230,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:/Users/LiannaBlanca/workspace/projects/guitar-hero-ku/client/components/Fretboard.jsx: Unexpected token (248:2)\n\n\u001b[0m \u001b[90m 246 | \u001b[39m\n \u001b[90m 247 | \u001b[39m\u001b[36mfunction\u001b[39m mapStateToProps(state) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 248 | \u001b[39m  \u001b[36mreturn\u001b[39m {\n \u001b[90m     | \u001b[39m  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 249 | \u001b[39m    selectedChord\u001b[33m:\u001b[39m state\u001b[33m.\u001b[39mselectedChord\n \u001b[90m 250 | \u001b[39m  }\n \u001b[90m 251 | \u001b[39m}\u001b[0m\n");
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:/Users/LiannaBlanca/workspace/projects/guitar-hero-ku/client/components/Fretboard.jsx: Unexpected token (224:2)\n\n\u001b[0m \u001b[90m 222 | \u001b[39m\n \u001b[90m 223 | \u001b[39m\u001b[36mfunction\u001b[39m mapStateToProps(state) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 224 | \u001b[39m  \u001b[36mreturn\u001b[39m {\n \u001b[90m     | \u001b[39m  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 225 | \u001b[39m    selectedChord\u001b[33m:\u001b[39m state\u001b[33m.\u001b[39mselectedChord\n \u001b[90m 226 | \u001b[39m  }\n \u001b[90m 227 | \u001b[39m}\u001b[0m\n");
 
 /***/ }),
 
