@@ -45,36 +45,7 @@
   height: 30px;
 } */
 
-.string1 {
-border-bottom: 2px rgb(165, 165, 165) solid;
-height: 20px;
-/* vertical-align: center; */
-}
-.string2 {
-border-bottom: 3px rgb(165, 165, 165) solid;
-bottom: -10px;
-height: 20px;
-}
-.string3 {
-border-bottom: 4px rgb(165, 165, 165) solid;
-height: 20px;
-}
-.string4 {
-border-bottom: 5px rgb(255, 177, 31) solid;
-height: 20px;
-}
-.string5 {
-border-bottom: 6px rgb(255, 177, 31) solid;
-height: 20px;
-}
-.string6 {
-border-bottom: 7px rgb(255, 177, 31) solid;
-height: 20px;
-}
-.string7 {
-  border-bottom: 1px rgb(0, 0, 0) solid;
-  min-height: 12px;
-  }
+
 
 
 /* .guitarnote { */
@@ -101,7 +72,7 @@ vertical-align: middle;
 background-color: rgb(143, 116, 76);
 font-family: 'Courier New', Courier, monospace;
 font-weight: 900;
-font-size: 1.4em;
+font-size: 1.2em;
 padding-top: 15px;
 }
 
@@ -194,10 +165,156 @@ background-color: rgb(87, 62, 38);
   /* display: inline-block; */
   } 
 
+  .fret00 {
+    border-right: 15px rgb(160, 44, 44) solid;
+    width: 50px;
+    background-color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    /* display: inline-block; */
+    /* position: relative; */
+    }
+    
+    .fret00 {
+      border-right: 6px rgb(177, 56, 56) solid;
+      width: 160px;
+      /* display: inline-block; */
+      /* position: relative; */
+    }
+    
+    .fret02 {
+      border-right: 6px rgb(148, 69, 69) solid;
+      width: 155px;
+      /* display: inline-block; */
+      /* position: relative; */
+    }
+    
+    .fret03 {
+      border-right: 6px rgb(163, 76, 76) solid;
+      width: 150px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
+      padding-bottom: 10px;
+      /* display: inline-block; */
+      /* position: relative; */
+    }  
+    
+    .fret04 {
+      border-right: 6px rgb(141, 43, 43) solid;
+      width: 145px;
+      /* display: inline-block; */
+      /* position: relative; */
+      }  
+    
+    .fret05 {
+      border-right: 6px rgb(148, 54, 54) solid;
+      width: 140px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
+      padding-bottom: 10px;
+      /* display: inline-block; */
+      /* position: relative; */
+      } 
+    
+    .fret06 {
+      border-right: 6px white solid;
+      width: 135px;
+      /* display: inline-block; */
+      /* position: relative; */
+      } 
+    
+    .fret07 {
+      border-right: 6px white solid;
+      width: 130px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
+      padding-bottom: 10px;
+      /* display: inline-block; */
+      /* position: relative; */
+      } 
+    
+    .fret08 {
+      border-right: 6px white solid;
+      width: 125px;
+      /* display: inline-block; */
+      /* position: relative; */
+      } 
+    
+    .fret09 {
+      border-right: 6px white solid;
+      width: 120px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
+      padding-bottom: 10px;
+      /* display: inline-block; */
+      /* position: relative; */
+      } 
+    
+    .fret010 {
+      border-right: 6px white solid;
+      width: 115px;
+      /* display: inline-block; */
+      } 
+    
+    .fret011 {
+      border-right: 6px white solid;
+      width: 110px;
+      /* display: inline-block; */
+      } 
+    
+    .fret012 {
+      border-right: 6px white solid;
+      width: 105px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.8em;
+      padding-bottom: 10px;
+      /* display: inline-block; */
+      } 
+
+.string1 {
+border-bottom: 2px rgb(165, 165, 165) solid;
+max-height: 20px;
+font-size: 1.2em;
+/* padding-bottom: -30px; */
+/* padding-top: -10px; */
+
+/* vertical-align: center; */
+}
+.string2 {
+border-bottom: 3px rgb(165, 165, 165) solid;
+height: 20px;
+}
+.string3 {
+border-bottom: 4px rgb(165, 165, 165) solid;
+height: 20px;
+}
+.string4 {
+border-bottom: 5px rgb(255, 177, 31) solid;
+height: 20px;
+}
+.string5 {
+border-bottom: 6px rgb(255, 177, 31) solid;
+height: 20px;
+}
+.string6 {
+border-bottom: 7px rgb(255, 177, 31) solid;
+height: 20px;
+}
+.string7 {
+  max-height: 20px;
+  }      
+
 
 .lit {
 background-color: #80dfff;
 }
+
+.string0 {
+  background: white;
+
+}
+
+
 
 /* ---------------------- Chord buttons ----------------------  */
 
