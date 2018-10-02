@@ -1,16 +1,7 @@
------- bugs
-Cb, Fb not working
-
-
 --------------------------- Lianna To-Do list  ---------------------------
 // if fret listing is X, return a thing to show muted string, e.g. X in open fret
 
-* tidy translateFretArrayToStrings into for loop
-+ contingency for X fret positions to be cancelled out
-
 * innerHTML change sharps vs flats depending on selected chord
-
-* display chord notes in par.
 
 * more chord types urls/buttons
 e.g. A/C#

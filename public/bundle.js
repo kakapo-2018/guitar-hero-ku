@@ -99,13 +99,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, chordType) {
+var entireChordToState = exports.entireChordToState = function entireChordToState(key, tone, quality) {
   return {
     type: "SELECT_CHORD",
     chord: {
       selectedKey: key,
       selectedTone: tone,
-      selectedChordType: chordType
+      selectedQuality: quality
     }
   };
 };
@@ -128,11 +128,11 @@ var toneToState = exports.toneToState = function toneToState(tone) {
   };
 };
 
-var chordTypeToState = exports.chordTypeToState = function chordTypeToState(chordType) {
+var qualityToState = exports.qualityToState = function qualityToState(quality) {
   return {
-    type: "SELECT_CHORDTYPE",
+    type: "SELECT_QUALITY",
     chord: {
-      selectedChordType: chordType
+      selectedQuality: quality
     }
   };
 };
@@ -163,7 +163,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var APIendpoint = "https://api.uberchord.com/v1/chords/";
 
 function getAPIChordFrets(chord) {
-  console.log(APIendpoint + chord);
   return _superagent2.default.get(APIendpoint + chord);
 }
 
@@ -303,15 +302,14 @@ var Fretboard = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
 
-    _this.getChordKey = _this.getChordKey.bind(_this);
-    _this.getListOfAvailableFrets = _this.getListOfAvailableFrets.bind(_this);
-    _this.lightUpNote = _this.lightUpNote.bind(_this);
-    _this.clearLitNotes = _this.clearLitNotes.bind(_this);
-    _this.translateEnharmonics = _this.translateEnharmonics.bind(_this);
-    _this.translateFretArrayToStrings = _this.translateFretArrayToStrings.bind(_this);
-    _this.displayChordNotes = _this.displayChordNotes.bind(_this);
     _this.getFretsForChord = _this.getFretsForChord.bind(_this);
+    _this.getChordKey = _this.getChordKey.bind(_this);
+    _this.translateEnharmonics = _this.translateEnharmonics.bind(_this);
     _this.getURLforAPI = _this.getURLforAPI.bind(_this);
+    _this.translateFretArrayToStrings = _this.translateFretArrayToStrings.bind(_this);
+    _this.clearLitNotes = _this.clearLitNotes.bind(_this);
+    _this.displayChordNotes = _this.displayChordNotes.bind(_this);
+    _this.lightUpNote = _this.lightUpNote.bind(_this);
     return _this;
   }
 
@@ -329,104 +327,6 @@ var Fretboard = function (_React$Component) {
       }
     }
   }, {
-    key: "getChordKey",
-    value: function getChordKey() {
-      // --- For getting the key, depending on if the tone is included:
-      if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;else return this.props.selectedChord.selectedKey;
-    }
-  }, {
-    key: "getListOfAvailableFrets",
-    value: function getListOfAvailableFrets(maxFret) {
-      // --- For limiting the number of frets allowed and returning an array in pitch order. May be scrapped once API is working
-
-      var allowedFrets = [];
-      // let frets = document.getElementsByClassName("fret")
-      //   for (let i = 0; i < frets.length; i++) {
-      //     if (frets[i].attributes.fret.value < maxFret + 1) {
-      //         allowedFrets.push(frets[i])
-      //     }
-      // }
-
-      // push frets to array in pitch order, lowerst to highest. 
-      var string1 = document.getElementsByClassName("string1");
-      var string2 = document.getElementsByClassName("string2");
-      var string3 = document.getElementsByClassName("string3");
-      var string4 = document.getElementsByClassName("string4");
-      var string5 = document.getElementsByClassName("string5");
-      var string6 = document.getElementsByClassName("string6");
-
-      for (var i = 0; i < string6.length; i++) {
-        // if (string1[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string6[i]);
-      }
-      // }
-      for (var _i = 0; _i < string5.length; _i++) {
-        // if (string2[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string5[_i]);
-      }
-      // }
-      for (var _i2 = 0; _i2 < string4.length; _i2++) {
-        // if (string3[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string4[_i2]);
-      }
-      // }
-      for (var _i3 = 0; _i3 < string3.length; _i3++) {
-        // if (string4[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string3[_i3]);
-      }
-      // }
-      for (var _i4 = 0; _i4 < string2.length; _i4++) {
-        // if (string5[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string2[_i4]);
-      }
-      // }
-      for (var _i5 = 0; _i5 < string1.length; _i5++) {
-        // if (string6[i].attributes.fret.value < maxFret + 1) {
-        allowedFrets.push(string1[_i5]);
-      }
-      // }
-      // console.log(allowedFrets)
-      return allowedFrets;
-    }
-  }, {
-    key: "translateEnharmonics",
-    value: function translateEnharmonics(chordKey) {
-      // ---- To convert keys with sharps to flats so they work for API
-      if (chordKey != undefined && chordKey.includes("#")) {
-        return Note.enharmonic(chordKey);
-      } else return chordKey;
-    }
-  }, {
-    key: "translateFretArrayToStrings",
-    value: function translateFretArrayToStrings(fretArray) {
-      // ---- For capturing the fret numbers to light up each chord
-
-      var thickToThinArray = fretArray.reverse();
-      console.log(thickToThinArray);
-
-      for (var i = 0; i < thickToThinArray.length; i++) {
-        var thisFret = thickToThinArray[i];
-        if (!isNaN(thisFret)) {
-          var thisID = "fret" + thisFret + "-string" + (i + 1);
-          this.lightUpNote(thisID);
-        }
-      }
-    }
-  }, {
-    key: "getURLforAPI",
-    value: function getURLforAPI(chordKeyForAPI, chordType) {
-
-      if (chordType === "maj" || chordType === "") {
-        var URLforAPI = chordKeyForAPI;
-        console.log(URLforAPI);
-        return URLforAPI;
-      } else {
-        var _URLforAPI = chordKeyForAPI + "_" + chordType;
-        console.log(_URLforAPI);
-        return _URLforAPI;
-      }
-    }
-  }, {
     key: "getFretsForChord",
     value: function getFretsForChord() {
       var _this3 = this;
@@ -437,30 +337,57 @@ var Fretboard = function (_React$Component) {
       var chordKey = this.getChordKey();
       var chordKeyForAPI = this.translateEnharmonics(chordKey); // e.g. C3 -> Db as API does not deal in sharps
 
-      var chordType = this.props.selectedChord.selectedChordType || "";
+      var chordType = this.props.selectedChord.selectedQuality || "";
 
       var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
-        var fretAsString = res.body[0].strings;
-        var fretAsArray = fretAsString.split(" ");
-        _this3.translateFretArrayToStrings(fretAsArray);
+        var fretData = res.body[0].strings.split(" ");
+        _this3.translateFretArrayToStrings(fretData);
       });
     }
   }, {
-    key: "displayChordNotes",
-    value: function displayChordNotes() {
-      // ---- For later use if we want to display the chord letters on screen
-      var chordNotes = Chord.notes(this.getChordKey());
-      console.log(chordNotes);
+    key: "getChordKey",
+    value: function getChordKey() {
+      // --- For getting the key, depending on if the tone is included:
+      if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;else return this.props.selectedChord.selectedKey;
     }
   }, {
-    key: "lightUpNote",
-    value: function lightUpNote(incomingID) {
-      // --- To add the "lit" CSS class to selected fret divs
-      var selectedNote = document.getElementById(incomingID);
-      selectedNote.classList.add("lit");
-      // Note: this produces an error "Cannot read property 'classList' of null" but it's fine, ignore it.
+    key: "translateEnharmonics",
+    value: function translateEnharmonics(chordKey) {
+      // ---- To convert keys with sharps to flats so they work for API
+      if (chordKey != undefined && chordKey.includes("#") || chordKey != undefined && chordKey.includes("Cb") || chordKey != undefined && chordKey.includes("Fb")) {
+        return Note.enharmonic(chordKey);
+      } else return chordKey;
+    }
+  }, {
+    key: "getURLforAPI",
+    value: function getURLforAPI(chordKeyForAPI, chordType) {
+      if (chordType === "maj" || chordType === "") {
+        var URLforAPI = chordKeyForAPI;
+        return URLforAPI;
+      } else {
+        var _URLforAPI = chordKeyForAPI + "_" + chordType;
+        return _URLforAPI;
+      }
+    }
+  }, {
+    key: "translateFretArrayToStrings",
+    value: function translateFretArrayToStrings(fretArray) {
+      // ---- For capturing the fret numbers to light up each chord
+
+      this.displayChordNotes(); // Here because there isn't any obviously better place to trigger it
+
+      var thickToThinArray = fretArray.reverse();
+      for (var i = 0; i < thickToThinArray.length; i++) {
+        var thisFret = thickToThinArray[i];
+        if (!isNaN(thisFret)) {
+          var thisID = "fret" + thisFret + "-string" + (i + 1);
+          this.lightUpNote(thisID);
+        } else {
+          // Placeholder additional function for muted strings
+        }
+      }
     }
   }, {
     key: "clearLitNotes",
@@ -474,10 +401,23 @@ var Fretboard = function (_React$Component) {
       }
     }
   }, {
+    key: "displayChordNotes",
+    value: function displayChordNotes() {
+      // ---- For later use if we want to display the chord letters on screen
+      var chordNotes = Chord.notes(this.getChordKey()).join(" ");
+      document.getElementById("note-display-text").innerHTML = "Notes: " + chordNotes;
+    }
+  }, {
+    key: "lightUpNote",
+    value: function lightUpNote(incomingID) {
+      // --- To add the "lit" CSS class to selected fret divs
+      var selectedNote = document.getElementById(incomingID);
+      selectedNote.classList.add("lit");
+    }
+  }, {
     key: "render",
     value: function render() {
       this.getFretsForChord();
-      this.displayChordNotes();
 
       return _react2.default.createElement(
         "div",
@@ -944,8 +884,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import * as Chord from "tonal-chord"
-
 
 var KeyChordButtons = function (_React$Component) {
   _inherits(KeyChordButtons, _React$Component);
@@ -961,7 +899,7 @@ var KeyChordButtons = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      // Event listeners for all key letters, tone (for lack of better word) and chord types to trigger redux action on click
+      // ---- Event listeners to trigger redux action on click
       var keyClass = document.getElementsByClassName("key");
       for (var i = 0; i < keyClass.length; i++) {
         keyClass[i].addEventListener("click", function (x) {
@@ -976,10 +914,10 @@ var KeyChordButtons = function (_React$Component) {
         });
       }
 
-      var chordTypeClass = document.getElementsByClassName("chord-type");
-      for (var _i2 = 0; _i2 < chordTypeClass.length; _i2++) {
-        chordTypeClass[_i2].addEventListener("click", function (x) {
-          _this2.props.dispatch((0, _actions.chordTypeToState)(x.target.value));
+      var qualityClass = document.getElementsByClassName("quality");
+      for (var _i2 = 0; _i2 < qualityClass.length; _i2++) {
+        qualityClass[_i2].addEventListener("click", function (x) {
+          _this2.props.dispatch((0, _actions.qualityToState)(x.target.value));
         });
       }
     }
@@ -1001,7 +939,7 @@ var KeyChordButtons = function (_React$Component) {
               "Selected Chord: ",
               this.props.selectedChord.selectedKey,
               this.props.selectedChord.selectedTone,
-              this.props.selectedChord.selectedChordType
+              this.props.selectedChord.selectedQuality
             )
           ),
           _react2.default.createElement(
@@ -1009,8 +947,8 @@ var KeyChordButtons = function (_React$Component) {
             { id: "note-display" },
             _react2.default.createElement(
               "p",
-              null,
-              "Chord Notes:"
+              { id: "note-display-text" },
+              "Notes: "
             )
           )
         ),
@@ -1072,40 +1010,44 @@ var KeyChordButtons = function (_React$Component) {
             _react2.default.createElement(
               "button",
               { className: "tone", type: "button", value: "" },
-              "clear"
+              "clear # or b"
             )
           ),
           _react2.default.createElement(
             "div",
-            { className: "chord-type-row" },
+            { className: "quality-row" },
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "maj" },
+              { className: "quality", type: "button", value: "maj" },
               "Major"
             ),
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "m" },
+              { className: "quality", type: "button", value: "m" },
               "minor"
             ),
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "7" },
+              { className: "quality", type: "button", value: "7" },
               "7th"
-            ),
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "quality-row" },
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "maj7" },
+              { className: "quality", type: "button", value: "maj7" },
               "Major7"
             ),
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "m7" },
+              { className: "quality", type: "button", value: "m7" },
               "minor7"
             ),
             _react2.default.createElement(
               "button",
-              { className: "chord-type", type: "button", value: "dim" },
+              { className: "quality", type: "button", value: "dim" },
               "diminished"
             )
           )
@@ -1231,21 +1173,21 @@ function selectedChord() {
       return {
         selectedKey: action.chord.selectedKey,
         selectedTone: state.selectedTone,
-        selectedChordType: state.selectedChordType
+        selectedQuality: state.selectedQuality
       };
 
     case "SELECT_TONE":
       return {
         selectedKey: state.selectedKey,
         selectedTone: action.chord.selectedTone,
-        selectedChordType: state.selectedChordType
+        selectedQuality: state.selectedQuality
       };
 
-    case "SELECT_CHORDTYPE":
+    case "SELECT_QUALITY":
       return {
         selectedKey: state.selectedKey,
         selectedTone: state.selectedTone,
-        selectedChordType: action.chord.selectedChordType
+        selectedQuality: action.chord.selectedQuality
       };
 
     default:

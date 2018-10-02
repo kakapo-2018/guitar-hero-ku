@@ -60,13 +60,13 @@
 
 .key,
 .tone,
-.chord-type {
+.quality {
   width: 100%;
 } 
 
 .key-row,
 .tone-row,
-.chord-type-row {
+.quality-row {
   display: flex;
   align-content: space-between;
 }

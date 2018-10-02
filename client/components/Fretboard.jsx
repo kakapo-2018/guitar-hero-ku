@@ -8,16 +8,14 @@ class Fretboard extends React.Component {
   constructor(props){
     super(props)
 
-
-    this.getChordKey = this.getChordKey.bind(this)
-    this.getListOfAvailableFrets = this.getListOfAvailableFrets.bind(this)
-    this.lightUpNote = this.lightUpNote.bind(this)
-    this.clearLitNotes = this.clearLitNotes.bind(this)
-    this.translateEnharmonics = this.translateEnharmonics.bind(this)
-    this.translateFretArrayToStrings = this.translateFretArrayToStrings.bind(this)
-    this.displayChordNotes = this.displayChordNotes.bind(this)
     this.getFretsForChord = this.getFretsForChord.bind(this)
+    this.getChordKey = this.getChordKey.bind(this)
+    this.translateEnharmonics = this.translateEnharmonics.bind(this)
     this.getURLforAPI = this.getURLforAPI.bind(this)
+    this.translateFretArrayToStrings = this.translateFretArrayToStrings.bind(this)
+    this.clearLitNotes = this.clearLitNotes.bind(this)
+    this.displayChordNotes = this.displayChordNotes.bind(this)
+    this.lightUpNote = this.lightUpNote.bind(this)
   }
 
 componentDidMount() {
@@ -30,100 +28,6 @@ componentDidMount() {
   }
 }
 
-
-getChordKey() {
-// --- For getting the key, depending on if the tone is included:
-  if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
-  else return this.props.selectedChord.selectedKey
-}
-
-
-getListOfAvailableFrets(maxFret) {
-// --- For limiting the number of frets allowed and returning an array in pitch order. May be scrapped once API is working
-
-  let allowedFrets = []
-  // let frets = document.getElementsByClassName("fret")
-  //   for (let i = 0; i < frets.length; i++) {
-  //     if (frets[i].attributes.fret.value < maxFret + 1) {
-  //         allowedFrets.push(frets[i])
-  //     }
-  // }
-
-// push frets to array in pitch order, lowerst to highest. 
-    let string1 = document.getElementsByClassName("string1")
-    let string2 = document.getElementsByClassName("string2")
-    let string3 = document.getElementsByClassName("string3")
-    let string4 = document.getElementsByClassName("string4")
-    let string5 = document.getElementsByClassName("string5")
-    let string6 = document.getElementsByClassName("string6")
-
-    for (let i = 0; i < string6.length; i++) {
-      // if (string1[i].attributes.fret.value < maxFret + 1) {
-      allowedFrets.push(string6[i])}
-      // }
-    for (let i = 0; i < string5.length; i++) {
-      // if (string2[i].attributes.fret.value < maxFret + 1) {
-      allowedFrets.push(string5[i])}
-      // }
-    for (let i = 0; i < string4.length; i++) {
-      // if (string3[i].attributes.fret.value < maxFret + 1) {
-      allowedFrets.push(string4[i])}
-      // }
-    for (let i = 0; i < string3.length; i++) {
-      // if (string4[i].attributes.fret.value < maxFret + 1) {
-      allowedFrets.push(string3[i])}
-      // }
-    for (let i = 0; i < string2.length; i++) {
-      // if (string5[i].attributes.fret.value < maxFret + 1) {
-      allowedFrets.push(string2[i])}
-      // }
-    for (let i = 0; i < string1.length; i++) {
-      // if (string6[i].attributes.fret.value < maxFret + 1) {
-      allowedFrets.push(string1[i])}
-      // }
-  // console.log(allowedFrets)
-  return allowedFrets
-}
-
-translateEnharmonics(chordKey) {
-// ---- To convert keys with sharps to flats so they work for API
-  if (chordKey != undefined && chordKey.includes("#")) {
-    return Note.enharmonic(chordKey)
-  }
-  else return chordKey
-}
-
-translateFretArrayToStrings(fretArray) {
-// ---- For capturing the fret numbers to light up each chord
-
-  let thickToThinArray = fretArray.reverse()
-console.log(thickToThinArray)
-  
-  for (let i = 0; i < thickToThinArray.length; i++) {
-    const thisFret = thickToThinArray[i];
-    if (!isNaN(thisFret)) {
-      let thisID = "fret" + thisFret + "-string" + (i+1)
-      this.lightUpNote(thisID)
-    }
-  }
-}
-
-
-getURLforAPI(chordKeyForAPI, chordType) {
-
-  if (chordType === "maj" || chordType === "") {
-    let URLforAPI = chordKeyForAPI
-console.log(URLforAPI)
-    return URLforAPI
-    }
-  else {
-    let URLforAPI = chordKeyForAPI + "_" + chordType
-console.log(URLforAPI)
-    return URLforAPI
-  }
-
-}
-
 getFretsForChord() {
 // --- For fetching the fret positions to light up each chord.
   this.clearLitNotes()
@@ -131,32 +35,59 @@ getFretsForChord() {
   let chordKey = this.getChordKey()
   let chordKeyForAPI = this.translateEnharmonics(chordKey) // e.g. C3 -> Db as API does not deal in sharps
 
-  let chordType = this.props.selectedChord.selectedChordType || ""
+  let chordType = this.props.selectedChord.selectedQuality || ""
 
   let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType)
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
-    let fretAsString = res.body[0].strings
-    let fretAsArray = fretAsString.split(" ")
-    this.translateFretArrayToStrings(fretAsArray)
+    let fretData = res.body[0].strings.split(" ")
+    this.translateFretArrayToStrings(fretData)
   })
-
 }
 
-displayChordNotes() {
-// ---- For later use if we want to display the chord letters on screen
-  let chordNotes = Chord.notes(this.getChordKey())
-  console.log(chordNotes)
+getChordKey() {
+// --- For getting the key, depending on if the tone is included:
+  if (this.props.selectedChord.selectedTone) return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
+  else return this.props.selectedChord.selectedKey
 }
 
-lightUpNote(incomingID) {
-// --- To add the "lit" CSS class to selected fret divs
-  let selectedNote = document.getElementById(incomingID)
-  selectedNote.classList.add("lit")
-  // Note: this produces an error "Cannot read property 'classList' of null" but it's fine, ignore it.
+translateEnharmonics(chordKey) {
+// ---- To convert keys with sharps to flats so they work for API
+  if (chordKey != undefined && chordKey.includes("#") || chordKey != undefined && chordKey.includes("Cb") || chordKey != undefined && chordKey.includes("Fb")) {
+    return Note.enharmonic(chordKey)
   }
+  else return chordKey
+}
 
+getURLforAPI(chordKeyForAPI, chordType) {
+  if (chordType === "maj" || chordType === "") {
+    let URLforAPI = chordKeyForAPI
+    return URLforAPI
+    }
+  else {
+    let URLforAPI = chordKeyForAPI + "_" + chordType
+    return URLforAPI
+  }
+}
+
+translateFretArrayToStrings(fretArray) {
+// ---- For capturing the fret numbers to light up each chord
+
+  this.displayChordNotes() // Here because there isn't any obviously better place to trigger it
+
+  let thickToThinArray = fretArray.reverse()
+  for (let i = 0; i < thickToThinArray.length; i++) {
+    const thisFret = thickToThinArray[i];
+    if (!isNaN(thisFret)) {
+      let thisID = "fret" + thisFret + "-string" + (i+1)
+      this.lightUpNote(thisID)
+    }
+    else {
+      // Placeholder additional function for muted strings
+    }
+  }
+}
 
 clearLitNotes() {
 // --- To clear all currently-lit divs when a new chord is selected
@@ -168,10 +99,21 @@ clearLitNotes() {
   }
 }
 
+displayChordNotes() {
+// ---- For later use if we want to display the chord letters on screen
+  let chordNotes = Chord.notes(this.getChordKey()).join(" ")
+  document.getElementById("note-display-text").innerHTML = "Notes: " + chordNotes
+}
+
+lightUpNote(incomingID) {
+// --- To add the "lit" CSS class to selected fret divs
+  let selectedNote = document.getElementById(incomingID)
+  selectedNote.classList.add("lit")
+}
+
 
 render() {
 this.getFretsForChord()
-this.displayChordNotes()
 
   return (
     <div className="fretboard">
