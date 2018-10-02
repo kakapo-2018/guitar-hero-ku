@@ -198,10 +198,6 @@ var _KeyChordButtons = __webpack_require__(/*! ./KeyChordButtons */ "./client/co
 
 var _KeyChordButtons2 = _interopRequireDefault(_KeyChordButtons);
 
-var _SongDisplay = __webpack_require__(/*! ./SongDisplay */ "./client/components/SongDisplay.jsx");
-
-var _SongDisplay2 = _interopRequireDefault(_SongDisplay);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -234,8 +230,7 @@ var App = function (_React$Component) {
           "Guitar HeroKu"
         ),
         _react2.default.createElement(_Fretboard2.default, null),
-        _react2.default.createElement(_KeyChordButtons2.default, null),
-        _react2.default.createElement(_SongDisplay2.default, null)
+        _react2.default.createElement(_KeyChordButtons2.default, null)
       );
     }
   }]);
@@ -443,7 +438,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string1 fret2", string: "1", fret: "2", note: "Fsharp Gflat", scinote: "F4sharp G4flat", id: "fret2-string1" },
-            "F#"
+            "F#/Gb"
           ),
           _react2.default.createElement(
             "div",
@@ -453,7 +448,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string1 fret4", string: "1", fret: "4", note: "Gsharp Aflat", scinote: "G4sharp A4flat", id: "fret4-string1" },
-            "G#"
+            "G#/Ab"
           ),
           _react2.default.createElement(
             "div",
@@ -463,7 +458,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string1 fret6", string: "1", fret: "6", note: "Asharp Bflat", scinote: "A4sharp B4flat", id: "fret6-string1" },
-            "A#"
+            "A#/Bb"
           ),
           _react2.default.createElement(
             "div",
@@ -478,7 +473,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string1 fret9", string: "1", fret: "9", note: "Csharp Dflat", scinote: "C5sharp D5flat", id: "fret9-string1" },
-            "C#"
+            "C#/Db"
           ),
           _react2.default.createElement(
             "div",
@@ -488,7 +483,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string1 fret11", string: "1", fret: "11", note: "Dsharp Eflat", scinote: "D5sharp E5flat", id: "fret11-string1" },
-            "D#"
+            "D#/Eb"
           ),
           _react2.default.createElement(
             "div",
@@ -512,7 +507,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string2 fret2", string: "2", fret: "2", note: "Csharp Dflat", scinote: "C4sharp D4flat", id: "fret2-string2" },
-            "C#"
+            "C#/Db"
           ),
           _react2.default.createElement(
             "div",
@@ -522,7 +517,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string2 fret4", string: "2", fret: "4", note: "Dsharp Eflat", scinote: "D4sharp E4flat", id: "fret4-string2" },
-            "D#"
+            "D#/Eb"
           ),
           _react2.default.createElement(
             "div",
@@ -537,7 +532,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string2 fret7", string: "2", fret: "7", note: "Fsharp Gflat", scinote: "F4sharp G4flat", id: "fret7-string2" },
-            "F#"
+            "F#/Gb"
           ),
           _react2.default.createElement(
             "div",
@@ -547,7 +542,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string2 fret9", string: "2", fret: "9", note: "Gsharp Aflat", scinote: "G4sharp A4flat", id: "fret9-string2" },
-            "G#"
+            "G#/Ab"
           ),
           _react2.default.createElement(
             "div",
@@ -557,7 +552,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string2 fret11", string: "2", fret: "11", note: "Asharp Bflat", scinote: "A4sharp B4flat", id: "fret11-string2" },
-            "A#"
+            "A#/Bb"
           ),
           _react2.default.createElement(
             "div",
@@ -576,7 +571,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string3 fret1", string: "3", fret: "1", note: "Gsharp Aflat", scinote: "G3sharp A3flat", id: "fret1-string3" },
-            "G#"
+            "G#/Ab"
           ),
           _react2.default.createElement(
             "div",
@@ -586,7 +581,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string3 fret3", string: "3", fret: "3", note: "Asharp Bflat", scinote: "A3sharp B3flat", id: "fret3-string3" },
-            "A#"
+            "A#/Bb"
           ),
           _react2.default.createElement(
             "div",
@@ -601,7 +596,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string3 fret6", string: "3", fret: "6", note: "Csharp Dflat", scinote: "C4sharp D4flat", id: "fret6-string3" },
-            "C#"
+            "C#/Db"
           ),
           _react2.default.createElement(
             "div",
@@ -611,7 +606,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string3 fret8", string: "3", fret: "8", note: "Dsharp E4flat", scinote: "D4sharp E4flat", id: "fret8-string3" },
-            "D#"
+            "D#/Eb"
           ),
           _react2.default.createElement(
             "div",
@@ -626,7 +621,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string3 fret11", string: "3", fret: "11", note: "Fsharp Gflat", scinote: "F4sharp G4flat", id: "fret11-string3" },
-            "F#"
+            "F#/Gb"
           ),
           _react2.default.createElement(
             "div",
@@ -645,7 +640,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string4 fret1", string: "4", fret: "1", note: "Dsharp Eflat", scinote: "D3sharp E3flat", id: "fret1-string4" },
-            "D#"
+            "D#/Eb"
           ),
           _react2.default.createElement(
             "div",
@@ -660,7 +655,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string4 fret4", string: "4", fret: "4", note: "Fsharp Gflat", scinote: "F3sharp G3flat", id: "fret4-string4" },
-            "F#"
+            "F#/Gb"
           ),
           _react2.default.createElement(
             "div",
@@ -670,7 +665,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string4 fret6", string: "4", fret: "6", note: "Gsharp Aflat", scinote: "G3sharp A3flat", id: "fret6-string4" },
-            "G#"
+            "G#/Ab"
           ),
           _react2.default.createElement(
             "div",
@@ -680,7 +675,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string4 fret8", string: "4", fret: "8", note: "Asharp Bflat", scinote: "A3sharp B3flat", id: "fret8-string4" },
-            "A#"
+            "A#/Bb"
           ),
           _react2.default.createElement(
             "div",
@@ -695,7 +690,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string4 fret11", string: "4", fret: "11", note: "Csharp Dflat", scinote: "C4sharp D4flat", id: "fret11-string4" },
-            "C#"
+            "C#/Db"
           ),
           _react2.default.createElement(
             "div",
@@ -714,7 +709,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string5 fret1", string: "5", fret: "1", note: "Asharp Bflat", scinote: "A2sharp B2flat", id: "fret1-string5" },
-            "A#"
+            "A#/Bb"
           ),
           _react2.default.createElement(
             "div",
@@ -729,7 +724,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string5 fret4", string: "5", fret: "4", note: "Csharp Dflat", scinote: "C3sharp D3flat", id: "fret4-string5" },
-            "C#"
+            "C#/Db"
           ),
           _react2.default.createElement(
             "div",
@@ -739,7 +734,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string5 fret6", string: "5", fret: "6", note: "Dsharp Eflat", scinote: "D3sharp E3flat", id: "fret6-string5" },
-            "D#"
+            "D#/Eb"
           ),
           _react2.default.createElement(
             "div",
@@ -754,7 +749,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string5 fret9", string: "5", fret: "9", note: "Fsharp Gflat", scinote: "F3sharp G3flat", id: "fret9-string5" },
-            "F#"
+            "F#/Gb"
           ),
           _react2.default.createElement(
             "div",
@@ -764,7 +759,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string5 fret11", string: "5", fret: "11", note: "Gsharp Aflat", scinote: "G3sharp A3flat", id: "fret11-string5" },
-            "G#"
+            "G#/Ab"
           ),
           _react2.default.createElement(
             "div",
@@ -788,7 +783,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string6 fret2", string: "6", fret: "2", note: "Fsharp Gflat", scinote: "F2sharp G2flat", id: "fret2-string6" },
-            "F#"
+            "F#/Gb"
           ),
           _react2.default.createElement(
             "div",
@@ -798,7 +793,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string6 fret4", string: "6", fret: "4", note: "Gsharp Aflat", scinote: "G2sharp A2flat", id: "fret4-string6" },
-            "G#"
+            "G#/Ab"
           ),
           _react2.default.createElement(
             "div",
@@ -808,7 +803,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string6 fret6", string: "6", fret: "6", note: "Asharp Bflat", scinote: "A2sharp B2flat", id: "fret6-string6" },
-            "A#"
+            "A#/Bb"
           ),
           _react2.default.createElement(
             "div",
@@ -823,7 +818,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string6 fret9", string: "6", fret: "9", note: "Csharp Dflat", scinote: "C3sharp D3flat", id: "fret9-string6" },
-            "C#"
+            "C#/Db"
           ),
           _react2.default.createElement(
             "div",
@@ -833,7 +828,7 @@ var Fretboard = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "fret string6 fret11", string: "6", fret: "11", note: "Dsharp Eflat", scinote: "D3sharp E3flat", id: "fret11-string6" },
-            "D#"
+            "D#/Eb"
           ),
           _react2.default.createElement(
             "div",
@@ -1071,220 +1066,6 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(KeyChordButtons);
-
-/***/ }),
-
-/***/ "./client/components/SongDisplay.jsx":
-/*!*******************************************!*\
-  !*** ./client/components/SongDisplay.jsx ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SongDisplay = function (_React$Component) {
-  _inherits(SongDisplay, _React$Component);
-
-  function SongDisplay(props) {
-    _classCallCheck(this, SongDisplay);
-
-    return _possibleConstructorReturn(this, (SongDisplay.__proto__ || Object.getPrototypeOf(SongDisplay)).call(this, props));
-  }
-
-  _createClass(SongDisplay, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {}
-  }, {
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { id: "song-display-wrapper" },
-        _react2.default.createElement(
-          "h3",
-          null,
-          "Pick a song!"
-        ),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Somewhere Over The Rainbow"
-        ),
-        _react2.default.createElement(
-          "p",
-          { id: "song-display" },
-          "[Intro]",
-          _react2.default.createElement("br", null),
-          "C  Em  Am  F",
-          _react2.default.createElement("br", null),
-          "C  Em  Am  F",
-          _react2.default.createElement("br", null),
-          "[Chorus] ",
-          _react2.default.createElement("br", null),
-          "C         Em",
-          _react2.default.createElement("br", null),
-          "Somewhere over the rainbow",
-          _react2.default.createElement("br", null),
-          "F       C",
-          _react2.default.createElement("br", null),
-          "Way up high",
-          _react2.default.createElement("br", null),
-          "F       C",
-          _react2.default.createElement("br", null),
-          "And the dreams that you dream of",
-          _react2.default.createElement("br", null),
-          "G          Am      F",
-          _react2.default.createElement("br", null),
-          "Once in a lullaby...",
-          _react2.default.createElement("br", null),
-          "C        Em",
-          _react2.default.createElement("br", null),
-          "Somewhere over the rainbow",
-          _react2.default.createElement("br", null),
-          "F           C",
-          _react2.default.createElement("br", null),
-          "Blue birds fly",
-          _react2.default.createElement("br", null),
-          "F        C",
-          _react2.default.createElement("br", null),
-          "And the dreams that you dream of",
-          _react2.default.createElement("br", null),
-          "G                     Am    F",
-          _react2.default.createElement("br", null),
-          "Dreams really do come true...",
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("br", null),
-          "[Verse]",
-          _react2.default.createElement("br", null),
-          "C",
-          _react2.default.createElement("br", null),
-          "Someday I'll wish upon a star",
-          _react2.default.createElement("br", null),
-          "G                                  Am   F",
-          _react2.default.createElement("br", null),
-          "Wake up where the clouds are far behind me",
-          _react2.default.createElement("br", null),
-          "C",
-          _react2.default.createElement("br", null),
-          "Where trouble melts like lemon drops",
-          _react2.default.createElement("br", null),
-          "G",
-          _react2.default.createElement("br", null),
-          "High above the chimney tops",
-          _react2.default.createElement("br", null),
-          "Am           F",
-          _react2.default.createElement("br", null),
-          "That's where you'll find me",
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("br", null),
-          "[Chorus] ",
-          _react2.default.createElement("br", null),
-          "C         Em",
-          _react2.default.createElement("br", null),
-          "Oh, somewhere over the rainbow",
-          _react2.default.createElement("br", null),
-          "F             C",
-          _react2.default.createElement("br", null),
-          "Blue birds fly",
-          _react2.default.createElement("br", null),
-          "F       C",
-          _react2.default.createElement("br", null),
-          "And the dream that you dare to",
-          _react2.default.createElement("br", null),
-          "G               Am   F",
-          _react2.default.createElement("br", null),
-          "Why oh why can't I...",
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("br", null),
-          "[Verse]",
-          _react2.default.createElement("br", null),
-          "C",
-          _react2.default.createElement("br", null),
-          "Someday I'll wish upon a star",
-          _react2.default.createElement("br", null),
-          "G                                  Am   F",
-          _react2.default.createElement("br", null),
-          "Wake up where the clouds are far behind me",
-          _react2.default.createElement("br", null),
-          "C",
-          _react2.default.createElement("br", null),
-          "Where trouble melts like lemon drops",
-          _react2.default.createElement("br", null),
-          "G",
-          _react2.default.createElement("br", null),
-          "High above the chimney tops",
-          _react2.default.createElement("br", null),
-          "Am           F",
-          _react2.default.createElement("br", null),
-          "That's where you'll find me",
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("br", null),
-          "[Chorus] ",
-          _react2.default.createElement("br", null),
-          "C         Em",
-          _react2.default.createElement("br", null),
-          "Oh, somewhere over the rainbow",
-          _react2.default.createElement("br", null),
-          "F          C",
-          _react2.default.createElement("br", null),
-          "Way up high",
-          _react2.default.createElement("br", null),
-          "F       C",
-          _react2.default.createElement("br", null),
-          "And the dreams that you dare to",
-          _react2.default.createElement("br", null),
-          "G               Am   F",
-          _react2.default.createElement("br", null),
-          "Why oh why can't I",
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("br", null),
-          "[Outro] ",
-          _react2.default.createElement("br", null),
-          "C  Em  F",
-          _react2.default.createElement("br", null),
-          "Oooo, oooo, ooo",
-          _react2.default.createElement("br", null),
-          "C  Em  F",
-          _react2.default.createElement("br", null),
-          "Oooo, oooo, ooo ",
-          _react2.default.createElement("br", null)
-        )
-      );
-    }
-  }]);
-
-  return SongDisplay;
-}(_react2.default.Component);
-
-function mapStateToProps(state) {
-  return {
-    selectedChord: state.selectedChord
-  };
-}
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(SongDisplay);
 
 /***/ }),
 
