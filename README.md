@@ -2,7 +2,6 @@
 
 A visual guide to playing guitar. 
 
-
 ## User Stories
 
 MVP

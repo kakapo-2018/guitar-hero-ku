@@ -212,10 +212,10 @@ this.getFretsForChord()
         <div className="fret string6 fret10" string="6" fret="10" note="D" scinote="D3" id="fret10-string6">D</div>
         <div className="fret string6 fret11" string="6" fret="11" note="Dsharp Eflat" scinote="D3sharp E3flat" id="fret11-string6">D#/Eb</div>
         <div className="fret string6 fret12" string="6" fret="12" note="E" scinote="E3" id="fret12-string6">E</div>
-
       </div>
 
     </div>
+    
   )
 }
 }
