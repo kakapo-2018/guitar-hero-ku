@@ -46,29 +46,29 @@
 } */
 
 .string1 {
-border-bottom: 1px rgb(165, 165, 165) solid;
+border-bottom: 2px rgb(165, 165, 165) solid;
 height: 20px;
 /* vertical-align: center; */
 }
 .string2 {
-border-bottom: 2px rgb(165, 165, 165) solid;
+border-bottom: 3px rgb(165, 165, 165) solid;
 bottom: -10px;
 height: 20px;
 }
 .string3 {
-border-bottom: 3px rgb(165, 165, 165) solid;
+border-bottom: 4px rgb(165, 165, 165) solid;
 height: 20px;
 }
 .string4 {
-border-bottom: 4px rgb(255, 177, 31) solid;
-height: 20px;
-}
-.string5 {
 border-bottom: 5px rgb(255, 177, 31) solid;
 height: 20px;
 }
-.string6 {
+.string5 {
 border-bottom: 6px rgb(255, 177, 31) solid;
+height: 20px;
+}
+.string6 {
+border-bottom: 7px rgb(255, 177, 31) solid;
 height: 20px;
 }
 .string7 {
@@ -196,7 +196,7 @@ background-color: rgb(87, 62, 38);
 
 
 .lit {
-background-color:lightblue;
+background-color: #80dfff;
 }
 
 /* ---------------------- Chord buttons ----------------------  */
