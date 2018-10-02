@@ -646,7 +646,7 @@ var Fretboard = function (_React$Component) {
           ),
           _react2.default.createElement(
             "div",
-            { className: "fret string3 fret8 sharp-or-flat", string: "3", fret: "8", note: "Dsharp E4flat", scinote: "D4sharp E4flat", id: "fret8-string3" },
+            { className: "fret string3 fret8 sharp-or-flat", string: "3", fret: "8", note: "Dsharp-Eflat", scinote: "D4sharp E4flat", id: "fret8-string3" },
             "D#/Eb"
           ),
           _react2.default.createElement(

@@ -187,7 +187,7 @@ this.stateOfSharpFlats()
         <div className="fret string3 fret5" string="3" fret="5" note="C" scinote="C4" id="fret5-string3">C</div>
         <div className="fret string3 fret6 sharp-or-flat" string="3" fret="6" note="Csharp-Dflat" scinote="C4sharp D4flat" id="fret6-string3">C#/Db</div>
         <div className="fret string3 fret7" string="3" fret="7" note="D" scinote="D4" id="fret7-string3">D</div>
-        <div className="fret string3 fret8 sharp-or-flat" string="3" fret="8" note="Dsharp E4flat" scinote="D4sharp E4flat" id="fret8-string3">D#/Eb</div>
+        <div className="fret string3 fret8 sharp-or-flat" string="3" fret="8" note="Dsharp-Eflat" scinote="D4sharp E4flat" id="fret8-string3">D#/Eb</div>
         <div className="fret string3 fret9" string="3" fret="9" note="E" scinote="E4" id="fret9-string3">E</div>
         <div className="fret string3 fret10" string="3" fret="10" note="F" scinote="F4" id="fret10-string3">F</div>
         <div className="fret string3 fret11 sharp-or-flat" string="3" fret="11" note="Fsharp-Gflat" scinote="F4sharp G4flat" id="fret11-string3">F#/Gb</div>
