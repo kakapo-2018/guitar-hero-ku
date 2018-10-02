@@ -400,42 +400,23 @@ var Fretboard = function (_React$Component) {
     key: "translateFretArrayToStrings",
     value: function translateFretArrayToStrings(fretArray) {
       // ---- For capturing the fret numbers to light up each chord
-      console.log(fretArray);
 
-      // for (let i = 0; i < fretArray.length; i++) {
-      //   const thisFret = fretArray[i];
-      // }
+      var thickToThinArray = fretArray.reverse();
+      console.log(thickToThinArray);
 
-      // TO DO:
-      // if fret listing is X, return a thing to show muted string, e.g. X in open fret
-
-      // ow ow my eyes change to a loop
-      var string6Fret = fretArray[0];
-      var string5Fret = fretArray[1];
-      var string4Fret = fretArray[2];
-      var string3Fret = fretArray[3];
-      var string2Fret = fretArray[4];
-      var string1Fret = fretArray[5];
-
-      var testString1 = "fret" + string1Fret + "-string1";
-      var testString2 = "fret" + string2Fret + "-string2";
-      var testString3 = "fret" + string3Fret + "-string3";
-      var testString4 = "fret" + string4Fret + "-string4";
-      var testString5 = "fret" + string5Fret + "-string5";
-      var testString6 = "fret" + string6Fret + "-string6";
-
-      this.lightUpNote(testString1);
-      this.lightUpNote(testString2);
-      this.lightUpNote(testString3);
-      this.lightUpNote(testString4);
-      this.lightUpNote(testString5);
-      this.lightUpNote(testString6);
+      for (var i = 0; i < thickToThinArray.length; i++) {
+        var thisFret = thickToThinArray[i];
+        if (!isNaN(thisFret)) {
+          var thisID = "fret" + thisFret + "-string" + (i + 1);
+          this.lightUpNote(thisID);
+        }
+      }
     }
   }, {
     key: "getURLforAPI",
     value: function getURLforAPI(chordKeyForAPI, chordType) {
 
-      if (chordType === "maj") {
+      if (chordType === "maj" || chordType === "") {
         var URLforAPI = chordKeyForAPI;
         console.log(URLforAPI);
         return URLforAPI;
@@ -450,11 +431,11 @@ var Fretboard = function (_React$Component) {
     value: function getFretsForChord() {
       var _this3 = this;
 
-      // --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
+      // --- For fetching the fret positions to light up each chord.
       this.clearLitNotes();
 
       var chordKey = this.getChordKey();
-      var chordKeyForAPI = this.translateEnharmonics(chordKey);
+      var chordKeyForAPI = this.translateEnharmonics(chordKey); // e.g. C3 -> Db as API does not deal in sharps
 
       var chordType = this.props.selectedChord.selectedChordType || "";
 

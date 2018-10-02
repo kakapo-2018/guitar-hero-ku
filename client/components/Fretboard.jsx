@@ -95,42 +95,23 @@ translateEnharmonics(chordKey) {
 
 translateFretArrayToStrings(fretArray) {
 // ---- For capturing the fret numbers to light up each chord
-  console.log(fretArray)
 
-  // for (let i = 0; i < fretArray.length; i++) {
-  //   const thisFret = fretArray[i];
-  // }
-
-// TO DO:
-// if fret listing is X, return a thing to show muted string, e.g. X in open fret
-
-// ow ow my eyes change to a loop
-  let string6Fret = fretArray[0]
-  let string5Fret = fretArray[1]
-  let string4Fret = fretArray[2]
-  let string3Fret = fretArray[3]
-  let string2Fret = fretArray[4]
-  let string1Fret = fretArray[5]
-
-let testString1 = "fret" + string1Fret + "-string1"
-let testString2 = "fret" + string2Fret + "-string2"
-let testString3 = "fret" + string3Fret + "-string3"
-let testString4 = "fret" + string4Fret + "-string4"
-let testString5 = "fret" + string5Fret + "-string5"
-let testString6 = "fret" + string6Fret + "-string6"
-
-this.lightUpNote(testString1)
-this.lightUpNote(testString2)
-this.lightUpNote(testString3)
-this.lightUpNote(testString4)
-this.lightUpNote(testString5)
-this.lightUpNote(testString6)
+  let thickToThinArray = fretArray.reverse()
+console.log(thickToThinArray)
+  
+  for (let i = 0; i < thickToThinArray.length; i++) {
+    const thisFret = thickToThinArray[i];
+    if (!isNaN(thisFret)) {
+      let thisID = "fret" + thisFret + "-string" + (i+1)
+      this.lightUpNote(thisID)
+    }
+  }
 }
 
 
 getURLforAPI(chordKeyForAPI, chordType) {
 
-  if (chordType === "maj") {
+  if (chordType === "maj" || chordType === "") {
     let URLforAPI = chordKeyForAPI
 console.log(URLforAPI)
     return URLforAPI
@@ -144,11 +125,11 @@ console.log(URLforAPI)
 }
 
 getFretsForChord() {
-// --- For pulling together all information about the chord and returning the fret positions that need to light up for each chord.
+// --- For fetching the fret positions to light up each chord.
   this.clearLitNotes()
 
   let chordKey = this.getChordKey()
-  let chordKeyForAPI = this.translateEnharmonics(chordKey)
+  let chordKeyForAPI = this.translateEnharmonics(chordKey) // e.g. C3 -> Db as API does not deal in sharps
 
   let chordType = this.props.selectedChord.selectedChordType || ""
 
