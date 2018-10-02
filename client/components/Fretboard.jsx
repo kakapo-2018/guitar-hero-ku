@@ -88,7 +88,27 @@ this.getChordNotes()
     
     <div className="wholething"> */}
 
-      <div className="string" id="first-string">
+    <div className="string" id="first-string">
+      <div className="half-box str1"></div>
+      <div className="half-box"></div>
+      <div className="frets">
+        <div className="fret string1 fret0">E</div>
+        <div className="fret string1 fret1">F</div>
+        <div className="fret string1 fret2">F#</div>
+        <div className="fret string1 fret3">G</div>
+        <div className="fret string1 fret4">G#</div>
+        <div className="fret string1 fret5">A</div>
+        <div className="fret string1 fret6">A#</div>
+        <div className="fret string1 fret7">B</div>
+        <div className="fret string1 fret8">C</div>
+        <div className="fret string1 fret9">C#</div>
+        <div className="fret string1 fret10">D</div>
+        <div className="fret string1 fret11">D#</div>
+        <div className="fret string1 fret12">E</div>
+      </div>
+    </div>
+
+      {/* <div className="string" id="first-string">
         <div className="fret string1 fret0 E E4 open-note" id="fret0-string1">E</div>
         <div className="fret string1 fret1 F F4" id="fret1-string1">F</div>
         <div className="fret string1 fret2 Fsharp Gflat F4sharp G4flat sharp-or-flat" id="fret2-string1"><span className="guitarnote">F#</span></div>
@@ -102,7 +122,7 @@ this.getChordNotes()
         <div className="fret string1 fret10 D D5" id="fret10-string1">D</div>
         <div className="fret string1 fret11 Dsharp Eflat D5sharp E5flat" id="fret11-string1">D#</div>
         <div className="fret string1 fret12 E E5" id="fret12-string1">E</div>
-      </div>
+      </div> */}
 
       <div className="string" id="second-string">
         <div className="fret string2 fret0 B B3 open-note" id="fret0-string2">B</div>
@@ -182,11 +202,12 @@ this.getChordNotes()
         <div className="fret string6 fret10 D D3" id="fret10-string6">D</div>
         <div className="fret string6 fret11 Dsharp Eflat D3sharp E3flat" id="fret11-string6">D#</div>
         <div className="fret string6 fret12 E E3" id="fret12-string6">E</div>
+      </div>
 
       <div className="string" id="seventh-string">
-        <div className="fret string7 fret0" id="fret0-string7">w</div>
-        <div className="fret string7 fret1" id="fret1-string7">r</div>
-        <div className="fret string7 fret2" id="fret2-string7">f</div>
+        <div className="fret string7 fret0" id="fret0-string7"></div>
+        <div className="fret string7 fret1" id="fret1-string7"></div>
+        <div className="fret string7 fret2" id="fret2-string7"></div>
         <div className="fret string7 fret3" id="fret3-string7"></div>
         <div className="fret string7 fret4" id="fret4-string7"></div>
         <div className="fret string7 fret5" id="fret5-string7"></div>
@@ -197,15 +218,6 @@ this.getChordNotes()
         <div className="fret string7 fret10" id="fret10-string7"></div>
         <div className="fret string7 fret11" id="fret11-string7"></div>
         <div className="fret string7 fret12" id="fret12-string7"></div>
-
-
-      {/* <div className="string" id="seventh-string">
-        <div className="fret string7"></div> */}
-
-        </div>
-
-
-
       </div>
 
       </div>

@@ -31,6 +31,15 @@
   align-content: center; */
 }
 
+.frets {
+  width: 100%;
+  
+}
+
+#first-string, #seventh-string {
+  height: 30px;
+}
+
 .string1 {
 border-bottom: 1px rgb(165, 165, 165) solid;
 /* vertical-align: center; */
@@ -50,19 +59,19 @@ border-bottom: 5px rgb(255, 177, 31) solid;
 .string6 {
 border-bottom: 6px rgb(255, 177, 31) solid;
 }
-
 .string7 {
-  border-bottom: 6px rgb(255, 177, 31) solid;
+  border-bottom: 1px rgb(0, 0, 0) solid;
   }
 
-.guitarnote {
-  /* position: absolute; */
+
+/* .guitarnote {
+  position: absolute;
   top: 15px;
   left: 0;
   right: 0;
   bottom: -40px;
   z-index: 50;
-}
+} */
 
 /* .guitarnote.active {
   color: red;
@@ -75,7 +84,7 @@ border-bottom: 6px rgb(255, 177, 31) solid;
 text-align: center;
 vertical-align: middle;
 /* line-height: 80px; */
-background-color: rgb(139, 92, 22);
+background-color: rgb(143, 116, 76);
 font-family: 'Courier New', Courier, monospace;
 font-weight: 900;
 font-size: 1.5em;
@@ -84,77 +93,90 @@ font-size: 1.5em;
 .fret0 {
 border-right: 15px rgb(233, 233, 233) solid;
 width: 50px;
-background-color: rgb(56, 38, 20);
+background-color: rgb(87, 62, 38);
+display: inline-block;
 /* position: relative; */
 }
 
 .fret1 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 160px;
+  display: inline-block;
   /* position: relative; */
 }
 
 .fret2 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 155px;
+  display: inline-block;
   /* position: relative; */
 }
 
 .fret3 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 150px;
+  display: inline-block;
   /* position: relative; */
 }  
 
 .fret4 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 145px;
+  display: inline-block;
   /* position: relative; */
   }  
 
 .fret5 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 140px;
+  display: inline-block;
   /* position: relative; */
   } 
 
 .fret6 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 135px;
+  display: inline-block;
   /* position: relative; */
   } 
 
 .fret7 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 130px;
+  display: inline-block;
   /* position: relative; */
   } 
 
 .fret8 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 125px;
+  display: inline-block;
   /* position: relative; */
   } 
 
 .fret9 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 120px;
+  display: inline-block;
   /* position: relative; */
   } 
 
 .fret10 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 115px;
+  display: inline-block;
   } 
 
 .fret11 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 110px;
+  display: inline-block;
   } 
 
 .fret12 {
   border-right: 6px rgb(85, 85, 85) solid;
   width: 105px;
+  display: inline-block;
   } 
 
 
@@ -192,3 +214,13 @@ z-index: -1;
 
 } */
 
+
+.half-box str1 {
+  height: 15px;
+
+}
+
+.half-box {
+  height: 15px;
+
+}
