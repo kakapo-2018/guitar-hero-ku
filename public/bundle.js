@@ -323,7 +323,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "stateOfSharpFlats",
     value: function stateOfSharpFlats() {
-      if (this.props.selectedChord.selectedTone !== undefined && this.props.selectedChord.selectedTone !== "") {
+      if (this.props.selectedChord.selectedTone !== undefined) {
         var sharpsAndFlats = document.getElementsByClassName("sharp-or-flat");
         for (var i = 0; i < sharpsAndFlats.length; i++) {
           if (this.props.selectedChord.selectedTone === "#") {
@@ -358,6 +358,9 @@ var Fretboard = function (_React$Component) {
             if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {
               sharpsAndFlats[i].innerHTML = "Ab";
             }
+          }
+          if (this.props.selectedChord.selectedTone === "") {
+            sharpsAndFlats[i].innerHTML = "";
           }
         }
       }
