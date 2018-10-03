@@ -296,6 +296,9 @@ var Fretboard = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Fretboard.__proto__ || Object.getPrototypeOf(Fretboard)).call(this, props));
 
     _this.stateOfSharpFlats = _this.stateOfSharpFlats.bind(_this);
+    _this.displaySharpOrFlat = _this.displaySharpOrFlat.bind(_this);
+    _this.displaySharp = _this.displaySharp.bind(_this);
+    _this.displayFlat = _this.displayFlat.bind(_this);
     _this.getChordKey = _this.getChordKey.bind(_this);
     _this.getFretsForChord = _this.getFretsForChord.bind(_this);
     _this.translateEnharmonics = _this.translateEnharmonics.bind(_this);
@@ -326,45 +329,61 @@ var Fretboard = function (_React$Component) {
       if (this.props.selectedChord.selectedTone !== undefined) {
         var sharpsAndFlats = document.getElementsByClassName("sharp-or-flat");
         for (var i = 0; i < sharpsAndFlats.length; i++) {
-          if (this.props.selectedChord.selectedTone === "#") {
-            if (sharpsAndFlats[i].attributes.note.value === "Asharp-Bflat") {
-              sharpsAndFlats[i].innerHTML = "A#";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Csharp-Dflat") {
-              sharpsAndFlats[i].innerHTML = "C#";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Dsharp-Eflat") {
-              sharpsAndFlats[i].innerHTML = "D#";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Fsharp-Gflat") {
-              sharpsAndFlats[i].innerHTML = "F#";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {
-              sharpsAndFlats[i].innerHTML = "G#";
-            }
-          } else if (this.props.selectedChord.selectedTone === "b") {
-            if (sharpsAndFlats[i].attributes.note.value === "Asharp-Bflat") {
-              sharpsAndFlats[i].innerHTML = "Bb";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Csharp-Dflat") {
-              sharpsAndFlats[i].innerHTML = "Db";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Dsharp-Eflat") {
-              sharpsAndFlats[i].innerHTML = "Eb";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Fsharp-Gflat") {
-              sharpsAndFlats[i].innerHTML = "Gb";
-            }
-            if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {
-              sharpsAndFlats[i].innerHTML = "Ab";
-            }
-          }
-          if (this.props.selectedChord.selectedTone === "") {
-            // AND class does not include lit
-            console.log(sharpsAndFlats[i].classList);
-            sharpsAndFlats[i].innerHTML = "";
-          }
+          this.displaySharpOrFlat(sharpsAndFlats[i].attributes.id.value);
         }
+      }
+    }
+  }, {
+    key: "displaySharpOrFlat",
+    value: function displaySharpOrFlat(inputID) {
+      // console.log("in dislapySoF with", inputID)
+      var fretToAlter = document.getElementById(inputID);
+      if (this.props.selectedChord.selectedTone === "#") {
+        this.displaySharp(fretToAlter);
+      } else if (this.props.selectedChord.selectedTone === "b") {
+        this.displayFlat(fretToAlter);
+      }
+      if (this.props.selectedChord.selectedTone === "") {
+        fretToAlter.innerHTML = "";
+      }
+    }
+  }, {
+    key: "displaySharp",
+    value: function displaySharp(fretToAlter) {
+      // console.log(fretToAlter)
+      if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
+        fretToAlter.innerHTML = "A#";
+      }
+      if (fretToAlter.attributes.note.value === "Csharp-Dflat") {
+        fretToAlter.innerHTML = "C#";
+      }
+      if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {
+        fretToAlter.innerHTML = "D#";
+      }
+      if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {
+        fretToAlter.innerHTML = "F#";
+      }
+      if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {
+        fretToAlter.innerHTML = "G#";
+      }
+    }
+  }, {
+    key: "displayFlat",
+    value: function displayFlat(fretToAlter) {
+      if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
+        fretToAlter.innerHTML = "Bb";
+      }
+      if (fretToAlter.attributes.note.value === "Csharp-Dflat") {
+        fretToAlter.innerHTML = "Db";
+      }
+      if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {
+        fretToAlter.innerHTML = "Eb";
+      }
+      if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {
+        fretToAlter.innerHTML = "Gb";
+      }
+      if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {
+        fretToAlter.innerHTML = "Ab";
       }
     }
   }, {
@@ -458,6 +477,21 @@ var Fretboard = function (_React$Component) {
       // --- To add the "lit" CSS class to selected fret divs
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
+
+      if (selectedNote.classList.contains("sharp-or-flat")) {
+        console.log("has a sharp or flat");
+        if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
+          console.log("triggering in clear only");
+
+          console.log(selectedNote.attributes.note.value, selectedNote.attributes.id.value);
+
+          var testSource = Chord.notes(this.getChordKey()).join(" ");
+          console.log(testSource); // use includes on the string
+
+          //   this.displaySharp(selectedNote)
+          //   this.displayFlat(selectedNote)
+        }
+      }
     }
   }, {
     key: "render",

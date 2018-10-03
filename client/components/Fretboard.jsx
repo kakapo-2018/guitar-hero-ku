@@ -9,6 +9,9 @@ class Fretboard extends React.Component {
     super(props)
 
     this.stateOfSharpFlats = this.stateOfSharpFlats.bind(this)
+    this.displaySharpOrFlat = this.displaySharpOrFlat.bind(this)
+    this.displaySharp = this.displaySharp.bind(this)
+    this.displayFlat = this.displayFlat.bind(this)
     this.getChordKey = this.getChordKey.bind(this)
     this.getFretsForChord = this.getFretsForChord.bind(this)
     this.translateEnharmonics = this.translateEnharmonics.bind(this)
@@ -33,27 +36,42 @@ stateOfSharpFlats() {
   if (this.props.selectedChord.selectedTone !== undefined) {
     let sharpsAndFlats = document.getElementsByClassName("sharp-or-flat")
     for (let i = 0; i < sharpsAndFlats.length; i++) {
-      if (this.props.selectedChord.selectedTone === "#") {
-        if (sharpsAndFlats[i].attributes.note.value === "Asharp-Bflat") {sharpsAndFlats[i].innerHTML = "A#"}
-        if (sharpsAndFlats[i].attributes.note.value === "Csharp-Dflat") {sharpsAndFlats[i].innerHTML = "C#"}
-        if (sharpsAndFlats[i].attributes.note.value === "Dsharp-Eflat") {sharpsAndFlats[i].innerHTML = "D#"}
-        if (sharpsAndFlats[i].attributes.note.value === "Fsharp-Gflat") {sharpsAndFlats[i].innerHTML = "F#"}
-        if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {sharpsAndFlats[i].innerHTML = "G#"}
-      }
-      else if (this.props.selectedChord.selectedTone === "b") {
-        if (sharpsAndFlats[i].attributes.note.value === "Asharp-Bflat") {sharpsAndFlats[i].innerHTML = "Bb"}
-        if (sharpsAndFlats[i].attributes.note.value === "Csharp-Dflat") {sharpsAndFlats[i].innerHTML = "Db"}
-        if (sharpsAndFlats[i].attributes.note.value === "Dsharp-Eflat") {sharpsAndFlats[i].innerHTML = "Eb"}
-        if (sharpsAndFlats[i].attributes.note.value === "Fsharp-Gflat") {sharpsAndFlats[i].innerHTML = "Gb"}
-        if (sharpsAndFlats[i].attributes.note.value === "Gsharp-Aflat") {sharpsAndFlats[i].innerHTML = "Ab"}
-      }
-      if (this.props.selectedChord.selectedTone === "") { // AND class does not include lit
-        console.log(sharpsAndFlats[i].classList)
-        sharpsAndFlats[i].innerHTML = ""
-      }
+      this.displaySharpOrFlat(sharpsAndFlats[i].attributes.id.value)
     }
   }
 }
+
+displaySharpOrFlat(inputID) {
+  // console.log("in dislapySoF with", inputID)
+  let fretToAlter = document.getElementById(inputID)
+    if (this.props.selectedChord.selectedTone === "#") {
+      this.displaySharp(fretToAlter)
+    }
+    else if (this.props.selectedChord.selectedTone === "b") {
+      this.displayFlat(fretToAlter)
+    }
+    if (this.props.selectedChord.selectedTone === "") {
+      fretToAlter.innerHTML = ""
+    }
+}
+
+displaySharp(fretToAlter) {
+// console.log(fretToAlter)
+  if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "A#"}
+  if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "C#"}
+  if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "D#"}
+  if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {fretToAlter.innerHTML = "F#"}
+  if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {fretToAlter.innerHTML = "G#"}
+}
+
+displayFlat(fretToAlter) {
+  if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "Bb"}
+  if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "Db"}
+  if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "Eb"}
+  if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {fretToAlter.innerHTML = "Gb"}
+  if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {fretToAlter.innerHTML = "Ab"}
+}
+
 
 getChordKey() {
 // --- For getting the key, depending on if the tone is included:
@@ -140,6 +158,22 @@ lightUpNote(incomingID) {
 // --- To add the "lit" CSS class to selected fret divs
   let selectedNote = document.getElementById(incomingID)
   selectedNote.classList.add("lit")
+
+  if (selectedNote.classList.contains("sharp-or-flat")) {
+console.log("has a sharp or flat")
+    if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
+console.log("triggering in clear only")
+
+console.log(selectedNote.attributes.note.value, selectedNote.attributes.id.value)
+
+let testSource = Chord.notes(this.getChordKey()).join(" ")
+console.log(testSource) // use includes on the string
+
+    //   this.displaySharp(selectedNote)
+    //   this.displayFlat(selectedNote)
+    }
+  }
+
 }
 
 
