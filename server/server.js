@@ -1,6 +1,7 @@
 const express = require("express")
 const path = require("path")
 const server = express()
+const api = require('./api')
 
 //Middleware
 server.use(express.json())
@@ -11,8 +12,9 @@ const request = require('superagent')
 
 
 server.get('/api/v1/chords/:chord', (req, res) => {
-  request
-    .get(`${endpoint}/${req.params.chord}`)
+    // request
+    //   .get(`${endpoint}/${req.params.chord}`)
+    api.getChord(req.params.chord)
     .then(response => {
       res.json(response.body)
     })

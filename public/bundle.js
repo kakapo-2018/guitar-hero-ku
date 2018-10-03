@@ -394,8 +394,8 @@ var Fretboard = function (_React$Component) {
     key: "getChordKey",
     value: function getChordKey() {
       // --- For getting the key, depending on if the tone is included:
-      if (this.props.selectedChord.selectedQuality) {
-        return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedQuality;
+      if (this.props.selectedChord.selectedTone) {
+        return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
       } else {
         return this.props.selectedChord.selectedKey;
       }
@@ -410,12 +410,12 @@ var Fretboard = function (_React$Component) {
 
       var chordKey = this.getChordKey();
       var chordKeyForAPI = this.translateEnharmonics(chordKey); // e.g. C3 -> Db as API does not deal in sharps
-
       var chordType = this.props.selectedChord.selectedQuality || "";
 
       var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
+        console.log(res.body);
         if (res.body.length > 0) {
           var fretData = (res.body[0].strings || "").split(" ");
           _this3.translateFretArrayToStrings(fretData);

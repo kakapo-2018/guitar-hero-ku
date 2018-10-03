@@ -80,8 +80,8 @@ displayFlat(fretToAlter) {
 
 getChordKey() {
 // --- For getting the key, depending on if the tone is included:
-  if (this.props.selectedChord.selectedQuality) {
-    return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedQuality
+  if (this.props.selectedChord.selectedTone) {
+    return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
   }
   else {
     return this.props.selectedChord.selectedKey
@@ -94,13 +94,13 @@ getFretsForChord() {
 
   let chordKey = this.getChordKey()
   let chordKeyForAPI = this.translateEnharmonics(chordKey) // e.g. C3 -> Db as API does not deal in sharps
-
   let chordType = this.props.selectedChord.selectedQuality || ""
 
   let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType)
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
+    console.log(res.body)
     if (res.body.length > 0) {
       let fretData = (res.body[0].strings || "").split(" ")
       this.translateFretArrayToStrings(fretData)
