@@ -6,4 +6,21 @@ const server = express()
 server.use(express.json())
 server.use(express.static(path.join(__dirname, "..", "public"))) 
 
+const endpoint = "https://api.uberchord.com/v1/chords/"
+const request = require('superagent')
+
+
+server.get('/api/v1/chords/:chord', (req, res) => {
+  // request
+  //   .get(`${endpoint}/${req.params.chord}`)
+  //   .then(response => {
+      res.json([{strings: "2 2 2 2 2 2"}])
+      // res.json(response.body)
+    // })
+    // .catch(err => {
+    //   console.log({err})
+    // })
+})
+
+
 module.exports = server

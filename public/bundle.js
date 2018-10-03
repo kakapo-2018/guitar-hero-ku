@@ -160,7 +160,7 @@ var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var APIendpoint = "https://api.uberchord.com/v1/chords/";
+var APIendpoint = "/api/v1/chords/";
 
 function getAPIChordFrets(chord) {
   return _superagent2.default.get(APIendpoint + chord);
@@ -408,12 +408,11 @@ var Fretboard = function (_React$Component) {
       var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
-        // if (res.body[0].strings) {
         if (res.body.length > 0) {
           var fretData = (res.body[0].strings || "").split(" ");
+          // ["0", "1", "0", "2", "3", "x", ]
           _this3.translateFretArrayToStrings(fretData);
         }
-        // }
       });
     }
   }, {
@@ -478,20 +477,24 @@ var Fretboard = function (_React$Component) {
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
 
-      if (selectedNote.classList.contains("sharp-or-flat")) {
-        console.log("has a sharp or flat");
-        if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
-          console.log("triggering in clear only");
+      //   if (selectedNote.classList.contains("sharp-or-flat")) {
+      // console.log("has a sharp or flat")
+      //     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
+      // console.log("triggering in clear only")
 
-          console.log(selectedNote.attributes.note.value, selectedNote.attributes.id.value);
+      // console.log(selectedNote.attributes.note.value, selectedNote.attributes.id.value)
 
-          var testSource = Chord.notes(this.getChordKey()).join(" ");
-          console.log(testSource); // use includes on the string
+      // let chordNotes = Chord.notes(this.getChordKey())
+      // for (let i = 0; i < chordNotes.length; i++) {
+      //   console.log(chordNotes[i])
+      // }
 
-          //   this.displaySharp(selectedNote)
-          //   this.displayFlat(selectedNote)
-        }
-      }
+      // console.log(chordNotes) // loop through for includes
+
+      //     //   this.displaySharp(selectedNote)
+      //     //   this.displayFlat(selectedNote)
+      //     }
+      //   }
     }
   }, {
     key: "render",

@@ -92,12 +92,11 @@ getFretsForChord() {
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
-    // if (res.body[0].strings) {
     if (res.body.length > 0) {
       let fretData = (res.body[0].strings || "").split(" ")
+      // ["0", "1", "0", "2", "3", "x", ]
       this.translateFretArrayToStrings(fretData)
     }
-    // }
   })
 }
 
@@ -159,20 +158,24 @@ lightUpNote(incomingID) {
   let selectedNote = document.getElementById(incomingID)
   selectedNote.classList.add("lit")
 
-  if (selectedNote.classList.contains("sharp-or-flat")) {
-console.log("has a sharp or flat")
-    if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
-console.log("triggering in clear only")
+//   if (selectedNote.classList.contains("sharp-or-flat")) {
+// console.log("has a sharp or flat")
+//     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
+// console.log("triggering in clear only")
 
-console.log(selectedNote.attributes.note.value, selectedNote.attributes.id.value)
+// console.log(selectedNote.attributes.note.value, selectedNote.attributes.id.value)
 
-let testSource = Chord.notes(this.getChordKey()).join(" ")
-console.log(testSource) // use includes on the string
+// let chordNotes = Chord.notes(this.getChordKey())
+// for (let i = 0; i < chordNotes.length; i++) {
+//   console.log(chordNotes[i])
+// }
 
-    //   this.displaySharp(selectedNote)
-    //   this.displayFlat(selectedNote)
-    }
-  }
+// console.log(chordNotes) // loop through for includes
+
+//     //   this.displaySharp(selectedNote)
+//     //   this.displayFlat(selectedNote)
+//     }
+//   }
 
 }
 
