@@ -1,4 +1,6 @@
-const initialState = {}
+const initialState = {
+
+}
 
 function selectedChord(state = initialState, action) {
   switch (action.type) {

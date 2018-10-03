@@ -8,8 +8,6 @@ class App extends React.Component {
     super(props)
   }
 
-  componentDidMount(){}
-
   render() {
     return (
       <div>
@@ -28,7 +26,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(App)
-
-// Use for testing when removing container:
-// export default App
-// // export {App}

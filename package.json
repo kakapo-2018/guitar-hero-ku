@@ -28,7 +28,6 @@
     "babel-preset-react": "^6.24.1",
     "express": "^4.16.3",
     "path": "^0.12.7",
-    "pg": "^7.4.3",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-redux": "^5.0.7",

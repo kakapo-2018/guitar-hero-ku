@@ -38,15 +38,15 @@ render() {
 
   <div className="row">
     <div id="chord-display">
-      {<p>Selected Chord: {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedQuality}</p>}
+      {<p><strong>Selected Chord:</strong> {this.props.selectedChord.selectedKey}{this.props.selectedChord.selectedTone}{this.props.selectedChord.selectedQuality}</p>}
     </div>
 
     <div id="note-display">
-      <p id="note-display-text">Notes: </p>
+      <p><strong>Notes:</strong> <span id="note-display-text"></span></p>
     </div>
   </div>
 
-    <div className="row">
+    <div className="chord-buttons-row">
       <div className="key-row">
         <button className="key" type="button" value="C">C</button>
         <button className="key" type="button" value="D">D</button>
@@ -60,18 +60,18 @@ render() {
       <div className="tone-row">
         <button className="tone" type="button" value="#">#</button>
         <button className="tone" type="button" value="b">b</button>
-        <button className="tone" type="button" value="">clear # or b</button>
+        <button className="tone" type="button" value="">clear</button>
       </div>
+    </div>
 
+    <div className="chord-buttons-row">
       <div className="quality-row">
-        <button className="quality" type="button" value="maj">Major</button>
-        <button className="quality" type="button" value="m">minor</button>
-        <button className="quality" type="button" value="7">7th</button>
-      </div>
-      <div className="quality-row">
-        <button className="quality" type="button" value="maj7">Major7</button>
-        <button className="quality" type="button" value="m7">minor7</button>
-        <button className="quality" type="button" value="dim">diminished</button>
+        <button className="quality" type="button" value="maj">M / maj</button>
+        <button className="quality" type="button" value="m">m / min</button>
+        <button className="quality" type="button" value="7">7</button>
+        <button className="quality" type="button" value="maj7">M7 / maj7</button>
+        <button className="quality" type="button" value="m7">m7 / min7</button>
+        <button className="quality" type="button" value="dim">dim</button>
       </div>
 
     </div>
