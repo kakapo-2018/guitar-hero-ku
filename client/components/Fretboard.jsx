@@ -48,7 +48,7 @@ stateOfSharpFlats() {
 }
 
 displaySharpOrFlat(inputID) {
-  // console.log("in dislapySoF with", inputID)
+// ---- Adjust innerHTML of fretboard depending on tone selected
   let fretToAlter = document.getElementById(inputID)
     if (this.props.selectedChord.selectedTone === "#") {
       this.displaySharp(fretToAlter)
@@ -58,12 +58,10 @@ displaySharpOrFlat(inputID) {
     }
     if (this.props.selectedChord.selectedTone === "") {
       fretToAlter.innerHTML = ""
-      console.log(fretToAlter)
     }
 }
 
 displaySharp(fretToAlter) {
-// console.log(fretToAlter)
   if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "A#"}
   if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "C#"}
   if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "D#"}
@@ -155,18 +153,18 @@ clearLitNotes() {
 }
 
 displayChordNotes() {
-// ---- For later use if we want to display the chord letters on screen
+  let chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality)
 
-  let chordQuality = this.props.selectedChord.selectedQuality || ""
-  let keyAndQuality = this.getChordKey() + chordQuality
-  let chordNotes = Chord.notes(keyAndQuality).join(" ")
-  // document.getElementById("note-display-text").innerHTML = "Notes: " + chordNotes
+  if (chordNotes.length > 0) {
+    document.getElementById("note-display-text").innerHTML = chordNotes.join(" ")
+  }
 }
 
 lightUpNote(incomingID) {
 // --- To add the "lit" CSS class to selected fret divs
   let selectedNote = document.getElementById(incomingID)
   selectedNote.classList.add("lit")
+
 
   if (selectedNote.classList.contains("sharp-or-flat")) {
     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
@@ -181,7 +179,6 @@ lightUpNote(incomingID) {
       }
     }
   }
-
 }
 
 unLightNote(incomingID) {
@@ -190,9 +187,9 @@ unLightNote(incomingID) {
 }
 
 render() {
-this.displayChordNotes() // Here because there isn't any obviously better place to trigger it
 this.stateOfSharpFlats()
 this.getFretsForChord()
+this.displayChordNotes()
 
   return (
     <div className="fretboard">
