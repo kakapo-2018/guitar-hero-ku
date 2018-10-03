@@ -326,6 +326,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "stateOfSharpFlats",
     value: function stateOfSharpFlats() {
+      // ---- For filling the sharp/flat frets with appropriate tex
       if (this.props.selectedChord.selectedTone !== undefined) {
         var sharpsAndFlats = document.getElementsByClassName("sharp-or-flat");
         for (var i = 0; i < sharpsAndFlats.length; i++) {
@@ -336,7 +337,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharpOrFlat",
     value: function displaySharpOrFlat(inputID) {
-      // console.log("in dislapySoF with", inputID)
+      // ---- For changing the innerHTML of frets depending on the current tone
       var fretToAlter = document.getElementById(inputID);
       if (this.props.selectedChord.selectedTone === "#") {
         this.displaySharp(fretToAlter);
@@ -350,7 +351,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharp",
     value: function displaySharp(fretToAlter) {
-      // console.log(fretToAlter)
+      // ---- For displaying the sharp name of a fret
       if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
         fretToAlter.innerHTML = "A#";
       }
@@ -370,6 +371,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displayFlat",
     value: function displayFlat(fretToAlter) {
+      // ---- For displaying the flat name of a fret
       if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
         fretToAlter.innerHTML = "Bb";
       }
@@ -429,6 +431,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "getURLforAPI",
     value: function getURLforAPI(chordKeyForAPI, chordType) {
+      // ---- For formatting the API call correctly
       if (chordType === "maj" || chordType === "") {
         var URLforAPI = chordKeyForAPI;
         return URLforAPI;

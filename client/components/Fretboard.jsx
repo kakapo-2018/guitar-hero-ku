@@ -33,6 +33,7 @@ componentDidMount() {
 }
 
 stateOfSharpFlats() {
+// ---- For filling the sharp/flat frets with appropriate tex
   if (this.props.selectedChord.selectedTone !== undefined) {
     let sharpsAndFlats = document.getElementsByClassName("sharp-or-flat")
     for (let i = 0; i < sharpsAndFlats.length; i++) {
@@ -42,7 +43,7 @@ stateOfSharpFlats() {
 }
 
 displaySharpOrFlat(inputID) {
-  // console.log("in dislapySoF with", inputID)
+// ---- For changing the innerHTML of frets depending on the current tone
   let fretToAlter = document.getElementById(inputID)
     if (this.props.selectedChord.selectedTone === "#") {
       this.displaySharp(fretToAlter)
@@ -56,7 +57,7 @@ displaySharpOrFlat(inputID) {
 }
 
 displaySharp(fretToAlter) {
-// console.log(fretToAlter)
+// ---- For displaying the sharp name of a fret
   if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "A#"}
   if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "C#"}
   if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "D#"}
@@ -65,6 +66,7 @@ displaySharp(fretToAlter) {
 }
 
 displayFlat(fretToAlter) {
+// ---- For displaying the flat name of a fret
   if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "Bb"}
   if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "Db"}
   if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "Eb"}
@@ -112,6 +114,7 @@ translateEnharmonics(chordKey) {
 }
 
 getURLforAPI(chordKeyForAPI, chordType) {
+// ---- For formatting the API call correctly
   if (chordType === "maj" || chordType === "") {
     let URLforAPI = chordKeyForAPI
     return URLforAPI
