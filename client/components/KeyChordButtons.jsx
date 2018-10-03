@@ -42,7 +42,7 @@ render() {
     </div>
 
     <div id="note-display">
-      <p><strong>Notes:</strong> <span id="note-display-text"></span></p>
+      <p id="note-display-text"><strong>Notes:</strong> <span id="note-display-text"></span></p>
     </div>
   </div>
 
