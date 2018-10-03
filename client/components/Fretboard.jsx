@@ -118,6 +118,22 @@ this.getFretsForChord()
   return (
     <div className="fretboard">
 
+    <div className="string" id="0-string">
+        <div className="fret string0 fret100">0</div>
+        <div className="fret string0 fret01"></div>
+        <div className="fret string0 fret02"></div>
+        <div className="fret string0 fret03">3rd Fret</div>
+        <div className="fret string0 fret04"></div>
+        <div className="fret string0 fret05">5th Fret</div>
+        <div className="fret string0 fret06"></div>
+        <div className="fret string0 fret07">7th Fret</div>
+        <div className="fret string0 fret08"></div>
+        <div className="fret string0 fret09">9th Fret</div>
+        <div className="fret string0 fret010"></div>
+        <div className="fret string0 fret011"></div>
+        <div className="fret string0 fret012">12th Fret</div>
+      </div>
+
       <div className="string" id="first-string">
         <div className="fret string1 fret0" string="1" fret="0" note="E" scinote="E4" id="fret0-string1">E</div>
         <div className="fret string1 fret1" string="1" fret="1" note="F" scinote="F4" id="fret1-string1">F</div>
@@ -212,6 +228,22 @@ this.getFretsForChord()
         <div className="fret string6 fret10" string="6" fret="10" note="D" scinote="D3" id="fret10-string6">D</div>
         <div className="fret string6 fret11" string="6" fret="11" note="Dsharp Eflat" scinote="D3sharp E3flat" id="fret11-string6">D#/Eb</div>
         <div className="fret string6 fret12" string="6" fret="12" note="E" scinote="E3" id="fret12-string6">E</div>
+      </div>
+
+      <div className="string" id="seventh-string">
+        <div className="fret string7 fret0"></div>
+        <div className="fret string7 fret1"></div>
+        <div className="fret string7 fret2"></div>
+        <div className="fret string7 fret3"></div>
+        <div className="fret string7 fret4"></div>
+        <div className="fret string7 fret5"></div>
+        <div className="fret string7 fret6"></div>
+        <div className="fret string7 fret7"></div>
+        <div className="fret string7 fret8"></div>
+        <div className="fret string7 fret9"></div>
+        <div className="fret string7 fret10"></div>
+        <div className="fret string7 fret11"></div>
+        <div className="fret string7 fret12"></div>
       </div>
 
     </div>
