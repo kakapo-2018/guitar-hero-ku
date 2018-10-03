@@ -24,15 +24,12 @@ const data = {
 }
 
 function getChord(chord) {
-  console.log({chord})
   let cachedChord = data[chord]
 
   if (true || !cachedChord) {
     return request.get(`${endpoint}${chord}`).then(res => {
-      console.log(res.body)
       let apiChord = res.body
       data[chord] = apiChord
-      console.log('sending api', res.body)
       return res
     })
   } else {

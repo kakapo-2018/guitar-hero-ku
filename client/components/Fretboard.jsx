@@ -127,16 +127,11 @@ getFretsForChord() {
   let chordQuality = this.props.selectedChord.selectedQuality || ""
 
   let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality)
-  console.log("------------------- in getFretsForChord, going into server ----------------")
-  console.log("URLforAPI", URLforAPI)
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
-      console.log("--------------- out of server, back in in getFretsForChord")
-    console.log(res)
     if (res.body.length > 0) {
       let fretData = (res.body[0].strings || "").split(" ")
-      console.log("fretData", fretData)
       this.translateFretArrayToStrings(fretData)
     }
   })
@@ -202,7 +197,6 @@ lightUpNote(incomingID) {
 
 // untested
   if (selectedNote.classList.contains("sharp-or-flat")) {
-  console.log("lightUpNote to activate sharps or flats' innerHTML")
     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
       let chordNotes = Chord.notes(this.getChordKey())
       for (let i = 0; i < chordNotes.length; i++) {
