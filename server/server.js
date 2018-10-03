@@ -14,7 +14,7 @@ server.get('/api/v1/chords/:chord', (req, res) => {
   // request
   //   .get(`${endpoint}/${req.params.chord}`)
   //   .then(response => {
-      res.json([{strings: "2 2 2 2 2 2"}])
+      res.json([{strings: "3 3 3 3 3 3"}])
       // res.json(response.body)
     // })
     // .catch(err => {

@@ -1,7 +1,5 @@
 const initialState = {
-  // selectedKey: "",
-  // selectedTone: "",
-  // selectedQuality: ""
+
 }
 
 function selectedChord(state = initialState, action) {
