@@ -1,285 +1,23 @@
 body {
   font-family: serif;
   background-color: #d8bea6;
-/* font-family: 'Courier New', Courier, monospace; */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 h1 {
   text-align: center;
-  font-size: 5em;
+  font-size: 3em;
+  text-align: center;
 }
-
-
-/* .guitarnote { 
-
-  font-size: 1em;
-    color: black;
-    position: absolute;
-    bottom: 0px;
-    width: 155px;
-    text-align: center;
-    background-color: rgb(143, 116, 76);
-    padding-bottom: -20px;
-    left: 45%;
-    z-index: 50;
-    border-radius: 50%;
-
-}  */
 
 
 /* ---------------------- Fretboard ----------------------  */
 
-
-h1 {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 3em;
-  text-align: center;
-  /* text-decoration: underline; */
-
-}
-
+/* ------------- Normal Strings ------------- */
 .string {
   display: flex;
   align-content: space-around;
-  /* left: 10%;
-  position: absolute; */
-  /* justify-content: flex-start;
-  align-content: center; */
 }
-
-.frets {
-  width: 100%;
-  
-}
-
-/* #first-string, #seventh-string {
-  height: 30px;
-} */
-
-
-
-
-/* .guitarnote { */
-  /* position: absolute; */
-  /* top: 15px; */
-  /* left: 0;
-  right: 0;
-  bottom: -40px;
-  z-index: 50; */
-  /* padding-bottom: -10px; */
-/* } */
-
-/* .guitarnote.active {
-  color: red;
-} */
-
-
-.fret {
-  /* width: 100px; */
- 
-text-align: center;
-vertical-align: middle;
-/* line-height: 80px; */
-background-color: rgb(143, 116, 76);
-font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-font-weight: 900;
-font-size: 1.2em;
-padding-top: 15px;
-}
-
-.fret0 {
-border-right: 15px rgb(233, 233, 233) solid;
-width: 50px;
-background-color: rgb(87, 62, 38);
-/* display: inline-block; */
-/* position: relative; */
-}
-
-.fret1 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 160px;
-  /* display: inline-block; */
-  /* position: relative; */
-}
-
-.fret2 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 155px;
-  /* display: inline-block; */
-  /* position: relative; */
-}
-
-.fret3 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 150px;
-  /* display: inline-block; */
-  /* position: relative; */
-}  
-
-.fret4 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 145px;
-  /* display: inline-block; */
-  /* position: relative; */
-  }  
-
-.fret5 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 140px;
-  /* display: inline-block; */
-  /* position: relative; */
-  } 
-
-.fret6 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 135px;
-  /* display: inline-block; */
-  /* position: relative; */
-  } 
-
-.fret7 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 130px;
-  /* display: inline-block; */
-  /* position: relative; */
-  } 
-
-.fret8 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 125px;
-  /* display: inline-block; */
-  /* position: relative; */
-  } 
-
-.fret9 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 120px;
-  /* display: inline-block; */
-  /* position: relative; */
-  } 
-
-.fret10 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 115px;
-  /* display: inline-block; */
-  } 
-
-.fret11 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 110px;
-  /* display: inline-block; */
-  } 
-
-.fret12 {
-  border-right: 6px rgb(85, 85, 85) solid;
-  width: 105px;
-  /* display: inline-block; */
-  } 
-
-  .fret00 {
-    border-right: 15px white solid;
-    width: 50px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 1.1em;
-    /* display: inline-block; */
-    /* position: relative; */
-    }
-    
-    .fret01 {
-      border-right: 6px white solid;
-      width: 160px;
-      /* display: inline-block; */
-      /* position: relative; */
-    }
-    
-    .fret02 {
-      border-right: 6px white solid;
-      width: 155px;
-      /* display: inline-block; */
-      /* position: relative; */
-    }
-    
-    .fret03 {
-      border-right: 6px white solid;
-      width: 150px;
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-      font-size: 0.9em;
-      padding-bottom: 10px;
-      /* display: inline-block; */
-      /* position: relative; */
-    }  
-    
-    .fret04 {
-      border-right: 6px white solid;
-      width: 145px;
-      /* display: inline-block; */
-      /* position: relative; */
-      }  
-    
-    .fret05 {
-      border-right: 6px white solid;
-      width: 140px;
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-      font-size: 0.9em;
-      padding-bottom: 10px;
-      /* display: inline-block; */
-      /* position: relative; */
-      } 
-    
-    .fret06 {
-      border-right: 6px white solid;
-      width: 135px;
-      /* display: inline-block; */
-      /* position: relative; */
-      } 
-    
-    .fret07 {
-      border-right: 6px white solid;
-      width: 130px;
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-      font-size: 0.9em;
-      padding-bottom: 10px;
-      /* display: inline-block; */
-      /* position: relative; */
-      } 
-    
-    .fret08 {
-      border-right: 6px white solid;
-      width: 125px;
-      /* display: inline-block; */
-      /* position: relative; */
-      } 
-    
-    .fret09 {
-      border-right: 6px white solid;
-      width: 120px;
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-      font-size: 0.9em;
-      padding-bottom: 10px;
-      /* display: inline-block; */
-      /* position: relative; */
-      } 
-    
-    .fret010 {
-      border-right: 6px white solid;
-      width: 115px;
-      /* display: inline-block; */
-      } 
-    
-    .fret011 {
-      border-right: 6px white solid;
-      width: 110px;
-      /* display: inline-block; */
-      } 
-    
-    .fret012 {
-      border-right: 6px white solid;
-      width: 105px;
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-      font-size: 0.8em;
-      padding-bottom: 10px;
-      /* display: inline-block; */
-      } 
 
 .string1 {
 border-bottom: 2px rgb(165, 165, 165) solid;
@@ -311,20 +49,173 @@ height: 19px;
 border-bottom: 7px rgb(255, 177, 31) solid;
 height: 19px;
 }
+
+/* ------------- Normal Frets ------------- */
+
+.frets {
+  width: 100%;
+}
+
+.fret {
+  text-align: center;
+  vertical-align: middle;
+  background-color: rgb(143, 116, 76);
+  font-weight: 900;
+  font-size: 1.2em;
+  padding-top: 15px;
+}
+
+.fret0 {
+  background-color: rgb(87, 62, 38);
+  border-right: 15px rgb(233, 233, 233) solid;
+  width: 50px;
+}
+
+.fret1 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 160px;
+}
+
+.fret2 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 155px;
+}
+
+.fret3 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 150px;
+}  
+
+.fret4 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 145px;
+  }  
+
+.fret5 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 140px;
+  } 
+
+.fret6 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 135px;
+  } 
+
+.fret7 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 130px;
+  } 
+
+.fret8 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 125px;
+  } 
+
+.fret9 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 120px;
+  } 
+
+.fret10 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 115px;
+  } 
+
+.fret11 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 110px;
+  } 
+
+.fret12 {
+  border-right: 6px rgb(85, 85, 85) solid;
+  width: 105px;
+  } 
+
+
+/* ------------- Special Strings and Frets ------------- */
+
+
+/* .zero-string {
+} */
+
+.string0 {
+  /* border-right: #d8bea6; */
+  background-color: #d8bea6;
+  border-right: 6px solid #d8bea6;
+}
+
 .string7 {
   height: 1px;
   }      
 
 
-.lit {
-background-color: #80dfff;
+.fret00 {
+  border-right: 15px white solid;
+  width: 50px;
+  font-size: 1.1em;
+}
+    
+.fret01 {
+  width: 160px;
 }
 
+.fret02 {
+  width: 155px;
+}
 
-.string0 {
-  border-right: #d8bea6;
-  background-color: #d8bea6;
+.fret03 {
+  width: 150px;
+  font-size: 0.9em;
+  padding-bottom: 10px;
+}  
 
+.fret04 {
+  width: 145px;
+  }  
+
+.fret05 {
+  width: 140px;
+  font-size: 0.9em;
+  padding-bottom: 10px;
+  } 
+
+.fret06 {
+  width: 135px;
+  } 
+
+.fret07 {
+  width: 130px;
+  font-size: 0.9em;
+  padding-bottom: 10px;
+  } 
+
+.fret08 {
+  width: 125px;
+  } 
+
+.fret09 {
+  width: 120px;
+  font-size: 0.9em;
+  padding-bottom: 10px;
+  } 
+
+.fret010 {
+  width: 115px;
+  } 
+
+.fret011 {
+  width: 110px;
+  } 
+
+.fret012 {
+  width: 105px;
+  font-size: 0.8em;
+  padding-bottom: 10px;
+ } 
+
+
+.lit {
+  background-color: #80dfff;
 }
 
 
@@ -348,22 +239,19 @@ background-color: #80dfff;
 .key-row,
 .tone-row,
 .quality-row {
-  /* background-color: lightcoral; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin: 8px;
 }
 
-.key-row {
-  width: 100%;
-
-}
-.tone-row {
-  width: 50%;
-}
+.key-row,
 .quality-row {
   width: 100%;
+}
+
+.tone-row {
+  width: 50%;
 }
 
 .key,
@@ -378,11 +266,11 @@ background-color: #80dfff;
 
 /* ---------------------- Song display ----------------------  */
 
-#song-display-wrapper {
+/* #song-display-wrapper {
   margin-top: 20px;
   border: 1px solid black;
 }
 
 #song-display {
   white-space: pre;
-}
+} */
