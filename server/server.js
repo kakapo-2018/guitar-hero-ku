@@ -11,15 +11,15 @@ const request = require('superagent')
 
 
 server.get('/api/v1/chords/:chord', (req, res) => {
+res.json([{strings: "3 3 3 3 3 3"}])
   // request
   //   .get(`${endpoint}/${req.params.chord}`)
   //   .then(response => {
-      res.json([{strings: "3 3 3 3 3 3"}])
-      // res.json(response.body)
-    // })
-    // .catch(err => {
-    //   console.log({err})
-    // })
+  //     res.json(response.body)
+  //   })
+  //   .catch(err => {
+  //     console.log({err})
+  //   })
 })
 
 

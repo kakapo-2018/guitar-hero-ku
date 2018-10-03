@@ -75,12 +75,10 @@ displayFlat(fretToAlter) {
 
 getChordKey() {
 // --- For getting the key, depending on if the tone is included:
-  if (this.props.selectedChord.selectedTone) {
-    console.log(this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone)
-    return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
+  if (this.props.selectedChord.selectedQuality) {
+    return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedQuality
   }
   else {
-    console.log(this.props.selectedChord.selectedKey)
     return this.props.selectedChord.selectedKey
   }
 }
