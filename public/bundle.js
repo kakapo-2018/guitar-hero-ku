@@ -342,7 +342,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharpOrFlat",
     value: function displaySharpOrFlat(inputID) {
-      // console.log("in dislapySoF with", inputID)
+      // ---- Adjust innerHTML of fretboard depending on tone selected
       var fretToAlter = document.getElementById(inputID);
       if (this.props.selectedChord.selectedTone === "#") {
         this.displaySharp(fretToAlter);
@@ -351,13 +351,11 @@ var Fretboard = function (_React$Component) {
       }
       if (this.props.selectedChord.selectedTone === "") {
         fretToAlter.innerHTML = "";
-        console.log(fretToAlter);
       }
     }
   }, {
     key: "displaySharp",
     value: function displaySharp(fretToAlter) {
-      // console.log(fretToAlter)
       if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
         fretToAlter.innerHTML = "A#";
       }
@@ -473,12 +471,11 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displayChordNotes",
     value: function displayChordNotes() {
-      // ---- For later use if we want to display the chord letters on screen
+      var chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality);
 
-      var chordQuality = this.props.selectedChord.selectedQuality || "";
-      var keyAndQuality = this.getChordKey() + chordQuality;
-      var chordNotes = Chord.notes(keyAndQuality).join(" ");
-      // document.getElementById("note-display-text").innerHTML = "Notes: " + chordNotes
+      if (chordNotes.length > 0) {
+        document.getElementById("note-display-text").innerHTML = chordNotes.join(" ");
+      }
     }
   }, {
     key: "lightUpNote",
@@ -509,9 +506,9 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      this.displayChordNotes(); // Here because there isn't any obviously better place to trigger it
       this.stateOfSharpFlats();
       this.getFretsForChord();
+      this.displayChordNotes();
 
       return _react2.default.createElement(
         "div",
@@ -984,7 +981,7 @@ var KeyChordButtons = function (_React$Component) {
             { id: "note-display" },
             _react2.default.createElement(
               "p",
-              { id: "note-display-text" },
+              null,
               _react2.default.createElement(
                 "strong",
                 null,
