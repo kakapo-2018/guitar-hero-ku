@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import * as Chord from "tonal-chord"
 import * as Note from "tonal-note"
 import {getAPIChordFrets} from "../chordAPI"
-import { chord } from "tonal-dictionary";
 
 class Fretboard extends React.Component {
   constructor(props){
@@ -63,7 +62,6 @@ displaySharpOrFlat(inputID) {
 }
 
 displaySharp(fretToAlter) {
-console.log("SHAAAAAAAAAAARP")
 // ---- For displaying the sharp name of a fret
   switch(fretToAlter.attributes.note.value) {
     case "Asharp-Bflat":
@@ -87,7 +85,6 @@ console.log("SHAAAAAAAAAAARP")
 }
 
 displayFlat(fretToAlter) {
-console.log("FLAAAAAAT")
 // ---- For displaying the flat name of a fret
   switch(fretToAlter.attributes.note.value) {
   case "Asharp-Bflat":
@@ -130,14 +127,16 @@ getFretsForChord() {
   let chordQuality = this.props.selectedChord.selectedQuality || ""
 
   let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality)
-  console.log("------------------- in getFretsForChord: URLforAPI", URLforAPI, "going into server ----------------")
+  console.log("------------------- in getFretsForChord, going into server ----------------")
+  console.log("URLforAPI", URLforAPI)
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
+      console.log("--------------- out of server, back in in getFretsForChord")
     console.log(res)
     if (res.body.length > 0) {
       let fretData = (res.body[0].strings || "").split(" ")
-      console.log("--------------- out of server, back in in getFretsForChord", "fretData", fretData)
+      console.log("fretData", fretData)
       this.translateFretArrayToStrings(fretData)
     }
   })
@@ -191,7 +190,6 @@ clearLitNotes() {
 
 displayChordNotes() {
   let chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality)
-
   if (chordNotes.length > 0) {
     document.getElementById("note-display-text").innerHTML = chordNotes.join(" ")
   }
@@ -202,8 +200,9 @@ lightUpNote(incomingID) {
   let selectedNote = document.getElementById(incomingID)
   selectedNote.classList.add("lit")
 
-
+// untested
   if (selectedNote.classList.contains("sharp-or-flat")) {
+  console.log("lightUpNote to activate sharps or flats' innerHTML")
     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
       let chordNotes = Chord.notes(this.getChordKey())
       for (let i = 0; i < chordNotes.length; i++) {

@@ -160,12 +160,12 @@ var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var APIendpoint = "/api/v1/chords/";
+var APIendpoint = "/v1/chords/";
 
 function getAPIChordFrets(chord) {
   console.log("in getAPIChordFrets");
   console.log("chord is: ", chord);
-  // console.log(request.get(APIendpoint + chord));
+  console.log(_superagent2.default.get(APIendpoint + chord));
   return _superagent2.default.get(APIendpoint + chord);
 }
 
@@ -280,8 +280,6 @@ var Note = _interopRequireWildcard(_tonalNote);
 
 var _chordAPI = __webpack_require__(/*! ../chordAPI */ "./client/chordAPI.js");
 
-var _tonalDictionary = __webpack_require__(/*! tonal-dictionary */ "./node_modules/tonal-dictionary/build/es6.js");
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -360,7 +358,6 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharp",
     value: function displaySharp(fretToAlter) {
-      console.log("SHAAAAAAAAAAARP");
       // ---- For displaying the sharp name of a fret
       switch (fretToAlter.attributes.note.value) {
         case "Asharp-Bflat":
@@ -385,7 +382,6 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displayFlat",
     value: function displayFlat(fretToAlter) {
-      console.log("FLAAAAAAT");
       // ---- For displaying the flat name of a fret
       switch (fretToAlter.attributes.note.value) {
         case "Asharp-Bflat":
@@ -430,13 +426,15 @@ var Fretboard = function (_React$Component) {
       var chordQuality = this.props.selectedChord.selectedQuality || "";
 
       var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality);
-      console.log("------------------- in getFretsForChord: URLforAPI", URLforAPI, "going into server ----------------");
+      console.log("------------------- in getFretsForChord, going into server ----------------");
+      console.log("URLforAPI", URLforAPI);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
+        console.log("--------------- out of server, back in in getFretsForChord");
         console.log(res);
         if (res.body.length > 0) {
           var fretData = (res.body[0].strings || "").split(" ");
-          console.log("--------------- out of server, back in in getFretsForChord", "fretData", fretData);
+          console.log("fretData", fretData);
           _this3.translateFretArrayToStrings(fretData);
         }
       });
@@ -492,7 +490,6 @@ var Fretboard = function (_React$Component) {
     key: "displayChordNotes",
     value: function displayChordNotes() {
       var chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality);
-
       if (chordNotes.length > 0) {
         document.getElementById("note-display-text").innerHTML = chordNotes.join(" ");
       }
@@ -504,7 +501,9 @@ var Fretboard = function (_React$Component) {
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
 
+      // untested
       if (selectedNote.classList.contains("sharp-or-flat")) {
+        console.log("lightUpNote to activate sharps or flats' innerHTML");
         if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
           var chordNotes = Chord.notes(this.getChordKey());
           for (var i = 0; i < chordNotes.length; i++) {

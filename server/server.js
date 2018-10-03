@@ -17,12 +17,13 @@ server.get('/v1/chords/:chord', (req, res) => {
 
     // request
     //   .get(`${endpoint}/${req.params.chord}`)
-    // .then(response => {
-    //   res.json(response.body)
-    // })
-    // .catch(err => {
-    //   console.log({err})
-    // })
+    .then(response => {
+      console.log('sending', response.body)
+      res.json(response.body)
+    })
+    .catch(err => {
+      console.log({err})
+    })
 })
 
 
