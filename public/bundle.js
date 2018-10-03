@@ -277,6 +277,8 @@ var Note = _interopRequireWildcard(_tonalNote);
 
 var _chordAPI = __webpack_require__(/*! ../chordAPI */ "./client/chordAPI.js");
 
+var _tonalDictionary = __webpack_require__(/*! tonal-dictionary */ "./node_modules/tonal-dictionary/build/es6.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -340,7 +342,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharpOrFlat",
     value: function displaySharpOrFlat(inputID) {
-      // console.log("in dislapySoF with", inputID)
+      // ---- Adjust innerHTML of fretboard depending on tone selected
       var fretToAlter = document.getElementById(inputID);
       if (this.props.selectedChord.selectedTone === "#") {
         this.displaySharp(fretToAlter);
@@ -354,7 +356,6 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharp",
     value: function displaySharp(fretToAlter) {
-      // console.log(fretToAlter)
       if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
         fretToAlter.innerHTML = "A#";
       }
@@ -394,8 +395,8 @@ var Fretboard = function (_React$Component) {
     key: "getChordKey",
     value: function getChordKey() {
       // --- For getting the key, depending on if the tone is included:
-      if (this.props.selectedChord.selectedQuality) {
-        return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedQuality;
+      if (this.props.selectedChord.selectedTone) {
+        return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone;
       } else {
         return this.props.selectedChord.selectedKey;
       }
@@ -410,10 +411,9 @@ var Fretboard = function (_React$Component) {
 
       var chordKey = this.getChordKey();
       var chordKeyForAPI = this.translateEnharmonics(chordKey); // e.g. C3 -> Db as API does not deal in sharps
+      var chordQuality = this.props.selectedChord.selectedQuality || "";
 
-      var chordType = this.props.selectedChord.selectedQuality || "";
-
-      var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType);
+      var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
         if (res.body.length > 0) {
@@ -432,12 +432,12 @@ var Fretboard = function (_React$Component) {
     }
   }, {
     key: "getURLforAPI",
-    value: function getURLforAPI(chordKeyForAPI, chordType) {
-      if (chordType === "maj" || chordType === "") {
+    value: function getURLforAPI(chordKeyForAPI, chordQuality) {
+      if (chordQuality === "maj" || chordQuality === "") {
         var URLforAPI = chordKeyForAPI;
         return URLforAPI;
       } else {
-        var _URLforAPI = chordKeyForAPI + "_" + chordType;
+        var _URLforAPI = chordKeyForAPI + "_" + chordQuality;
         return _URLforAPI;
       }
     }
@@ -445,8 +445,6 @@ var Fretboard = function (_React$Component) {
     key: "translateFretArrayToStrings",
     value: function translateFretArrayToStrings(fretArray) {
       // ---- For capturing the fret numbers to light up each chord
-
-      this.displayChordNotes(); // Here because there isn't any obviously better place to trigger it
 
       var thickToThinArray = fretArray.reverse();
       for (var i = 0; i < thickToThinArray.length; i++) {
@@ -466,16 +464,18 @@ var Fretboard = function (_React$Component) {
       var litNotes = document.getElementsByClassName("lit");
       while (litNotes.length > 0) {
         for (var i = 0; i < litNotes.length; i++) {
-          litNotes[i].classList.remove("lit");
+          this.unLightNote(litNotes[i].attributes.id.value);
         }
       }
     }
   }, {
     key: "displayChordNotes",
     value: function displayChordNotes() {
-      // ---- For later use if we want to display the chord letters on screen
-      var chordNotes = Chord.notes(this.getChordKey()).join(" ");
-      document.getElementById("note-display-text").innerHTML = chordNotes;
+      var chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality);
+
+      if (chordNotes.length > 0) {
+        document.getElementById("note-display-text").innerHTML = chordNotes.join(" ");
+      }
     }
   }, {
     key: "lightUpNote",
@@ -506,15 +506,16 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      this.getFretsForChord();
       this.stateOfSharpFlats();
+      this.getFretsForChord();
+      this.displayChordNotes();
 
       return _react2.default.createElement(
         "div",
         { className: "fretboard" },
         _react2.default.createElement(
           "div",
-          { className: "string", id: "0-string" },
+          { className: "string", id: "zero-string" },
           _react2.default.createElement(
             "div",
             { className: "fret string0 fret00" },

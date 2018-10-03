@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import * as Chord from "tonal-chord"
 import * as Note from "tonal-note"
 import {getAPIChordFrets} from "../chordAPI"
+import { chord } from "tonal-dictionary";
 
 class Fretboard extends React.Component {
   constructor(props){
@@ -47,7 +48,7 @@ stateOfSharpFlats() {
 }
 
 displaySharpOrFlat(inputID) {
-  // console.log("in dislapySoF with", inputID)
+// ---- Adjust innerHTML of fretboard depending on tone selected
   let fretToAlter = document.getElementById(inputID)
     if (this.props.selectedChord.selectedTone === "#") {
       this.displaySharp(fretToAlter)
@@ -61,7 +62,6 @@ displaySharpOrFlat(inputID) {
 }
 
 displaySharp(fretToAlter) {
-// console.log(fretToAlter)
   if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "A#"}
   if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "C#"}
   if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "D#"}
@@ -80,8 +80,8 @@ displayFlat(fretToAlter) {
 
 getChordKey() {
 // --- For getting the key, depending on if the tone is included:
-  if (this.props.selectedChord.selectedQuality) {
-    return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedQuality
+  if (this.props.selectedChord.selectedTone) {
+    return this.props.selectedChord.selectedKey + this.props.selectedChord.selectedTone
   }
   else {
     return this.props.selectedChord.selectedKey
@@ -94,10 +94,9 @@ getFretsForChord() {
 
   let chordKey = this.getChordKey()
   let chordKeyForAPI = this.translateEnharmonics(chordKey) // e.g. C3 -> Db as API does not deal in sharps
+  let chordQuality = this.props.selectedChord.selectedQuality || ""
 
-  let chordType = this.props.selectedChord.selectedQuality || ""
-
-  let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordType)
+  let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality)
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
@@ -116,21 +115,19 @@ translateEnharmonics(chordKey) {
   else return chordKey
 }
 
-getURLforAPI(chordKeyForAPI, chordType) {
-  if (chordType === "maj" || chordType === "") {
+getURLforAPI(chordKeyForAPI, chordQuality) {
+  if (chordQuality === "maj" || chordQuality === "") {
     let URLforAPI = chordKeyForAPI
     return URLforAPI
     }
   else {
-    let URLforAPI = chordKeyForAPI + "_" + chordType
+    let URLforAPI = chordKeyForAPI + "_" + chordQuality
     return URLforAPI
   }
 }
 
 translateFretArrayToStrings(fretArray) {
 // ---- For capturing the fret numbers to light up each chord
-
-  this.displayChordNotes() // Here because there isn't any obviously better place to trigger it
 
   let thickToThinArray = fretArray.reverse()
   for (let i = 0; i < thickToThinArray.length; i++) {
@@ -150,21 +147,24 @@ clearLitNotes() {
   let litNotes = document.getElementsByClassName("lit")
   while (litNotes.length > 0) {
   for (let i = 0; i < litNotes.length; i++) {
-      litNotes[i].classList.remove("lit")
+    this.unLightNote(litNotes[i].attributes.id.value)
     }
   }
 }
 
 displayChordNotes() {
-// ---- For later use if we want to display the chord letters on screen
-  let chordNotes = Chord.notes(this.getChordKey()).join(" ")
-  document.getElementById("note-display-text").innerHTML = chordNotes
+  let chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality)
+
+  if (chordNotes.length > 0) {
+    document.getElementById("note-display-text").innerHTML = chordNotes.join(" ")
+  }
 }
 
 lightUpNote(incomingID) {
 // --- To add the "lit" CSS class to selected fret divs
   let selectedNote = document.getElementById(incomingID)
   selectedNote.classList.add("lit")
+
 
   if (selectedNote.classList.contains("sharp-or-flat")) {
     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
@@ -179,7 +179,6 @@ lightUpNote(incomingID) {
       }
     }
   }
-
 }
 
 unLightNote(incomingID) {
@@ -188,13 +187,14 @@ unLightNote(incomingID) {
 }
 
 render() {
-this.getFretsForChord()
 this.stateOfSharpFlats()
+this.getFretsForChord()
+this.displayChordNotes()
 
   return (
     <div className="fretboard">
 
-    <div className="string" id="0-string">
+    <div className="string" id="zero-string">
         <div className="fret string0 fret00">0</div>
         <div className="fret string0 fret01"></div>
         <div className="fret string0 fret02"></div>
