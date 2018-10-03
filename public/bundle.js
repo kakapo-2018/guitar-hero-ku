@@ -160,7 +160,7 @@ var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var APIendpoint = "/api/v1/chords/";
+var APIendpoint = "/api/v1/chords/"; // ??? but actual link doesn't have "api/"
 
 function getAPIChordFrets(chord) {
   return _superagent2.default.get(APIendpoint + chord);
@@ -435,9 +435,9 @@ var Fretboard = function (_React$Component) {
     }
   }, {
     key: "getURLforAPI",
-    value: function getURLforAPI(chordKeyForAPI, chordType) {
+    value: function getURLforAPI(chordKeyForAPI, chordQuality) {
       // ---- For formatting the API call correctly
-      if (chordType === "maj" || chordType === "") {
+      if (chordQuality === "maj" || chordQuality === "") {
         var URLforAPI = chordKeyForAPI;
         return URLforAPI;
       } else {

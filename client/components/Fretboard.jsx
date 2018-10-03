@@ -118,9 +118,9 @@ translateEnharmonics(chordKey) {
   else return chordKey
 }
 
-getURLforAPI(chordKeyForAPI, chordType) {
+getURLforAPI(chordKeyForAPI, chordQuality) {
 // ---- For formatting the API call correctly
-  if (chordType === "maj" || chordType === "") {
+  if (chordQuality === "maj" || chordQuality === "") {
     let URLforAPI = chordKeyForAPI
     return URLforAPI
     }
