@@ -20,6 +20,7 @@ class Fretboard extends React.Component {
     this.clearLitNotes = this.clearLitNotes.bind(this)
     this.displayChordNotes = this.displayChordNotes.bind(this)
     this.lightUpNote = this.lightUpNote.bind(this)
+    this.unLightNote = this.unLightNote.bind(this)
   }
 
 componentDidMount() {
@@ -29,6 +30,10 @@ componentDidMount() {
     frets[i].addEventListener("click", (x) => {
       this.lightUpNote(x.target.id)
     })
+    frets[i].addEventListener("dblclick", (x) => {
+      this.unLightNote(x.target.id)
+    })
+
   }
 }
 
@@ -177,6 +182,10 @@ lightUpNote(incomingID) {
 
 }
 
+unLightNote(incomingID) {
+  let selectedNote = document.getElementById(incomingID)
+  selectedNote.classList.remove("lit")
+}
 
 render() {
 this.getFretsForChord()

@@ -307,6 +307,7 @@ var Fretboard = function (_React$Component) {
     _this.clearLitNotes = _this.clearLitNotes.bind(_this);
     _this.displayChordNotes = _this.displayChordNotes.bind(_this);
     _this.lightUpNote = _this.lightUpNote.bind(_this);
+    _this.unLightNote = _this.unLightNote.bind(_this);
     return _this;
   }
 
@@ -320,6 +321,9 @@ var Fretboard = function (_React$Component) {
       for (var i = 0; i < frets.length; i++) {
         frets[i].addEventListener("click", function (x) {
           _this2.lightUpNote(x.target.id);
+        });
+        frets[i].addEventListener("dblclick", function (x) {
+          _this2.unLightNote(x.target.id);
         });
       }
     }
@@ -492,6 +496,12 @@ var Fretboard = function (_React$Component) {
           }
         }
       }
+    }
+  }, {
+    key: "unLightNote",
+    value: function unLightNote(incomingID) {
+      var selectedNote = document.getElementById(incomingID);
+      selectedNote.classList.remove("lit");
     }
   }, {
     key: "render",
