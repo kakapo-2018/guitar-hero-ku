@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import * as Chord from "tonal-chord"
 import * as Note from "tonal-note"
 import {getAPIChordFrets} from "../chordAPI"
-import { chord } from "tonal-dictionary";
 
 class Fretboard extends React.Component {
   constructor(props){
@@ -39,6 +38,7 @@ componentDidMount() {
 }
 
 stateOfSharpFlats() {
+// ---- For filling the sharp/flat frets with appropriate tex
   if (this.props.selectedChord.selectedTone !== undefined) {
     let sharpsAndFlats = document.getElementsByClassName("sharp-or-flat")
     for (let i = 0; i < sharpsAndFlats.length; i++) {
@@ -48,7 +48,7 @@ stateOfSharpFlats() {
 }
 
 displaySharpOrFlat(inputID) {
-// ---- Adjust innerHTML of fretboard depending on tone selected
+// ---- For changing the innerHTML of frets depending on the current tone
   let fretToAlter = document.getElementById(inputID)
     if (this.props.selectedChord.selectedTone === "#") {
       this.displaySharp(fretToAlter)
@@ -62,19 +62,49 @@ displaySharpOrFlat(inputID) {
 }
 
 displaySharp(fretToAlter) {
-  if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "A#"}
-  if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "C#"}
-  if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "D#"}
-  if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {fretToAlter.innerHTML = "F#"}
-  if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {fretToAlter.innerHTML = "G#"}
+// ---- For displaying the sharp name of a fret
+  switch(fretToAlter.attributes.note.value) {
+    case "Asharp-Bflat":
+      fretToAlter.innerHTML = "A#"
+      break;
+    case "Csharp-Dflat": 
+      fretToAlter.innerHTML = "C#"
+      break;
+    case "Dsharp-Eflat": 
+      fretToAlter.innerHTML = "D#"
+      break;
+    case "Fsharp-Gflat": 
+      fretToAlter.innerHTML = "F#"
+      break;
+    case "Gsharp-Aflat": 
+      fretToAlter.innerHTML = "G#"
+      break;
+    default:
+      return
+  }
 }
 
 displayFlat(fretToAlter) {
-  if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "Bb"}
-  if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "Db"}
-  if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "Eb"}
-  if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {fretToAlter.innerHTML = "Gb"}
-  if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {fretToAlter.innerHTML = "Ab"}
+// ---- For displaying the flat name of a fret
+  switch(fretToAlter.attributes.note.value) {
+  case "Asharp-Bflat":
+    fretToAlter.innerHTML = "Bb"
+    break;
+  case "Csharp-Dflat":
+    fretToAlter.innerHTML = "Db"
+    break;
+  case "Dsharp-Eflat":
+    fretToAlter.innerHTML = "Eb"
+    break;
+  case "Fsharp-Gflat":
+    fretToAlter.innerHTML = "Gb"
+    break;
+  case "Gsharp-Aflat":
+    fretToAlter.innerHTML = "Ab"
+    break;
+  default:
+    return
+  }
 }
 
 
@@ -97,11 +127,16 @@ getFretsForChord() {
   let chordQuality = this.props.selectedChord.selectedQuality || ""
 
   let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality)
+  console.log("------------------- in getFretsForChord, going into server ----------------")
+  console.log("URLforAPI", URLforAPI)
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
+      console.log("--------------- out of server, back in in getFretsForChord")
+    console.log(res)
     if (res.body.length > 0) {
       let fretData = (res.body[0].strings || "").split(" ")
+      console.log("fretData", fretData)
       this.translateFretArrayToStrings(fretData)
     }
   })
@@ -116,6 +151,7 @@ translateEnharmonics(chordKey) {
 }
 
 getURLforAPI(chordKeyForAPI, chordQuality) {
+// ---- For formatting the API call correctly
   if (chordQuality === "maj" || chordQuality === "") {
     let URLforAPI = chordKeyForAPI
     return URLforAPI
@@ -154,7 +190,6 @@ clearLitNotes() {
 
 displayChordNotes() {
   let chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality)
-
   if (chordNotes.length > 0) {
     document.getElementById("note-display-text").innerHTML = chordNotes.join(" ")
   }
@@ -165,8 +200,9 @@ lightUpNote(incomingID) {
   let selectedNote = document.getElementById(incomingID)
   selectedNote.classList.add("lit")
 
-
+// untested
   if (selectedNote.classList.contains("sharp-or-flat")) {
+  console.log("lightUpNote to activate sharps or flats' innerHTML")
     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
       let chordNotes = Chord.notes(this.getChordKey())
       for (let i = 0; i < chordNotes.length; i++) {

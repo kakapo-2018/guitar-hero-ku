@@ -160,9 +160,12 @@ var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var APIendpoint = "/api/v1/chords/";
+var APIendpoint = "/v1/chords/";
 
 function getAPIChordFrets(chord) {
+  console.log("in getAPIChordFrets");
+  console.log("chord is: ", chord);
+  console.log(_superagent2.default.get(APIendpoint + chord));
   return _superagent2.default.get(APIendpoint + chord);
 }
 
@@ -277,8 +280,6 @@ var Note = _interopRequireWildcard(_tonalNote);
 
 var _chordAPI = __webpack_require__(/*! ../chordAPI */ "./client/chordAPI.js");
 
-var _tonalDictionary = __webpack_require__(/*! tonal-dictionary */ "./node_modules/tonal-dictionary/build/es6.js");
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -332,6 +333,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "stateOfSharpFlats",
     value: function stateOfSharpFlats() {
+      // ---- For filling the sharp/flat frets with appropriate tex
       if (this.props.selectedChord.selectedTone !== undefined) {
         var sharpsAndFlats = document.getElementsByClassName("sharp-or-flat");
         for (var i = 0; i < sharpsAndFlats.length; i++) {
@@ -342,7 +344,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharpOrFlat",
     value: function displaySharpOrFlat(inputID) {
-      // ---- Adjust innerHTML of fretboard depending on tone selected
+      // ---- For changing the innerHTML of frets depending on the current tone
       var fretToAlter = document.getElementById(inputID);
       if (this.props.selectedChord.selectedTone === "#") {
         this.displaySharp(fretToAlter);
@@ -356,39 +358,49 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharp",
     value: function displaySharp(fretToAlter) {
-      if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
-        fretToAlter.innerHTML = "A#";
-      }
-      if (fretToAlter.attributes.note.value === "Csharp-Dflat") {
-        fretToAlter.innerHTML = "C#";
-      }
-      if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {
-        fretToAlter.innerHTML = "D#";
-      }
-      if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {
-        fretToAlter.innerHTML = "F#";
-      }
-      if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {
-        fretToAlter.innerHTML = "G#";
+      // ---- For displaying the sharp name of a fret
+      switch (fretToAlter.attributes.note.value) {
+        case "Asharp-Bflat":
+          fretToAlter.innerHTML = "A#";
+          break;
+        case "Csharp-Dflat":
+          fretToAlter.innerHTML = "C#";
+          break;
+        case "Dsharp-Eflat":
+          fretToAlter.innerHTML = "D#";
+          break;
+        case "Fsharp-Gflat":
+          fretToAlter.innerHTML = "F#";
+          break;
+        case "Gsharp-Aflat":
+          fretToAlter.innerHTML = "G#";
+          break;
+        default:
+          return;
       }
     }
   }, {
     key: "displayFlat",
     value: function displayFlat(fretToAlter) {
-      if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
-        fretToAlter.innerHTML = "Bb";
-      }
-      if (fretToAlter.attributes.note.value === "Csharp-Dflat") {
-        fretToAlter.innerHTML = "Db";
-      }
-      if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {
-        fretToAlter.innerHTML = "Eb";
-      }
-      if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {
-        fretToAlter.innerHTML = "Gb";
-      }
-      if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {
-        fretToAlter.innerHTML = "Ab";
+      // ---- For displaying the flat name of a fret
+      switch (fretToAlter.attributes.note.value) {
+        case "Asharp-Bflat":
+          fretToAlter.innerHTML = "Bb";
+          break;
+        case "Csharp-Dflat":
+          fretToAlter.innerHTML = "Db";
+          break;
+        case "Dsharp-Eflat":
+          fretToAlter.innerHTML = "Eb";
+          break;
+        case "Fsharp-Gflat":
+          fretToAlter.innerHTML = "Gb";
+          break;
+        case "Gsharp-Aflat":
+          fretToAlter.innerHTML = "Ab";
+          break;
+        default:
+          return;
       }
     }
   }, {
@@ -414,10 +426,15 @@ var Fretboard = function (_React$Component) {
       var chordQuality = this.props.selectedChord.selectedQuality || "";
 
       var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality);
+      console.log("------------------- in getFretsForChord, going into server ----------------");
+      console.log("URLforAPI", URLforAPI);
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
+        console.log("--------------- out of server, back in in getFretsForChord");
+        console.log(res);
         if (res.body.length > 0) {
           var fretData = (res.body[0].strings || "").split(" ");
+          console.log("fretData", fretData);
           _this3.translateFretArrayToStrings(fretData);
         }
       });
@@ -433,6 +450,7 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "getURLforAPI",
     value: function getURLforAPI(chordKeyForAPI, chordQuality) {
+      // ---- For formatting the API call correctly
       if (chordQuality === "maj" || chordQuality === "") {
         var URLforAPI = chordKeyForAPI;
         return URLforAPI;
@@ -472,7 +490,6 @@ var Fretboard = function (_React$Component) {
     key: "displayChordNotes",
     value: function displayChordNotes() {
       var chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality);
-
       if (chordNotes.length > 0) {
         document.getElementById("note-display-text").innerHTML = chordNotes.join(" ");
       }
@@ -484,7 +501,9 @@ var Fretboard = function (_React$Component) {
       var selectedNote = document.getElementById(incomingID);
       selectedNote.classList.add("lit");
 
+      // untested
       if (selectedNote.classList.contains("sharp-or-flat")) {
+        console.log("lightUpNote to activate sharps or flats' innerHTML");
         if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
           var chordNotes = Chord.notes(this.getChordKey());
           for (var i = 0; i < chordNotes.length; i++) {
