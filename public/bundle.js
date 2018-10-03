@@ -504,6 +504,47 @@ var Fretboard = function (_React$Component) {
         { className: "fretboard" },
         _react2.default.createElement(
           "div",
+          { className: "string", id: "0-string" },
+          _react2.default.createElement(
+            "div",
+            { className: "fret string0 fret00" },
+            "0"
+          ),
+          _react2.default.createElement("div", { className: "fret string0 fret01" }),
+          _react2.default.createElement("div", { className: "fret string0 fret02" }),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string0 fret03" },
+            "3rd Fret"
+          ),
+          _react2.default.createElement("div", { className: "fret string0 fret04" }),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string0 fret05" },
+            "5th Fret"
+          ),
+          _react2.default.createElement("div", { className: "fret string0 fret06" }),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string0 fret07" },
+            "7th Fret"
+          ),
+          _react2.default.createElement("div", { className: "fret string0 fret08" }),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string0 fret09" },
+            "9th Fret"
+          ),
+          _react2.default.createElement("div", { className: "fret string0 fret010" }),
+          _react2.default.createElement("div", { className: "fret string0 fret011" }),
+          _react2.default.createElement(
+            "div",
+            { className: "fret string0 fret012" },
+            "12th Fret"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
           { className: "string", id: "first-string" },
           _react2.default.createElement(
             "div",
@@ -795,6 +836,23 @@ var Fretboard = function (_React$Component) {
             { className: "fret string6 fret12", string: "6", fret: "12", note: "E", scinote: "E3", id: "fret12-string6" },
             "E"
           )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "string", id: "seventh-string" },
+          _react2.default.createElement("div", { className: "fret string7 fret0" }),
+          _react2.default.createElement("div", { className: "fret string7 fret1" }),
+          _react2.default.createElement("div", { className: "fret string7 fret2" }),
+          _react2.default.createElement("div", { className: "fret string7 fret3" }),
+          _react2.default.createElement("div", { className: "fret string7 fret4" }),
+          _react2.default.createElement("div", { className: "fret string7 fret5" }),
+          _react2.default.createElement("div", { className: "fret string7 fret6" }),
+          _react2.default.createElement("div", { className: "fret string7 fret7" }),
+          _react2.default.createElement("div", { className: "fret string7 fret8" }),
+          _react2.default.createElement("div", { className: "fret string7 fret9" }),
+          _react2.default.createElement("div", { className: "fret string7 fret10" }),
+          _react2.default.createElement("div", { className: "fret string7 fret11" }),
+          _react2.default.createElement("div", { className: "fret string7 fret12" })
         )
       );
     }

@@ -176,7 +176,7 @@ background-color: rgb(87, 62, 38);
   /* display: inline-block; */
   } 
 
-  .fret100 {
+  .fret00 {
     border-right: 15px white solid;
     width: 50px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -322,7 +322,8 @@ background-color: #80dfff;
 
 
 .string0 {
-  background: white;
+  border-right: #d8bea6;
+  background-color: #d8bea6;
 
 }
 
