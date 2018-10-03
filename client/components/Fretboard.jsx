@@ -63,21 +63,51 @@ displaySharpOrFlat(inputID) {
 }
 
 displaySharp(fretToAlter) {
+console.log("SHAAAAAAAAAAARP")
 // ---- For displaying the sharp name of a fret
-  if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "A#"}
-  if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "C#"}
-  if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "D#"}
-  if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {fretToAlter.innerHTML = "F#"}
-  if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {fretToAlter.innerHTML = "G#"}
+  switch(fretToAlter.attributes.note.value) {
+    case "Asharp-Bflat":
+      fretToAlter.innerHTML = "A#"
+      break;
+    case "Csharp-Dflat": 
+      fretToAlter.innerHTML = "C#"
+      break;
+    case "Dsharp-Eflat": 
+      fretToAlter.innerHTML = "D#"
+      break;
+    case "Fsharp-Gflat": 
+      fretToAlter.innerHTML = "F#"
+      break;
+    case "Gsharp-Aflat": 
+      fretToAlter.innerHTML = "G#"
+      break;
+    default:
+      return
+  }
 }
 
 displayFlat(fretToAlter) {
+console.log("FLAAAAAAT")
 // ---- For displaying the flat name of a fret
-  if (fretToAlter.attributes.note.value === "Asharp-Bflat") {fretToAlter.innerHTML = "Bb"}
-  if (fretToAlter.attributes.note.value === "Csharp-Dflat") {fretToAlter.innerHTML = "Db"}
-  if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {fretToAlter.innerHTML = "Eb"}
-  if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {fretToAlter.innerHTML = "Gb"}
-  if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {fretToAlter.innerHTML = "Ab"}
+  switch(fretToAlter.attributes.note.value) {
+  case "Asharp-Bflat":
+    fretToAlter.innerHTML = "Bb"
+    break;
+  case "Csharp-Dflat":
+    fretToAlter.innerHTML = "Db"
+    break;
+  case "Dsharp-Eflat":
+    fretToAlter.innerHTML = "Eb"
+    break;
+  case "Fsharp-Gflat":
+    fretToAlter.innerHTML = "Gb"
+    break;
+  case "Gsharp-Aflat":
+    fretToAlter.innerHTML = "Ab"
+    break;
+  default:
+    return
+  }
 }
 
 
@@ -100,11 +130,14 @@ getFretsForChord() {
   let chordQuality = this.props.selectedChord.selectedQuality || ""
 
   let URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality)
+  console.log("------------------- in getFretsForChord: URLforAPI", URLforAPI, "going into server ----------------")
 
   getAPIChordFrets(URLforAPI)
   .then(res => {
+    console.log(res)
     if (res.body.length > 0) {
       let fretData = (res.body[0].strings || "").split(" ")
+      console.log("--------------- out of server, back in in getFretsForChord", "fretData", fretData)
       this.translateFretArrayToStrings(fretData)
     }
   })

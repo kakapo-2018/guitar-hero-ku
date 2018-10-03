@@ -12,6 +12,7 @@ const request = require('superagent')
 
 
 server.get('/v1/chords/:chord', (req, res) => {
+    // res.json([{strings: "X 3 2 0 1 0"}])
     api.getChord(req.params.chord)
 
     // request

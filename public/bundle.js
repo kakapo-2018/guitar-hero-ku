@@ -160,9 +160,12 @@ var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var APIendpoint = "/api/v1/chords/"; // ??? but actual link doesn't have "api/"
+var APIendpoint = "/api/v1/chords/";
 
 function getAPIChordFrets(chord) {
+  console.log("in getAPIChordFrets");
+  console.log("chord is: ", chord);
+  // console.log(request.get(APIendpoint + chord));
   return _superagent2.default.get(APIendpoint + chord);
 }
 
@@ -357,41 +360,51 @@ var Fretboard = function (_React$Component) {
   }, {
     key: "displaySharp",
     value: function displaySharp(fretToAlter) {
+      console.log("SHAAAAAAAAAAARP");
       // ---- For displaying the sharp name of a fret
-      if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
-        fretToAlter.innerHTML = "A#";
-      }
-      if (fretToAlter.attributes.note.value === "Csharp-Dflat") {
-        fretToAlter.innerHTML = "C#";
-      }
-      if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {
-        fretToAlter.innerHTML = "D#";
-      }
-      if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {
-        fretToAlter.innerHTML = "F#";
-      }
-      if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {
-        fretToAlter.innerHTML = "G#";
+      switch (fretToAlter.attributes.note.value) {
+        case "Asharp-Bflat":
+          fretToAlter.innerHTML = "A#";
+          break;
+        case "Csharp-Dflat":
+          fretToAlter.innerHTML = "C#";
+          break;
+        case "Dsharp-Eflat":
+          fretToAlter.innerHTML = "D#";
+          break;
+        case "Fsharp-Gflat":
+          fretToAlter.innerHTML = "F#";
+          break;
+        case "Gsharp-Aflat":
+          fretToAlter.innerHTML = "G#";
+          break;
+        default:
+          return;
       }
     }
   }, {
     key: "displayFlat",
     value: function displayFlat(fretToAlter) {
+      console.log("FLAAAAAAT");
       // ---- For displaying the flat name of a fret
-      if (fretToAlter.attributes.note.value === "Asharp-Bflat") {
-        fretToAlter.innerHTML = "Bb";
-      }
-      if (fretToAlter.attributes.note.value === "Csharp-Dflat") {
-        fretToAlter.innerHTML = "Db";
-      }
-      if (fretToAlter.attributes.note.value === "Dsharp-Eflat") {
-        fretToAlter.innerHTML = "Eb";
-      }
-      if (fretToAlter.attributes.note.value === "Fsharp-Gflat") {
-        fretToAlter.innerHTML = "Gb";
-      }
-      if (fretToAlter.attributes.note.value === "Gsharp-Aflat") {
-        fretToAlter.innerHTML = "Ab";
+      switch (fretToAlter.attributes.note.value) {
+        case "Asharp-Bflat":
+          fretToAlter.innerHTML = "Bb";
+          break;
+        case "Csharp-Dflat":
+          fretToAlter.innerHTML = "Db";
+          break;
+        case "Dsharp-Eflat":
+          fretToAlter.innerHTML = "Eb";
+          break;
+        case "Fsharp-Gflat":
+          fretToAlter.innerHTML = "Gb";
+          break;
+        case "Gsharp-Aflat":
+          fretToAlter.innerHTML = "Ab";
+          break;
+        default:
+          return;
       }
     }
   }, {
@@ -417,10 +430,13 @@ var Fretboard = function (_React$Component) {
       var chordQuality = this.props.selectedChord.selectedQuality || "";
 
       var URLforAPI = this.getURLforAPI(chordKeyForAPI, chordQuality);
+      console.log("------------------- in getFretsForChord: URLforAPI", URLforAPI, "going into server ----------------");
 
       (0, _chordAPI.getAPIChordFrets)(URLforAPI).then(function (res) {
+        console.log(res);
         if (res.body.length > 0) {
           var fretData = (res.body[0].strings || "").split(" ");
+          console.log("--------------- out of server, back in in getFretsForChord", "fretData", fretData);
           _this3.translateFretArrayToStrings(fretData);
         }
       });
