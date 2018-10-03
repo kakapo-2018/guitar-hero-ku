@@ -27,6 +27,14 @@
   display: flex;
 } */
 
+h1 {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 3em;
+  text-align: center;
+  text-decoration: underline;
+
+}
+
 .string {
   display: flex;
   align-content: space-around;
@@ -70,7 +78,7 @@ text-align: center;
 vertical-align: middle;
 /* line-height: 80px; */
 background-color: rgb(143, 116, 76);
-font-family: 'Courier New', Courier, monospace;
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 font-weight: 900;
 font-size: 1.2em;
 padding-top: 15px;
@@ -165,34 +173,33 @@ background-color: rgb(87, 62, 38);
   /* display: inline-block; */
   } 
 
-  .fret00 {
-    border-right: 15px rgb(160, 44, 44) solid;
+  .fret100 {
+    border-right: 15px white solid;
     width: 50px;
-    background-color: white;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.9em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.1em;
     /* display: inline-block; */
     /* position: relative; */
     }
     
-    .fret00 {
-      border-right: 6px rgb(177, 56, 56) solid;
+    .fret01 {
+      border-right: 6px white solid;
       width: 160px;
       /* display: inline-block; */
       /* position: relative; */
     }
     
     .fret02 {
-      border-right: 6px rgb(148, 69, 69) solid;
+      border-right: 6px white solid;
       width: 155px;
       /* display: inline-block; */
       /* position: relative; */
     }
     
     .fret03 {
-      border-right: 6px rgb(163, 76, 76) solid;
+      border-right: 6px white solid;
       width: 150px;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       font-size: 0.9em;
       padding-bottom: 10px;
       /* display: inline-block; */
@@ -200,16 +207,16 @@ background-color: rgb(87, 62, 38);
     }  
     
     .fret04 {
-      border-right: 6px rgb(141, 43, 43) solid;
+      border-right: 6px white solid;
       width: 145px;
       /* display: inline-block; */
       /* position: relative; */
       }  
     
     .fret05 {
-      border-right: 6px rgb(148, 54, 54) solid;
+      border-right: 6px white solid;
       width: 140px;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       font-size: 0.9em;
       padding-bottom: 10px;
       /* display: inline-block; */
@@ -226,7 +233,7 @@ background-color: rgb(87, 62, 38);
     .fret07 {
       border-right: 6px white solid;
       width: 130px;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       font-size: 0.9em;
       padding-bottom: 10px;
       /* display: inline-block; */
@@ -243,7 +250,7 @@ background-color: rgb(87, 62, 38);
     .fret09 {
       border-right: 6px white solid;
       width: 120px;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       font-size: 0.9em;
       padding-bottom: 10px;
       /* display: inline-block; */
@@ -265,7 +272,7 @@ background-color: rgb(87, 62, 38);
     .fret012 {
       border-right: 6px white solid;
       width: 105px;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       font-size: 0.8em;
       padding-bottom: 10px;
       /* display: inline-block; */
@@ -273,35 +280,36 @@ background-color: rgb(87, 62, 38);
 
 .string1 {
 border-bottom: 2px rgb(165, 165, 165) solid;
-max-height: 20px;
+height: 14px;
 font-size: 1.2em;
-/* padding-bottom: -30px; */
-/* padding-top: -10px; */
+padding-bottom: 5px;
+/* padding-top: -2px; */
 
 /* vertical-align: center; */
 }
 .string2 {
 border-bottom: 3px rgb(165, 165, 165) solid;
-height: 20px;
+height: 19px;
+/* padding-bottom: 1px; */
 }
 .string3 {
 border-bottom: 4px rgb(165, 165, 165) solid;
-height: 20px;
+height: 19px;
 }
 .string4 {
 border-bottom: 5px rgb(255, 177, 31) solid;
-height: 20px;
+height: 19px;
 }
 .string5 {
 border-bottom: 6px rgb(255, 177, 31) solid;
-height: 20px;
+height: 19px;
 }
 .string6 {
 border-bottom: 7px rgb(255, 177, 31) solid;
-height: 20px;
+height: 19px;
 }
 .string7 {
-  max-height: 20px;
+  height: 1px;
   }      
 
 

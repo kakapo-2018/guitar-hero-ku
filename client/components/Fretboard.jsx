@@ -119,7 +119,7 @@ this.getFretsForChord()
     <div className="fretboard">
 
     <div className="string" id="0-string">
-        <div className="fret string0 fret00"></div>
+        <div className="fret string0 fret100">0</div>
         <div className="fret string0 fret01"></div>
         <div className="fret string0 fret02"></div>
         <div className="fret string0 fret03">3rd Fret</div>
