@@ -1,3 +1,15 @@
+body {
+  font-family: serif;
+  background-color: #d8bea6;
+/* font-family: 'Courier New', Courier, monospace; */
+}
+
+h1 {
+  text-align: center;
+  font-size: 5em;
+}
+
+
 /* .guitarnote { 
 
   font-size: 1em;
@@ -15,17 +27,8 @@
 }  */
 
 
-
-/* .C5 {
-  background-color: lightblue
-} */
-
-
 /* ---------------------- Fretboard ----------------------  */
 
-/* .row {
-  display: flex;
-} */
 
 h1 {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -317,30 +320,59 @@ height: 19px;
 background-color: #80dfff;
 }
 
+
 .string0 {
   background: white;
 
 }
 
 
-
 /* ---------------------- Chord buttons ----------------------  */
 
 .keyChordContainer {
-width: 50%;
+  padding: 5px;
+}
+
+.keyChordContainer p {
+  font-size: 1.1em;
+}
+
+.chord-buttons-row {
+  background-color: #D8CABC;
+  display: flex;
+  width: 80%;
+  margin: auto;
+}
+
+.key-row,
+.tone-row,
+.quality-row {
+  /* background-color: lightcoral; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 8px;
+}
+
+.key-row {
+  width: 100%;
+
+}
+.tone-row {
+  width: 50%;
+}
+.quality-row {
+  width: 100%;
 }
 
 .key,
 .tone,
 .quality {
-  width: 100%;
+  min-width: 80px;
 } 
 
-.key-row,
-.tone-row,
-.quality-row {
-  display: flex;
-  align-content: space-between;
+.tone {
+  max-height: 25px;
 }
 
 /* ---------------------- Song display ----------------------  */
