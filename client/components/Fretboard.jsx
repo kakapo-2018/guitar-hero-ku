@@ -17,7 +17,7 @@ class Fretboard extends React.Component {
     this.translateEnharmonics = this.translateEnharmonics.bind(this)
     this.getURLforAPI = this.getURLforAPI.bind(this)
     this.translateFretArrayToStrings = this.translateFretArrayToStrings.bind(this)
-    this.clearLitNotes = this.clearLitNotes.bind(this)
+    this.clearLitNotesAndInnerHTML = this.clearLitNotesAndInnerHTML.bind(this)
     this.displayChordNotes = this.displayChordNotes.bind(this)
     this.lightUpNote = this.lightUpNote.bind(this)
     this.unLightNote = this.unLightNote.bind(this)
@@ -120,7 +120,7 @@ getChordKey() {
 
 getFretsForChord() {
 // --- For fetching the fret positions to light up each chord.
-  this.clearLitNotes()
+  this.clearLitNotesAndInnerHTML()
 
   let chordKey = this.getChordKey()
   let chordKeyForAPI = this.translateEnharmonics(chordKey) // e.g. C3 -> Db as API does not deal in sharps
@@ -173,12 +173,15 @@ translateFretArrayToStrings(fretArray) {
   }
 }
 
-clearLitNotes() {
-// --- To clear all currently-lit divs when a new chord is selected
+clearLitNotesAndInnerHTML() {
+// ---- To clear all currently-lit divs when a new chord is selected
   let litNotes = document.getElementsByClassName("lit")
   while (litNotes.length > 0) {
-  for (let i = 0; i < litNotes.length; i++) {
-    this.unLightNote(litNotes[i].attributes.id.value)
+    for (let i = 0; i < litNotes.length; i++) {
+      if (litNotes[i].classList.contains("sharp-or-flat")) {
+        litNotes[i].innerHTML = ""
+      }
+      this.unLightNote(litNotes[i].attributes.id.value)
     }
   }
 }
@@ -196,9 +199,10 @@ lightUpNote(incomingID) {
   selectedNote.classList.add("lit")
 
   if (selectedNote.innerHTML === "") {
-    console.log("no inner HTML for", incomingID)
     if (selectedNote.classList.contains("sharp-or-flat")) {
-      if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
+      if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "" || this.props.selectedChord.selectedQuality === "") {
+console.log("selectedTone", this.props.selectedChord.selectedTone)
+console.log("selectedQuality", this.props.selectedChord.selectedQuality)
         let chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality)
         for (let i = 0; i < chordNotes.length; i++) {
           if (chordNotes[i].includes("#")) {

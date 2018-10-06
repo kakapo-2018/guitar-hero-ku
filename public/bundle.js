@@ -304,7 +304,7 @@ var Fretboard = function (_React$Component) {
     _this.translateEnharmonics = _this.translateEnharmonics.bind(_this);
     _this.getURLforAPI = _this.getURLforAPI.bind(_this);
     _this.translateFretArrayToStrings = _this.translateFretArrayToStrings.bind(_this);
-    _this.clearLitNotes = _this.clearLitNotes.bind(_this);
+    _this.clearLitNotesAndInnerHTML = _this.clearLitNotesAndInnerHTML.bind(_this);
     _this.displayChordNotes = _this.displayChordNotes.bind(_this);
     _this.lightUpNote = _this.lightUpNote.bind(_this);
     _this.unLightNote = _this.unLightNote.bind(_this);
@@ -416,7 +416,7 @@ var Fretboard = function (_React$Component) {
       var _this3 = this;
 
       // --- For fetching the fret positions to light up each chord.
-      this.clearLitNotes();
+      this.clearLitNotesAndInnerHTML();
 
       var chordKey = this.getChordKey();
       var chordKeyForAPI = this.translateEnharmonics(chordKey); // e.g. C3 -> Db as API does not deal in sharps
@@ -468,12 +468,15 @@ var Fretboard = function (_React$Component) {
       }
     }
   }, {
-    key: "clearLitNotes",
-    value: function clearLitNotes() {
-      // --- To clear all currently-lit divs when a new chord is selected
+    key: "clearLitNotesAndInnerHTML",
+    value: function clearLitNotesAndInnerHTML() {
+      // ---- To clear all currently-lit divs when a new chord is selected
       var litNotes = document.getElementsByClassName("lit");
       while (litNotes.length > 0) {
         for (var i = 0; i < litNotes.length; i++) {
+          if (litNotes[i].classList.contains("sharp-or-flat")) {
+            litNotes[i].innerHTML = "";
+          }
           this.unLightNote(litNotes[i].attributes.id.value);
         }
       }
@@ -494,9 +497,10 @@ var Fretboard = function (_React$Component) {
       selectedNote.classList.add("lit");
 
       if (selectedNote.innerHTML === "") {
-        console.log("no inner HTML for", incomingID);
         if (selectedNote.classList.contains("sharp-or-flat")) {
-          if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
+          if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "" || this.props.selectedChord.selectedQuality === "") {
+            console.log("selectedTone", this.props.selectedChord.selectedTone);
+            console.log("selectedQuality", this.props.selectedChord.selectedQuality);
             var chordNotes = Chord.notes(this.getChordKey(), this.props.selectedChord.selectedQuality);
             for (var i = 0; i < chordNotes.length; i++) {
               if (chordNotes[i].includes("#")) {
