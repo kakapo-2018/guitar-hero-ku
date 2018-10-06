@@ -497,10 +497,13 @@ var Fretboard = function (_React$Component) {
       if (selectedNote.classList.contains("sharp-or-flat")) {
         if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
           var chordNotes = Chord.notes(this.getChordKey());
+          console.log(chordNotes);
           for (var i = 0; i < chordNotes.length; i++) {
             if (chordNotes[i].includes("#")) {
+              console.log("chordNotes inlcludes #");
               this.displaySharp(selectedNote);
             } else if (chordNotes[i].includes("b")) {
+              console.log("chordNotes inlcludes b");
               this.displayFlat(selectedNote);
             }
           }
@@ -1099,6 +1102,26 @@ var KeyChordButtons = function (_React$Component) {
               "button",
               { className: "quality", type: "button", value: "dim" },
               "dim"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "dim7" },
+              "dim7"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "aug" },
+              "aug"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "sus2" },
+              "sus2"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "sus4" },
+              "sus4"
             )
           )
         )

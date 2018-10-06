@@ -199,11 +199,14 @@ lightUpNote(incomingID) {
   if (selectedNote.classList.contains("sharp-or-flat")) {
     if (this.props.selectedChord.selectedTone == undefined || this.props.selectedChord.selectedTone === "") {
       let chordNotes = Chord.notes(this.getChordKey())
+console.log(chordNotes)
       for (let i = 0; i < chordNotes.length; i++) {
         if (chordNotes[i].includes("#")) {
+console.log("chordNotes inlcludes #")
         this.displaySharp(selectedNote)
         }
         else if (chordNotes[i].includes("b")) {
+console.log("chordNotes inlcludes b")
         this.displayFlat(selectedNote)
         }
       }
