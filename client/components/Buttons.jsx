@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux"
 import {keyToState, toneToState, qualityToState} from "../actions"
 
-class KeyChordButtons extends React.Component {
+class Buttons extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -72,6 +72,13 @@ render() {
         <button className="quality" type="button" value="maj7">M7 / maj7</button>
         <button className="quality" type="button" value="m7">m7 / min7</button>
         <button className="quality" type="button" value="dim">dim</button>
+        <button className="quality" type="button" value="dim7">dim7</button>
+        <button className="quality" type="button" value="aug">aug</button>
+        <button className="quality" type="button" value="sus2">sus2</button>
+        <button className="quality" type="button" value="sus4">sus4</button>
+        {/* <button className="quality" type="button" value="6">6</button>
+        <button className="quality" type="button" value="11">11</button>
+        <button className="quality" type="button" value="m11">m11</button> */}
       </div>
 
     </div>
@@ -86,4 +93,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(KeyChordButtons)
+export default connect(mapStateToProps)(Buttons)

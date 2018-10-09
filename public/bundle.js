@@ -194,9 +194,9 @@ var _Fretboard = __webpack_require__(/*! ./Fretboard */ "./client/components/Fre
 
 var _Fretboard2 = _interopRequireDefault(_Fretboard);
 
-var _KeyChordButtons = __webpack_require__(/*! ./KeyChordButtons */ "./client/components/KeyChordButtons.jsx");
+var _Buttons = __webpack_require__(/*! ./Buttons */ "./client/components/Buttons.jsx");
 
-var _KeyChordButtons2 = _interopRequireDefault(_KeyChordButtons);
+var _Buttons2 = _interopRequireDefault(_Buttons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -227,7 +227,7 @@ var App = function (_React$Component) {
           "Guitar HeroKu"
         ),
         _react2.default.createElement(_Fretboard2.default, null),
-        _react2.default.createElement(_KeyChordButtons2.default, null)
+        _react2.default.createElement(_Buttons2.default, null)
       );
     }
   }]);
@@ -242,6 +242,253 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
+
+/***/ }),
+
+/***/ "./client/components/Buttons.jsx":
+/*!***************************************!*\
+  !*** ./client/components/Buttons.jsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _actions = __webpack_require__(/*! ../actions */ "./client/actions/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Buttons = function (_React$Component) {
+  _inherits(Buttons, _React$Component);
+
+  function Buttons(props) {
+    _classCallCheck(this, Buttons);
+
+    return _possibleConstructorReturn(this, (Buttons.__proto__ || Object.getPrototypeOf(Buttons)).call(this, props));
+  }
+
+  _createClass(Buttons, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      // ---- Event listeners to trigger redux action on click
+      var keyClass = document.getElementsByClassName("key");
+      for (var i = 0; i < keyClass.length; i++) {
+        keyClass[i].addEventListener("click", function (x) {
+          _this2.props.dispatch((0, _actions.keyToState)(x.target.value));
+        });
+      }
+
+      var toneClass = document.getElementsByClassName("tone");
+      for (var _i = 0; _i < toneClass.length; _i++) {
+        toneClass[_i].addEventListener("click", function (x) {
+          _this2.props.dispatch((0, _actions.toneToState)(x.target.value));
+        });
+      }
+
+      var qualityClass = document.getElementsByClassName("quality");
+      for (var _i2 = 0; _i2 < qualityClass.length; _i2++) {
+        qualityClass[_i2].addEventListener("click", function (x) {
+          _this2.props.dispatch((0, _actions.qualityToState)(x.target.value));
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "keyChordContainer" },
+        _react2.default.createElement(
+          "div",
+          { className: "row" },
+          _react2.default.createElement(
+            "div",
+            { id: "chord-display" },
+            _react2.default.createElement(
+              "p",
+              null,
+              _react2.default.createElement(
+                "strong",
+                null,
+                "Selected Chord:"
+              ),
+              " ",
+              this.props.selectedChord.selectedKey,
+              this.props.selectedChord.selectedTone,
+              this.props.selectedChord.selectedQuality
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { id: "note-display" },
+            _react2.default.createElement(
+              "p",
+              null,
+              _react2.default.createElement(
+                "strong",
+                null,
+                "Notes:"
+              ),
+              " ",
+              _react2.default.createElement("span", { id: "note-display-text" })
+            )
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "chord-buttons-row" },
+          _react2.default.createElement(
+            "div",
+            { className: "key-row" },
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "C" },
+              "C"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "D" },
+              "D"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "E" },
+              "E"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "F" },
+              "F"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "G" },
+              "G"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "A" },
+              "A"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "key", type: "button", value: "B" },
+              "B"
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "tone-row" },
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "#" },
+              "#"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "b" },
+              "b"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "tone", type: "button", value: "" },
+              "clear"
+            )
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "chord-buttons-row" },
+          _react2.default.createElement(
+            "div",
+            { className: "quality-row" },
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "maj" },
+              "M / maj"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "m" },
+              "m / min"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "7" },
+              "7"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "maj7" },
+              "M7 / maj7"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "m7" },
+              "m7 / min7"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "dim" },
+              "dim"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "dim7" },
+              "dim7"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "aug" },
+              "aug"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "sus2" },
+              "sus2"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "quality", type: "button", value: "sus4" },
+              "sus4"
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Buttons;
+}(_react2.default.Component);
+
+function mapStateToProps(state) {
+  return {
+    selectedChord: state.selectedChord
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Buttons);
 
 /***/ }),
 
@@ -889,233 +1136,6 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Fretboard);
-
-/***/ }),
-
-/***/ "./client/components/KeyChordButtons.jsx":
-/*!***********************************************!*\
-  !*** ./client/components/KeyChordButtons.jsx ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _actions = __webpack_require__(/*! ../actions */ "./client/actions/index.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var KeyChordButtons = function (_React$Component) {
-  _inherits(KeyChordButtons, _React$Component);
-
-  function KeyChordButtons(props) {
-    _classCallCheck(this, KeyChordButtons);
-
-    return _possibleConstructorReturn(this, (KeyChordButtons.__proto__ || Object.getPrototypeOf(KeyChordButtons)).call(this, props));
-  }
-
-  _createClass(KeyChordButtons, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      // ---- Event listeners to trigger redux action on click
-      var keyClass = document.getElementsByClassName("key");
-      for (var i = 0; i < keyClass.length; i++) {
-        keyClass[i].addEventListener("click", function (x) {
-          _this2.props.dispatch((0, _actions.keyToState)(x.target.value));
-        });
-      }
-
-      var toneClass = document.getElementsByClassName("tone");
-      for (var _i = 0; _i < toneClass.length; _i++) {
-        toneClass[_i].addEventListener("click", function (x) {
-          _this2.props.dispatch((0, _actions.toneToState)(x.target.value));
-        });
-      }
-
-      var qualityClass = document.getElementsByClassName("quality");
-      for (var _i2 = 0; _i2 < qualityClass.length; _i2++) {
-        qualityClass[_i2].addEventListener("click", function (x) {
-          _this2.props.dispatch((0, _actions.qualityToState)(x.target.value));
-        });
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { className: "keyChordContainer" },
-        _react2.default.createElement(
-          "div",
-          { className: "row" },
-          _react2.default.createElement(
-            "div",
-            { id: "chord-display" },
-            _react2.default.createElement(
-              "p",
-              null,
-              _react2.default.createElement(
-                "strong",
-                null,
-                "Selected Chord:"
-              ),
-              " ",
-              this.props.selectedChord.selectedKey,
-              this.props.selectedChord.selectedTone,
-              this.props.selectedChord.selectedQuality
-            )
-          ),
-          _react2.default.createElement(
-            "div",
-            { id: "note-display" },
-            _react2.default.createElement(
-              "p",
-              null,
-              _react2.default.createElement(
-                "strong",
-                null,
-                "Notes:"
-              ),
-              " ",
-              _react2.default.createElement("span", { id: "note-display-text" })
-            )
-          )
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "chord-buttons-row" },
-          _react2.default.createElement(
-            "div",
-            { className: "key-row" },
-            _react2.default.createElement(
-              "button",
-              { className: "key", type: "button", value: "C" },
-              "C"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "key", type: "button", value: "D" },
-              "D"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "key", type: "button", value: "E" },
-              "E"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "key", type: "button", value: "F" },
-              "F"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "key", type: "button", value: "G" },
-              "G"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "key", type: "button", value: "A" },
-              "A"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "key", type: "button", value: "B" },
-              "B"
-            )
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "tone-row" },
-            _react2.default.createElement(
-              "button",
-              { className: "tone", type: "button", value: "#" },
-              "#"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "tone", type: "button", value: "b" },
-              "b"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "tone", type: "button", value: "" },
-              "clear"
-            )
-          )
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "chord-buttons-row" },
-          _react2.default.createElement(
-            "div",
-            { className: "quality-row" },
-            _react2.default.createElement(
-              "button",
-              { className: "quality", type: "button", value: "maj" },
-              "M / maj"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "quality", type: "button", value: "m" },
-              "m / min"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "quality", type: "button", value: "7" },
-              "7"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "quality", type: "button", value: "maj7" },
-              "M7 / maj7"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "quality", type: "button", value: "m7" },
-              "m7 / min7"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "quality", type: "button", value: "dim" },
-              "dim"
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return KeyChordButtons;
-}(_react2.default.Component);
-
-function mapStateToProps(state) {
-  return {
-    selectedChord: state.selectedChord
-  };
-}
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(KeyChordButtons);
 
 /***/ }),
 

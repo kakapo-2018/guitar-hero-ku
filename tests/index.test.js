@@ -4,7 +4,7 @@ import {shallow} from "enzyme"
 import App from "../client/components/App"
 import Fretboard from "../client/components/Fretboard"
 import {lightUpNote} from "../client/components/Fretboard"
-import KeyChordButtons from "../client/components/KeyChordButtons"
+Buttons"
 
 test("Tests running", () => {
   expect(true).toBeTruthy()
@@ -23,8 +23,8 @@ test("Fretboard component exists", () => {
   expect(wrapper.text(expected))
 })
 
-test("KeyChordButtons component exists", () => {
-  const expected = "<KeyChordButtons"
+Buttons component exists", () => {
+  Buttons"
   const wrapper = shallow(<App />)
   expect(wrapper.text(expected))
 })
@@ -54,4 +54,4 @@ test("Fretboard has IDs for each string", () => {
 //   // expect(wrapper(functionBeingTested)).toBe("fret-G3-Estring6")
 // })
 
-// Component: KeyChordButtons
+Buttons
