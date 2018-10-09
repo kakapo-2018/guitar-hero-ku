@@ -1,0 +1,8 @@
+Current problems:
+
+Sharps stay on fretboard when unlit (written notes: whole only)
+* Dmaj -> Dmin
+* B -> C
+
+Flats do not appear on fretboard when lit (written notes: whole only)
+
